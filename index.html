@@ -153,7 +153,8 @@ body.locked .top, body.locked main{display:none}
 .lockout{border:0;background:none;color:var(--steel);font-size:12.5px;text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;margin-top:3px}
 .lockout:hover{color:var(--ink)}
 
-@media (max-width:1100px){.ov,.grid2{grid-template-columns:1fr}.top-in{grid-template-columns:1fr;gap:12px}.search{justify-self:stretch;max-width:none}.fresh{text-align:left}.meta{grid-template-columns:repeat(2,1fr)}}
+.grid2.wide{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+@media (max-width:1100px){.ov,.grid2,.grid2.wide{grid-template-columns:1fr}.top-in{grid-template-columns:1fr;gap:12px}.search{justify-self:stretch;max-width:none}.fresh{text-align:left}.meta{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:720px){main{padding:18px 14px 60px}.top-in{padding:14px 14px 0}.bar-row{grid-template-columns:140px minmax(0,1fr) 70px}.bar-row .w{display:none}.lede{font-size:20px}}
 @media (prefers-reduced-motion:no-preference){.alu{transition:width .5s ease-out}}
 @media print{
@@ -180,7 +181,7 @@ body.locked .top, body.locked main{display:none}
 </header>
 <main id="view"></main>
 
-<script src="data.enc.js?v=3d7afda591"></script>
+<script src="data.enc.js?v=4b931dfb4e"></script>
 <script>
 function bootDashboard() {
 'use strict';
@@ -399,6 +400,18 @@ VIEWS.lists = (arg) => {
   if (bno) setTimeout(() => { const tr = document.getElementById(`b-${l.id}-${bno}`); if (tr) tr.scrollIntoView({ block: 'center' }); }, 30);
 };
 
+const ORDER_TAB = { SO: 'sales', WO: 'work', PO: 'purchases' };
+function orderDetail(r) {
+  const prof = Object.fromEntries(M.profiles.map(p => [p.name, p]));
+  const open = openStatus(r.status);
+  const lines = (r.lines || []).length ? `<div class="tw"><table class="compact"><thead><tr><th>Profile</th><th>Finish</th><th class="num">Pcs</th>${open ? '<th class="num">In stock now</th>' : ''}<th class="num">Kg</th><th class="num">Rate</th></tr></thead><tbody>${r.lines.map(l => {
+      const p = prof[l.profile], have = p ? p.pcs : 0, short = l.pcs && have < l.pcs;
+      return `<tr><td><button class="link" data-go="stock/${esc(l.profile)}">${esc(l.profile)}</button></td><td>${esc(l.finish || '')}</td><td class="num">${l.pcs ? n0(l.pcs) : ''}</td>${open ? `<td class="num">${n0(have)}${short ? ` <span class="pill warn">short ${n0(l.pcs - have)}</span>` : ''}</td>` : ''}<td class="num">${l.kg ? n2(l.kg) : ''}</td><td class="num">${l.rate ? '₹' + n2(l.rate) + (l.rate_unit ? ' / ' + esc(l.rate_unit) : '') : ''}</td></tr>`; }).join('')}</tbody></table></div>` : '<p class="muted">No lines.</p>';
+  const links = [...(r.work_orders || []), ...(r.sales_order ? [r.sales_order] : []), ...(r.purchase_order ? [r.purchase_order] : [])]
+    .map(id => `<button class="link" data-go="${ORDER_TAB[String(id).split('-')[0]] || 'sales'}">${esc(id)}</button>`).join(', ');
+  const facts = [['Phone', r.phone ? `<a class="link" href="tel:${esc(r.phone)}">${esc(r.phone)}</a>` : ''], ['Taken by', esc(r.taken_by || '')], ['Delivery due', dt(r.due)], ['Linked', links]].filter(f => f[1]);
+  return `<div class="grid2 wide"><div>${lines}</div><div>${facts.length ? `<dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : ''}${r.notes ? `<p class="note">${esc(r.notes)}</p>` : ''}</div></div>`;
+}
 function orderView(kind, title, sub, list, cols, emptyText) {
   $('#view').insertAdjacentHTML('beforeend', `<div class="head-row"><div><h2>${title}</h2><p class="sub" style="margin:0">${sub}</p></div></div>
     <div class="bar"><input class="filter" id="f-${kind}" placeholder="Filter…"><button class="chip" data-st="open" aria-pressed="true">Open</button><button class="chip" data-st="all" aria-pressed="false">All</button></div><div class="panel" id="t-${kind}" style="margin-bottom:28px"></div>`);
@@ -406,7 +419,7 @@ function orderView(kind, title, sub, list, cols, emptyText) {
   const lineTxt = o => (o.lines || []).map(l => `${l.profile || ''} ${l.finish || ''} ${l.pcs || ''} ${l.kg || ''}`).join(' ');
   const t = table($('#t-' + kind), { rows: list, sort: 'date', dir: -1, id: r => r.id,
     filter: r => (stf === 'all' || openStatus(r.status)) && (!ft || JSON.stringify(r).toLowerCase().includes(ft)),
-    cols, detail: r => `<div class="grid2"><div>${(r.lines || []).length ? `<table><thead><tr><th>Profile</th><th>Finish</th><th class="num">Pcs</th><th class="num">Kg</th><th class="num">Rate</th></tr></thead><tbody>${r.lines.map(l => `<tr><td>${esc(l.profile)}</td><td>${esc(l.finish || '')}</td><td class="num">${l.pcs ? n0(l.pcs) : ''}</td><td class="num">${l.kg ? n2(l.kg) : ''}</td><td class="num">${l.rate ? '₹' + n2(l.rate) : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">No lines.</p>'}</div><div>${r.notes ? `<p class="note">${esc(r.notes)}</p>` : ''}</div></div>`,
+    cols, detail: orderDetail,
     empty: `<div class="empty"><h3>No ${title.toLowerCase()} yet</h3><p>${emptyText}</p></div>` });
   $('#f-' + kind).oninput = e => { ft = e.target.value.trim().toLowerCase(); t.draw(); };
   $('#view').querySelectorAll(`#t-${kind}`).length;
