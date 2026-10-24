@@ -5,19 +5,546 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Acta stock &amp; orders</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='6' width='26' height='5' rx='1' fill='%238C9EAE'/%3E%3Crect x='3' y='14' width='20' height='5' rx='1' fill='%238A5A24'/%3E%3Crect x='3' y='22' width='14' height='5' rx='1' fill='%238C9EAE'/%3E%3C/svg%3E">
 <style>
-:root{--mill:#ECEFF2;--sheet:#fff;--ink:#17222B;--steel:#596875;--rule:#D6DDE3}
-html,body{margin:0;background:var(--mill);color:var(--ink);font:14px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
-.w{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
-.c{width:100%;max-width:380px;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:28px 26px}
-.m{display:grid;gap:5px;margin:0 0 20px}.m span{display:block;height:9px;border-radius:2px 3px 3px 2px;background:linear-gradient(180deg,#C6D1DA,#9AABBA 45%,#7C8FA0)}
-.m span.b{background:linear-gradient(180deg,#B88A55,#9A6A35 50%,#7E5122)}
-h1{font:600 25px/1.15 "Bahnschrift","Segoe UI",sans-serif;margin:0}p{color:var(--steel);margin:6px 0 0}
+:root{
+  --mill:#ECEFF2; --sheet:#FFFFFF; --ink:#17222B; --steel:#596875; --faint:#8A97A2;
+  --rule:#D6DDE3; --rule2:#E7ECF0; --bronze:#8A5A24; --bronze-soft:#F4ECE2;
+  --warn:#A3401E; --warn-soft:#FAE9E2; --ok:#2F6B4F; --ok-soft:#E4F1EA;
+  --display:"Bahnschrift","Barlow","DIN Alternate","Segoe UI",sans-serif;
+  --text:"Segoe UI","Segoe UI Variable Text",system-ui,-apple-system,Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--mill)}
+body{margin:0;color:var(--ink);font:14px/1.5 var(--text);background:var(--mill)}
+button,input,select{font:inherit;color:inherit}
+input[type=checkbox]{accent-color:var(--bronze)}
+:focus-visible{outline:2px solid var(--bronze);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.muted{color:var(--steel)} .faint{color:var(--faint)}
+
+/* header */
+.top{background:var(--sheet);border-bottom:1px solid var(--rule)}
+.top-in{max-width:1320px;margin:0 auto;padding:18px 28px 0;display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center}
+.brand h1{margin:0;font:600 26px/1.1 var(--display);letter-spacing:-.2px}
+.brand p{margin:3px 0 0;color:var(--steel);font-size:13px}
+.search{position:relative;display:block;max-width:620px;width:100%;justify-self:center}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--faint)}
+.search input{width:100%;height:46px;border:1px solid var(--rule);border-radius:8px;background:var(--mill);padding:0 44px 0 42px;font-size:15px}
+.search input:focus{background:var(--sheet);border-color:var(--bronze);outline:none;box-shadow:0 0 0 3px var(--bronze-soft)}
+.search kbd{position:absolute;right:12px;top:50%;transform:translateY(-50%);font:12px var(--text);color:var(--faint);border:1px solid var(--rule);border-radius:4px;padding:1px 6px;background:var(--sheet)}
+.fresh{margin:0;color:var(--steel);font-size:12.5px;text-align:right;line-height:1.35}
+.fresh b{display:block;color:var(--ink);font-weight:600}
+.tabs{max-width:1320px;margin:0 auto;padding:10px 20px 0;display:flex;gap:4px;overflow-x:auto}
+.tab{border:0;background:none;padding:10px 12px 12px;cursor:pointer;color:var(--steel);border-bottom:3px solid transparent;white-space:nowrap;font-size:14.5px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected=true]{color:var(--ink);border-bottom-color:var(--bronze);font-weight:600}
+.tab .ct{margin-left:6px;font-size:12px;color:var(--faint);font-weight:400}
+
+main{max-width:1320px;margin:0 auto;padding:26px 28px 70px}
+h2{font:600 19px/1.2 var(--display);margin:0 0 4px}
+h3{font:600 15px/1.25 var(--display);margin:0 0 8px}
+.sub{color:var(--steel);margin:0 0 16px;font-size:13.5px}
+.panel{background:var(--sheet);border:1px solid var(--rule);border-radius:6px}
+
+/* overview */
+.lede{font:500 25px/1.35 var(--display);margin:0 0 24px;max-width:40ch;letter-spacing:-.1px}
+.lede .soft{color:var(--steel)}
+.ov{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px;align-items:start}
+.rack{padding:20px 22px 12px}
+.rack-head{display:flex;align-items:baseline;gap:16px;margin-bottom:6px}
+.rack-head .sp{flex:1}
+.toggle{display:flex;gap:7px;align-items:center;color:var(--steel);font-size:13px;cursor:pointer;user-select:none}
+.series{padding:12px 0 6px;border-top:1px solid var(--rule2)}
+.series:first-of-type{border-top:0}
+.series-h{display:flex;justify-content:space-between;color:var(--steel);font-size:12.5px;margin:0 0 6px}
+.series-h b{font:600 13.5px var(--display);color:var(--ink)}
+.bar-row{display:grid;grid-template-columns:230px minmax(0,1fr) 92px 84px;gap:14px;align-items:center;padding:4px 6px;margin:0 -6px;border-radius:4px;cursor:pointer}
+.bar-row:hover{background:var(--mill)}
+.bar-row .nm{font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .nm .new{font-size:11px;color:var(--bronze);margin-left:6px}
+.track{height:14px;position:relative}
+.alu{height:100%;border-radius:2px 3px 3px 2px;background:linear-gradient(180deg,#C6D1DA 0%,#9AABBA 45%,#7C8FA0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset -3px 0 0 rgba(23,34,43,.18);min-width:3px}
+.bar-row.zero .nm{color:var(--faint)}
+.bar-row.zero .track{border-bottom:1px dashed var(--rule)}
+.bar-row .v{font-variant-numeric:tabular-nums;text-align:right;font-size:13.5px}
+.bar-row .w{font-variant-numeric:tabular-nums;text-align:right;color:var(--steel);font-size:12.5px}
+.side{display:flex;flex-direction:column;gap:0}
+.side section{padding:18px 20px;border-bottom:1px solid var(--rule2)}
+.side section:last-child{border-bottom:0}
+.flag{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;padding:8px 0;border-top:1px solid var(--rule2);font-size:13px;cursor:pointer}
+.flag:first-of-type{border-top:0}
+.flag .b{font:600 13px var(--display);color:var(--warn);background:var(--warn-soft);border-radius:4px;padding:1px 7px;height:fit-content}
+.flag:hover .t{text-decoration:underline}
+.kv{display:grid;grid-template-columns:1fr auto;gap:5px 12px;font-size:13.5px}
+.kv dt{color:var(--steel)} .kv dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+.kv .tot{font-weight:600;border-top:1px solid var(--rule2);padding-top:5px}
+.orders{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:left}
+.orders button{border:1px solid var(--rule);background:var(--sheet);border-radius:6px;padding:9px 10px;cursor:pointer;text-align:left}
+.orders button:hover{border-color:var(--bronze)}
+.orders b{display:block;font:600 22px var(--display)}
+.orders span{font-size:12px;color:var(--steel)}
+
+/* tables */
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 12px}
+.chip{border:1px solid var(--rule);background:var(--sheet);border-radius:999px;padding:4px 12px;cursor:pointer;font-size:13px;color:var(--steel)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.filter{height:34px;border:1px solid var(--rule);border-radius:6px;padding:0 10px;background:var(--sheet);min-width:220px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{font:600 12.5px var(--text);color:var(--steel);text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);white-space:nowrap;background:var(--sheet);position:sticky;top:0}
+th.sortable{cursor:pointer} th.sortable:hover{color:var(--ink)}
+th.num{text-align:right}
+td{padding:9px 12px;border-bottom:1px solid var(--rule2);vertical-align:top}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:#F7F9FA}
+tr.open td{background:#F7F9FA}
+tr.hl td{background:var(--bronze-soft)!important}
+tfoot td{font-weight:600;border-top:1px solid var(--rule);border-bottom:0}
+.detail td{background:#FAFBFC;padding:14px 18px 18px}
+table.compact td{white-space:nowrap;padding:7px 12px}
+.detail table.compact th{background:#FAFBFC}
+.pill{display:inline-block;border-radius:4px;padding:0 7px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.in{background:#E6EEF5;color:#2D5675} .pill.out{background:var(--bronze-soft);color:var(--bronze)}
+.dev-hi{color:var(--warn);font-weight:600}
+.empty{padding:36px 28px;text-align:left}
+.empty h3{font-size:17px}
+.empty p{color:var(--steel);max-width:62ch;margin:6px 0 0}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}
+.head-row{display:flex;align-items:flex-end;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.head-row .sp{flex:1}
+.btn{border:1px solid var(--rule);background:var(--sheet);border-radius:6px;padding:7px 14px;cursor:pointer}
+.btn:hover{border-color:var(--bronze)}
+.link{border:0;background:none;color:#2D5675;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px}
+.meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 22px;padding:16px 20px;margin-bottom:18px}
+.meta div span{display:block;color:var(--steel);font-size:12.5px}
+.meta div b{font:600 17px var(--display)}
+.note{background:var(--bronze-soft);border-radius:6px;padding:10px 14px;margin:0 0 16px;font-size:13px;color:#5E3E17}
+.cat{display:grid;grid-template-columns:120px minmax(0,1fr) 110px;gap:12px;align-items:center;margin:6px 0}
+.cat .alu{height:12px}
+/* search results */
+.res-group{margin-bottom:22px}
+.res-group h3{display:flex;gap:8px;align-items:baseline}
+.res-group h3 span{font:400 13px var(--text);color:var(--steel)}
+.res{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:9px 14px;border-bottom:1px solid var(--rule2);cursor:pointer;background:var(--sheet)}
+.res:first-of-type{border-top-left-radius:6px;border-top-right-radius:6px}
+.res:hover{background:#F7F9FA}
+.res .t{font-weight:600} .res .d{color:var(--steel);font-size:12.5px;grid-column:1} .res .r{grid-row:1/span 2;grid-column:2;align-self:center;text-align:right;font-variant-numeric:tabular-nums}
+mark{background:#F6DFB8;color:inherit;border-radius:2px;padding:0 1px}
+.missing{max-width:640px;margin:80px auto;padding:28px}
+
+/* lock screen — online copy only; the data stays encrypted until the password is entered */
+body.locked .top, body.locked main{display:none}
+.lock{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+.lock form{width:100%;max-width:380px;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:28px 26px 22px}
+.lock .mark{display:grid;gap:5px;margin:0 0 20px}
+.lock .mark span{display:block;height:9px;border-radius:2px 3px 3px 2px;background:linear-gradient(180deg,#C6D1DA 0%,#9AABBA 45%,#7C8FA0 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset -3px 0 0 rgba(23,34,43,.18)}
+.lock .mark span.b{background:linear-gradient(180deg,#B88A55 0%,#9A6A35 50%,#7E5122 100%)}
+.lock h1{font:600 25px/1.15 var(--display);margin:0;letter-spacing:-.2px}
+.lock .firm{margin:4px 0 22px;color:var(--steel);font-size:13px}
+.lock label.f{display:block;font-size:13px;color:var(--steel);margin:0 0 6px}
+.lock input[type=password]{width:100%;height:46px;border:1px solid var(--rule);border-radius:6px;padding:0 12px;font-size:16px;background:var(--mill)}
+.lock input[type=password]:focus{outline:none;border-color:var(--bronze);background:var(--sheet);box-shadow:0 0 0 3px var(--bronze-soft)}
+.lock .keep{display:flex;gap:8px;align-items:center;margin:12px 0 18px;font-size:13px;color:var(--steel);cursor:pointer}
+.lock button{width:100%;height:46px;border:0;border-radius:6px;background:var(--ink);color:#fff;font:600 15px var(--display);cursor:pointer}
+.lock button:hover{background:#24333F}
+.lock button[disabled]{opacity:.65;cursor:progress}
+.lock .err{color:var(--warn);font-size:13px;margin:10px 0 0;min-height:1.3em}
+.lockout{border:0;background:none;color:var(--steel);font-size:12.5px;text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;margin-top:3px}
+.lockout:hover{color:var(--ink)}
+
+@media (max-width:1100px){.ov,.grid2{grid-template-columns:1fr}.top-in{grid-template-columns:1fr;gap:12px}.search{justify-self:stretch;max-width:none}.fresh{text-align:left}.meta{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:720px){main{padding:18px 14px 60px}.top-in{padding:14px 14px 0}.bar-row{grid-template-columns:140px minmax(0,1fr) 70px}.bar-row .w{display:none}.lede{font-size:20px}}
+@media (prefers-reduced-motion:no-preference){.alu{transition:width .5s ease-out}}
+@media print{
+  html,body{background:#fff}
+  .top,.tabs,.no-print{display:none!important}
+  main{padding:0;max-width:none}
+  .panel{border:0}
+  th{position:static}
+}
 </style>
 </head>
-<body><div class="w"><div class="c">
-<div class="m" aria-hidden="true"><span style="width:100%"></span><span class="b" style="width:74%"></span><span style="width:48%"></span></div>
-<h1>Stock &amp; orders</h1><p>Acta International Industries Private Limited</p>
-<p>This page is being set up. Please check back shortly.</p>
-</div></div></body>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand"><h1>Stock &amp; orders</h1><p id="firm"></p></div>
+    <label class="search" aria-label="Search everything">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="Search a profile, bundle no., party, lot, amount…">
+      <kbd>/</kbd>
+    </label>
+    <p class="fresh" id="fresh"></p>
+  </div>
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+</header>
+<main id="view"></main>
+
+<script src="data.enc.js?v=3d7afda591"></script>
+<script>
+function bootDashboard() {
+'use strict';
+const D = window.ACTA_DATA;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const n0 = v => Number(v || 0).toLocaleString('en-IN', {maximumFractionDigits: 0});
+const n2 = v => Number(v || 0).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const n3 = v => Number(v || 0).toLocaleString('en-IN', {minimumFractionDigits: 3, maximumFractionDigits: 3});
+const inr = v => '₹' + n0(v);
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dt = s => { if (!s) return ''; const [y, m, d] = String(s).slice(0, 10).split('-'); return `${+d} ${MON[+m - 1]} ${y}`; };
+const sum = (a, f) => a.reduce((t, x) => t + (+f(x) || 0), 0);
+const median = a => { const s = [...a].sort((x, y) => x - y); const m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : 0; };
+
+if (!D) {
+  document.body.innerHTML = '<div class="missing panel"><h2>Data file not found</h2><p class="sub">Keep <b>data.js</b> in the same folder as this page, then press F5.</p></div>';
+  throw new Error('no data');
+}
+['profiles','lots','packing_lists','purchase_orders','sales_orders','work_orders','expenses','notes','adjustments'].forEach(k => D[k] = D[k] || []);
+
+/* ---------------- model ---------------- */
+const M = (() => {
+  const prof = {}; D.profiles.forEach((p, i) => prof[p.name] = { ...p, order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [] });
+  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [] });
+  // landed rate per lot = (material + expenses linked to the lot) / kg received in its packing lists
+  const lotKg = {}; D.packing_lists.filter(l => l.direction === 'in' && l.lot).forEach(l => lotKg[l.lot] = (lotKg[l.lot] || 0) + sum(l.bundles, b => b.kg));
+  const lots = D.lots.map(l => { const extra = sum(D.expenses.filter(e => e.lot === l.id), e => e.amount); const kg = lotKg[l.id] || 0; const pcs = sum(D.packing_lists.filter(p => p.lot === l.id).flatMap(p => p.bundles), b => b.pcs);
+    return { ...l, extra, kg, pcs, total: (+l.material_cost || 0) + extra, rate: kg ? ((+l.material_cost || 0) + extra) / kg : 0 }; });
+  const lotById = Object.fromEntries(lots.map(l => [l.id, l]));
+  const lists = D.packing_lists.map(l => {
+    const typical = {}; const byP = {}; l.bundles.forEach(b => (byP[b.profile] = byP[b.profile] || []).push(b.kg / (b.pcs || 1)));
+    Object.entries(byP).forEach(([k, v]) => typical[k] = median(v));
+    const bundles = l.bundles.map(b => { const avg = b.pcs ? b.kg / b.pcs : 0; const t = typical[b.profile] || avg; const dev = t ? (avg / t - 1) * 100 : 0;
+      const note = D.notes.find(n => n.ref === l.id && n.bundle === b.no);
+      return { ...b, list: l.id, direction: l.direction, party: l.party, date: l.received || l.date, avg, dev, flag: Math.abs(dev) >= 8, note: note ? note.text : '' }; });
+    return { ...l, bundles, pcs: sum(bundles, b => b.pcs), kg: sum(bundles, b => b.kg), lotObj: lotById[l.lot] };
+  });
+  lists.forEach(l => l.bundles.forEach(b => {
+    const p = ensure(b.profile); p.bundles.push(b);
+    if (l.direction === 'in') { p.inPcs += b.pcs; p.inKg += b.kg; p.cost += b.kg * (l.lotObj ? l.lotObj.rate : 0); p.avgs.push(b.avg); if ((l.received || l.date) > p.last) p.last = l.received || l.date; }
+    else { p.outPcs += b.pcs; p.outKg += b.kg; }
+  }));
+  D.adjustments.forEach(a => { const p = ensure(a.profile); p.inPcs += +a.pcs || 0; p.inKg += +a.kg || 0; });
+  const profiles = Object.values(prof).map(p => { const rate = p.inKg ? p.cost / p.inKg : 0; const pcs = p.inPcs - p.outPcs, kg = p.inKg - p.outKg;
+    return { ...p, pcs, kg, rate, value: kg * rate, avg: pcs > 0 ? kg / pcs : 0, lo: p.avgs.length ? Math.min(...p.avgs) : 0, hi: p.avgs.length ? Math.max(...p.avgs) : 0 }; })
+    .sort((a, b) => a.order - b.order);
+  const seriesOrder = []; profiles.forEach(p => { if (!seriesOrder.includes(p.series)) seriesOrder.push(p.series); });
+  return { profiles, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles) };
+})();
+const stockKg = sum(M.profiles, p => p.kg), stockPcs = sum(M.profiles, p => p.pcs), stockVal = sum(M.profiles, p => p.value), inStock = M.profiles.filter(p => p.pcs > 0 || p.kg > 0.001);
+const openStatus = s => !/^(closed|done|delivered|received|cancelled|completed|dispatched)$/i.test(s || '');
+
+/* ---------------- shell ---------------- */
+$('#firm').textContent = D.company || '';
+{ const u = D.updated ? new Date(D.updated) : null; $('#fresh').innerHTML = u ? `Data updated by Claude<b>${u.getDate()} ${MON[u.getMonth()]} ${u.getFullYear()}, ${u.toLocaleTimeString('en-IN', {hour: 'numeric', minute: '2-digit'})}</b>` : ''; }
+const TABS = [
+  ['overview', 'Overview', null], ['stock', 'Stock', () => inStock.length], ['lists', 'Packing lists', () => M.lists.length], ['purchases', 'Purchases', () => M.lots.length + D.purchase_orders.length],
+  ['sales', 'Sales orders', () => D.sales_orders.length], ['work', 'Work orders', () => D.work_orders.length], ['expenses', 'Expenses', () => D.expenses.length]];
+function drawTabs(active) {
+  $('#tabs').innerHTML = TABS.map(([k, l, c]) => `<button class="tab" role="tab" data-go="${k}" aria-selected="${k === active}">${l}${c ? `<span class="ct">${c()}</span>` : ''}</button>`).join('');
+}
+const go = h => { if (location.hash === '#' + h) route(); else location.hash = h; };
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); if (g.classList.contains('tab')) { $('#q').value = ''; } go(g.dataset.go); }
+});
+const q = $('#q');
+let qt; q.addEventListener('input', () => { clearTimeout(qt); qt = setTimeout(() => { if (q.value.trim()) renderSearch(q.value.trim()); else route(); }, 120); });
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== q && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); q.select(); }
+  if (e.key === 'Escape' && document.activeElement === q) { q.value = ''; route(); }
+});
+window.addEventListener('hashchange', route);
+
+/* ---------------- sortable table helper ---------------- */
+function table(el, cfg) {
+  const st = { k: cfg.sort || null, dir: cfg.dir || 1, open: cfg.open || null };
+  const draw = () => {
+    let rows = cfg.rows.slice();
+    if (cfg.filter) rows = rows.filter(cfg.filter);
+    if (st.k) { const c = cfg.cols.find(c => c.k === st.k); const g = c.sv || (r => r[c.k]); rows.sort((a, b) => { const x = g(a), y = g(b); return (typeof x === 'number' && typeof y === 'number' ? x - y : String(x ?? '').localeCompare(String(y ?? ''), 'en', {numeric: true})) * st.dir; }); }
+    const cell = (c, r) => c.h ? c.h(r) : esc(c.v ? c.v(r) : r[c.k]);
+    const foot = cfg.foot ? `<tfoot><tr>${cfg.cols.map((c, i) => `<td class="${c.num ? 'num' : ''}">${cfg.foot(c, rows, i) ?? ''}</td>`).join('')}</tr></tfoot>` : '';
+    el.innerHTML = rows.length ? `<div class="tw"><table><thead><tr>${cfg.cols.map(c => `<th class="${c.num ? 'num' : ''} ${c.nosort ? '' : 'sortable'}" data-k="${c.k}" ${st.k === c.k ? `aria-sort="${st.dir > 0 ? 'ascending' : 'descending'}"` : ''}>${c.t}${st.k === c.k ? (st.dir > 0 ? ' ▴' : ' ▾') : ''}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map((r, i) => { const id = cfg.id ? cfg.id(r) : i; const isOpen = cfg.detail && st.open === id;
+        return `<tr class="${cfg.detail || cfg.onRow ? 'click' : ''} ${isOpen ? 'open' : ''} ${cfg.hl && cfg.hl(r) ? 'hl' : ''}" data-i="${i}" data-id="${esc(id)}">${cfg.cols.map(c => `<td class="${c.num ? 'num' : ''}">${cell(c, r)}</td>`).join('')}</tr>` +
+          (isOpen ? `<tr class="detail"><td colspan="${cfg.cols.length}">${cfg.detail(r)}</td></tr>` : ''); }).join('')}</tbody>${foot}</table></div>`
+      : (cfg.empty || '<p class="sub" style="padding:16px">Nothing matches.</p>');
+    el._rows = rows;
+  };
+  el.onclick = e => {
+    const th = e.target.closest('th.sortable'); if (th) { const k = th.dataset.k; if (st.k === k) st.dir *= -1; else { st.k = k; st.dir = 1; } draw(); return; }
+    if (e.target.closest('.detail') || e.target.closest('button,a,[data-go]')) return;
+    const tr = e.target.closest('tbody tr[data-i]'); if (!tr) return;
+    const r = el._rows[+tr.dataset.i];
+    if (cfg.detail) { const id = tr.dataset.id; st.open = st.open === id ? null : id; draw(); }
+    else if (cfg.onRow) cfg.onRow(r);
+  };
+  draw();
+  return { draw, st };
+}
+
+/* ---------------- views ---------------- */
+function route() {
+  const h = decodeURIComponent(location.hash.replace(/^#/, '')) || 'overview';
+  const [name, ...rest] = h.split('/'); const arg = rest.join('/');
+  const fn = VIEWS[name] || VIEWS.overview;
+  drawTabs(VIEWS[name] ? name : 'overview');
+  $('#view').innerHTML = ''; fn(arg); window.scrollTo(0, 0);
+}
+const VIEWS = {};
+
+VIEWS.overview = () => {
+  const month = new Date().toISOString().slice(0, 7);
+  const lotsM = M.lots.filter(l => (l.received || l.doc_date || '').slice(0, 7) === month);
+  const expM = D.expenses.filter(e => (e.date || '').slice(0, 7) === month);
+  const byCat = {}; expM.forEach(e => byCat[e.category] = (byCat[e.category] || 0) + (+e.amount || 0));
+  const max = Math.max(1, ...M.profiles.map(p => p.kg));
+  const latest = [...M.lots].sort((a, b) => (b.received || '').localeCompare(a.received || ''))[0];
+  const openPO = D.purchase_orders.filter(o => openStatus(o.status)).length, openSO = D.sales_orders.filter(o => openStatus(o.status)).length, openWO = D.work_orders.filter(o => openStatus(o.status)).length;
+  const showZero = localStorage.getItem('acta.showZero') !== '0';
+  $('#view').innerHTML = `
+    <p class="lede">${n2(stockKg)} kg of aluminium in stock <span class="soft">— ${n0(stockPcs)} lengths across ${inStock.length} profiles, worth ${inr(stockVal)} at landed cost.</span></p>
+    <div class="ov">
+      <section class="panel rack" aria-label="Stock by profile">
+        <div class="rack-head"><h2>Stock rack</h2><span class="muted">kg on hand, by series</span><span class="sp"></span>
+          <label class="toggle"><input type="checkbox" id="z" ${showZero ? 'checked' : ''}> Show profiles with no stock</label></div>
+        ${M.seriesOrder.map(s => { const ps = M.profiles.filter(p => p.series === s && (showZero || p.kg > 0.001)); if (!ps.length) return '';
+          return `<div class="series"><p class="series-h"><b>${esc(s)}</b><span>${n2(sum(ps, p => p.kg))} kg</span></p>
+          ${ps.map(p => `<div class="bar-row ${p.kg > 0.001 ? '' : 'zero'}" data-go="stock/${esc(p.name)}" title="Open ${esc(p.name)}">
+            <span class="nm">${esc(p.name)}${p.new ? '<span class="new">new</span>' : ''}</span>
+            <span class="track">${p.kg > 0.001 ? `<span class="alu" style="display:block;width:${(p.kg / max * 100).toFixed(1)}%"></span>` : ''}</span>
+            <span class="v">${p.kg > 0.001 ? n2(p.kg) + ' kg' : '<span class="faint">none</span>'}</span>
+            <span class="w">${p.pcs ? n0(p.pcs) + ' lengths' : ''}</span></div>`).join('')}</div>`; }).join('')}
+      </section>
+      <aside class="panel side">
+        <section><h3>Check these bundles</h3>
+          ${D.notes.length ? D.notes.map(n => `<div class="flag" data-go="lists/${esc(n.ref)}${n.bundle ? '/' + n.bundle : ''}"><span class="b">${n.bundle ? '#' + n.bundle : 'Note'}</span><span class="t">${esc(n.text)}</span></div>`).join('') : '<p class="muted">Nothing to check.</p>'}
+        </section>
+        <section><h3>Latest lot</h3>
+          ${latest ? `<dl class="kv"><dt>${esc(latest.supplier)}</dt><dd>${dt(latest.received)}</dd><dt>Received</dt><dd>${n2(latest.kg)} kg</dd><dt>Lengths</dt><dd>${n0(latest.pcs)}</dd><dt>Landed cost</dt><dd>₹${n2(latest.rate)} per kg</dd></dl>
+            <p style="margin:10px 0 0"><button class="link" data-go="purchases">See purchases</button></p>` : '<p class="muted">No lots yet.</p>'}
+        </section>
+        <section><h3>Money spent in ${MON[+month.slice(5) - 1]}</h3>
+          <dl class="kv"><dt>Material purchased</dt><dd>${inr(sum(lotsM, l => l.material_cost))}</dd>
+          ${Object.entries(byCat).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${inr(v)}</dd>`).join('')}
+          <dt class="tot">Total</dt><dd class="tot">${inr(sum(lotsM, l => l.material_cost) + sum(expM, e => e.amount))}</dd></dl>
+        </section>
+        <section><h3>Open orders</h3>
+          <div class="orders"><button data-go="purchases"><b>${openPO}</b><span>Purchase</span></button><button data-go="sales"><b>${openSO}</b><span>Sales</span></button><button data-go="work"><b>${openWO}</b><span>Work</span></button></div>
+        </section>
+      </aside>
+    </div>`;
+  $('#z').onchange = e => { try { localStorage.setItem('acta.showZero', e.target.checked ? '1' : '0'); } catch (_) {} route(); };
+};
+
+function bundleTable(bundles, opts = {}) {
+  return `<div class="tw"><table class="compact"><thead><tr>${opts.list ? '<th>List</th><th>Date</th>' : ''}<th class="num">Bundle</th>${opts.profile ? '<th>Profile</th>' : ''}<th>Supplier's name</th><th class="num">Length ft</th><th class="num">Pcs</th><th class="num">Kg</th><th class="num">Kg per length</th><th class="num">vs typical</th><th>Check</th></tr></thead>
+    <tbody>${bundles.map(b => `<tr id="b-${esc(b.list)}-${b.no}" class="${opts.hl && +opts.hl === b.no ? 'hl' : ''}">${opts.list ? `<td><button class="link" data-go="lists/${esc(b.list)}/${b.no}">${esc(b.list)}</button> <span class="pill ${b.direction}">${b.direction === 'in' ? 'In' : 'Out'}</span></td><td>${dt(b.date)}</td>` : ''}
+      <td class="num">${b.no}</td>${opts.profile ? `<td>${esc(b.profile)}</td>` : ''}<td class="muted">${esc(b.supplier_name || '')}</td><td class="num">${b.len_ft || ''}</td><td class="num">${n0(b.pcs)}</td><td class="num">${n2(b.kg)}</td><td class="num">${n3(b.avg)}</td>
+      <td class="num ${b.flag ? 'dev-hi' : 'muted'}">${b.dev >= 0 ? '+' : ''}${b.dev.toFixed(1)}%</td><td>${b.note ? `<span class="pill warn">Count</span> <span class="muted">${esc(b.note)}</span>` : b.flag ? '<span class="pill warn">Check</span>' : ''}</td></tr>`).join('')}</tbody>
+    <tfoot><tr>${opts.list ? '<td></td><td></td>' : ''}<td class="num">${bundles.length}</td>${opts.profile ? '<td></td>' : ''}<td></td><td></td><td class="num">${n0(sum(bundles, b => b.pcs))}</td><td class="num">${n2(sum(bundles, b => b.kg))}</td><td class="num">${n3(sum(bundles, b => b.kg) / (sum(bundles, b => b.pcs) || 1))}</td><td></td><td></td></tr></tfoot></table></div>`;
+}
+
+VIEWS.stock = (arg) => {
+  const series = ['All', ...M.seriesOrder];
+  let sel = 'All', only = localStorage.getItem('acta.onlyStock') !== '0', ft = '';
+  try { only = localStorage.getItem('acta.onlyStock') !== '0'; } catch (_) {}
+  if (arg) only = false;
+  $('#view').innerHTML = `<div class="head-row"><div><h2>Stock</h2><p class="sub" style="margin:0">Received minus sent, valued at each lot's landed cost per kg. Click a profile to see its bundles.</p></div></div>
+    <div class="bar"><input class="filter" id="sf" placeholder="Filter this table…"> ${series.map(s => `<button class="chip" data-s="${esc(s)}" aria-pressed="${s === sel}">${esc(s)}</button>`).join('')}
+    <label class="toggle" style="margin-left:6px"><input type="checkbox" id="only" ${only ? 'checked' : ''}> Only profiles in stock</label></div>
+    <div class="panel" id="tb"></div>`;
+  const t = table($('#tb'), {
+    rows: M.profiles, id: r => r.name, sort: null, open: arg || null,
+    filter: r => (sel === 'All' || r.series === sel) && (!only || r.kg > 0.001 || r.name === arg) && (!ft || (r.name + ' ' + r.series + ' ' + (r.aliases || []).join(' ')).toLowerCase().includes(ft)),
+    cols: [{ k: 'name', t: 'Profile', h: r => `<b>${esc(r.name)}</b>${r.new ? ' <span class="pill out">new</span>' : ''}${r.aliases && r.aliases.length ? `<div class="faint" style="font-size:12px">Supplier name: ${esc(r.aliases.join(', '))}</div>` : ''}` },
+      { k: 'series', t: 'Series' }, { k: 'pcs', t: 'Lengths', num: 1, h: r => r.pcs ? n0(r.pcs) : '<span class="faint">0</span>' }, { k: 'kg', t: 'Kg', num: 1, h: r => r.kg ? n2(r.kg) : '<span class="faint">0</span>' },
+      { k: 'avg', t: 'Kg per length', num: 1, h: r => r.avg ? n3(r.avg) : '' }, { k: 'lo', t: 'Lightest – heaviest bundle', num: 1, h: r => r.avgs.length ? `${n3(r.lo)} – ${n3(r.hi)}` : '' },
+      { k: 'rate', t: '₹ per kg', num: 1, h: r => r.rate ? n2(r.rate) : '' }, { k: 'value', t: 'Value', num: 1, h: r => r.value ? inr(r.value) : '' }, { k: 'last', t: 'Last received', h: r => dt(r.last) }],
+    foot: (c, rows) => ({ name: `${rows.length} profile${rows.length === 1 ? '' : 's'}`, pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), value: inr(sum(rows, r => r.value)) })[c.k],
+    detail: r => r.bundles.length ? `<h3>${esc(r.name)} — ${r.bundles.length} bundles</h3>${bundleTable(r.bundles, { list: 1 })}` : '<p class="muted">No bundles received or sent yet.</p>',
+    empty: '<div class="empty"><h3>No profiles match</h3><p>Clear the filter or pick another series.</p></div>'
+  });
+  $('#view').querySelectorAll('[data-s]').forEach(b => b.onclick = () => { sel = b.dataset.s; $('#view').querySelectorAll('[data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); t.draw(); });
+  $('#only').onchange = e => { only = e.target.checked; try { localStorage.setItem('acta.onlyStock', only ? '1' : '0'); } catch (_) {} t.draw(); };
+  $('#sf').oninput = e => { ft = e.target.value.trim().toLowerCase(); t.draw(); };
+  if (arg) setTimeout(() => { const tr = $(`#tb tr.open`); if (tr) tr.scrollIntoView({ block: 'center' }); }, 30);
+};
+
+VIEWS.lists = (arg) => {
+  const [id, bno] = (arg || '').split('/');
+  const l = M.lists.find(x => x.id === id);
+  if (!l) {
+    $('#view').innerHTML = `<div class="head-row"><div><h2>Packing lists</h2><p class="sub" style="margin:0">Received from suppliers and sent to customers.</p></div></div><div class="panel" id="tb"></div>`;
+    table($('#tb'), { rows: M.lists, sort: 'date', dir: -1, onRow: r => go('lists/' + r.id),
+      cols: [{ k: 'id', t: 'List', h: r => `<b>${esc(r.id)}</b>` }, { k: 'direction', t: '', h: r => `<span class="pill ${r.direction}">${r.direction === 'in' ? 'Received' : 'Sent'}</span>` }, { k: 'party', t: 'Party' }, { k: 'date', t: 'List date', h: r => dt(r.date) }, { k: 'received', t: 'Received / sent', h: r => dt(r.received || r.date) },
+        { k: 'b', t: 'Bundles', num: 1, sv: r => r.bundles.length, h: r => r.bundles.length }, { k: 'pcs', t: 'Lengths', num: 1, h: r => n0(r.pcs) }, { k: 'kg', t: 'Kg', num: 1, h: r => n2(r.kg) }, { k: 'lot', t: 'Lot', h: r => esc(r.lot || '') }],
+      empty: '<div class="empty"><h3>No packing lists yet</h3><p>Send a packing list to Claude in chat. It will appear here after the data is updated.</p></div>' });
+    return;
+  }
+  const secs = {}; l.bundles.forEach(b => { const s = secs[b.profile] = secs[b.profile] || { profile: b.profile, supplier: b.supplier_name, len: b.len_ft, n: 0, pcs: 0, kg: 0, flags: 0 }; s.n++; s.pcs += b.pcs; s.kg += b.kg; if (b.flag || b.note) s.flags++; });
+  const rate = l.lotObj ? l.lotObj.rate : 0;
+  $('#view').innerHTML = `<div class="head-row"><div><p class="no-print" style="margin:0 0 6px"><button class="link" data-go="lists">All packing lists</button></p><h2>${l.direction === 'in' ? 'Received from' : 'Sent to'} ${esc(l.party)}</h2><p class="sub" style="margin:0">Packing list ${esc(l.id)}, dated ${dt(l.date)}</p></div><span class="sp"></span><button class="btn no-print" onclick="window.print()">Print</button></div>
+    <div class="panel meta"><div><span>${l.direction === 'in' ? 'Received' : 'Sent'}</span><b>${dt(l.received || l.date)}</b></div><div><span>Bundles</span><b>${l.bundles.length}</b></div><div><span>Lengths</span><b>${n0(l.pcs)}</b></div><div><span>Weight</span><b>${n2(l.kg)} kg</b></div>
+      ${l.lotObj ? `<div><span>Lot</span><b>${esc(l.lot)}</b></div><div><span>Lot cost</span><b>${inr(l.lotObj.total)}</b></div><div><span>Landed cost</span><b>₹${n2(rate)}/kg</b></div><div><span>Profiles</span><b>${Object.keys(secs).length}</b></div>` : ''}</div>
+    ${l.note ? `<p class="note">${esc(l.note)}</p>` : ''}
+    <h3>Section-wise</h3><div class="panel" id="secs" style="margin-bottom:22px"></div>
+    <h3>All bundles</h3><div class="panel">${bundleTable(l.bundles, { profile: 1, hl: bno })}</div>`;
+  table($('#secs'), { rows: Object.values(secs), onRow: r => go('stock/' + r.profile),
+    cols: [{ k: 'profile', t: 'Profile', h: r => `<b>${esc(r.profile)}</b>` }, { k: 'supplier', t: "Supplier's name", h: r => `<span class="muted">${esc(r.supplier || '')}</span>` }, { k: 'len', t: 'Length ft', num: 1 }, { k: 'n', t: 'Bundles', num: 1 },
+      { k: 'pcs', t: 'Lengths', num: 1, h: r => n0(r.pcs) }, { k: 'kg', t: 'Kg', num: 1, h: r => n2(r.kg) }, { k: 'avg', t: 'Kg per length', num: 1, sv: r => r.kg / r.pcs, h: r => n3(r.kg / r.pcs) },
+      ...(rate ? [{ k: 'pl', t: '₹ per length', num: 1, sv: r => r.kg / r.pcs * rate, h: r => n0(r.kg / r.pcs * rate) }, { k: 'val', t: 'Value', num: 1, sv: r => r.kg * rate, h: r => inr(r.kg * rate) }] : []),
+      { k: 'flags', t: 'Check', h: r => r.flags ? `<span class="pill warn">${r.flags} bundle${r.flags > 1 ? 's' : ''}</span>` : '' }],
+    foot: (c, rows) => ({ profile: `${rows.length} profiles`, n: sum(rows, r => r.n), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), val: rate ? inr(sum(rows, r => r.kg) * rate) : '' })[c.k] });
+  if (bno) setTimeout(() => { const tr = document.getElementById(`b-${l.id}-${bno}`); if (tr) tr.scrollIntoView({ block: 'center' }); }, 30);
+};
+
+function orderView(kind, title, sub, list, cols, emptyText) {
+  $('#view').insertAdjacentHTML('beforeend', `<div class="head-row"><div><h2>${title}</h2><p class="sub" style="margin:0">${sub}</p></div></div>
+    <div class="bar"><input class="filter" id="f-${kind}" placeholder="Filter…"><button class="chip" data-st="open" aria-pressed="true">Open</button><button class="chip" data-st="all" aria-pressed="false">All</button></div><div class="panel" id="t-${kind}" style="margin-bottom:28px"></div>`);
+  let stf = 'open', ft = '';
+  const lineTxt = o => (o.lines || []).map(l => `${l.profile || ''} ${l.finish || ''} ${l.pcs || ''} ${l.kg || ''}`).join(' ');
+  const t = table($('#t-' + kind), { rows: list, sort: 'date', dir: -1, id: r => r.id,
+    filter: r => (stf === 'all' || openStatus(r.status)) && (!ft || JSON.stringify(r).toLowerCase().includes(ft)),
+    cols, detail: r => `<div class="grid2"><div>${(r.lines || []).length ? `<table><thead><tr><th>Profile</th><th>Finish</th><th class="num">Pcs</th><th class="num">Kg</th><th class="num">Rate</th></tr></thead><tbody>${r.lines.map(l => `<tr><td>${esc(l.profile)}</td><td>${esc(l.finish || '')}</td><td class="num">${l.pcs ? n0(l.pcs) : ''}</td><td class="num">${l.kg ? n2(l.kg) : ''}</td><td class="num">${l.rate ? '₹' + n2(l.rate) : ''}</td></tr>`).join('')}</tbody></table>` : '<p class="muted">No lines.</p>'}</div><div>${r.notes ? `<p class="note">${esc(r.notes)}</p>` : ''}</div></div>`,
+    empty: `<div class="empty"><h3>No ${title.toLowerCase()} yet</h3><p>${emptyText}</p></div>` });
+  $('#f-' + kind).oninput = e => { ft = e.target.value.trim().toLowerCase(); t.draw(); };
+  $('#view').querySelectorAll(`#t-${kind}`).length;
+  const chips = [...document.querySelectorAll('[data-st]')].slice(-2);
+  chips.forEach(b => b.onclick = () => { stf = b.dataset.st; chips.forEach(x => x.setAttribute('aria-pressed', x === b)); t.draw(); });
+  return t;
+}
+const orderCols = (partyLabel) => [{ k: 'id', t: 'No.', h: r => `<b>${esc(r.id)}</b>` }, { k: 'date', t: 'Date', h: r => dt(r.date) }, { k: 'party', t: partyLabel },
+  { k: 'items', t: 'Items', sv: r => (r.lines || []).length, h: r => esc((r.lines || []).map(l => l.profile).slice(0, 2).join(', ') + ((r.lines || []).length > 2 ? ` +${r.lines.length - 2}` : '')) },
+  { k: 'kg', t: 'Kg', num: 1, sv: r => sum(r.lines || [], l => l.kg), h: r => { const k = sum(r.lines || [], l => l.kg); return k ? n2(k) : ''; } },
+  { k: 'amount', t: 'Amount', num: 1, sv: r => +r.amount || 0, h: r => r.amount ? inr(r.amount) : '' }, { k: 'due', t: 'Due', h: r => dt(r.due) },
+  { k: 'status', t: 'Status', h: r => `<span class="pill ${openStatus(r.status) ? 'in' : 'ok'}">${esc(r.status || 'Open')}</span>` }];
+
+VIEWS.purchases = () => {
+  $('#view').innerHTML = `<div class="head-row"><div><h2>Lots received</h2><p class="sub" style="margin:0">Landed cost = material cost + expenses linked to the lot (like transport), divided by kg received.</p></div></div><div class="panel" id="lots" style="margin-bottom:30px"></div>`;
+  table($('#lots'), { rows: M.lots, sort: 'received', dir: -1, onRow: r => r.packing_list && go('lists/' + r.packing_list),
+    cols: [{ k: 'id', t: 'Lot', h: r => `<b>${esc(r.id)}</b>` }, { k: 'supplier', t: 'Supplier' }, { k: 'received', t: 'Received', h: r => dt(r.received) }, { k: 'pcs', t: 'Lengths', num: 1, h: r => n0(r.pcs) }, { k: 'kg', t: 'Kg', num: 1, h: r => n2(r.kg) },
+      { k: 'material_cost', t: 'Material', num: 1, h: r => inr(r.material_cost) }, { k: 'extra', t: 'Transport & other', num: 1, h: r => inr(r.extra) }, { k: 'total', t: 'Total', num: 1, h: r => inr(r.total) }, { k: 'rate', t: '₹ per kg', num: 1, h: r => n2(r.rate) },
+      { k: 'pl', t: 'Packing list', nosort: 1, h: r => r.packing_list ? `<button class="link" data-go="lists/${esc(r.packing_list)}">${esc(r.packing_list)}</button>` : '' }],
+    foot: (c, rows) => ({ id: `${rows.length} lot${rows.length === 1 ? '' : 's'}`, pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), material_cost: inr(sum(rows, r => r.material_cost)), extra: inr(sum(rows, r => r.extra)), total: inr(sum(rows, r => r.total)) })[c.k],
+    empty: '<div class="empty"><h3>No lots yet</h3><p>Send a supplier packing list or bill to Claude in chat.</p></div>' });
+  orderView('po', 'Purchase orders', 'Orders placed with suppliers.', D.purchase_orders, orderCols('Supplier'), 'Tell Claude when you place an order with a supplier (profile, kg, weight range, rate). It will show here until the material arrives.');
+};
+VIEWS.sales = () => orderView('so', 'Sales orders', 'Orders from customers.', D.sales_orders, orderCols('Customer'), 'Tell Claude about a customer order (party, profiles, finish, kg or pieces, rate). It will show here until it is dispatched.');
+VIEWS.work = () => orderView('wo', 'Work orders', 'Coating and anodising jobs.', D.work_orders, [...orderCols('Customer').slice(0, 3), { k: 'process', t: 'Process' }, { k: 'shade', t: 'Shade / finish' }, ...orderCols('Customer').slice(3)], 'Tell Claude about a coating or anodising job (customer, profiles, pieces, shade, due date). It will show here until it is delivered.');
+
+VIEWS.expenses = () => {
+  const cats = {}; D.expenses.forEach(e => cats[e.category] = (cats[e.category] || 0) + (+e.amount || 0));
+  const mats = sum(M.lots, l => l.material_cost); const max = Math.max(1, ...Object.values(cats));
+  const months = [...new Set(D.expenses.map(e => (e.date || '').slice(0, 7)))].sort().reverse();
+  let cf = 'All', mf = 'All', ft = '';
+  $('#view').innerHTML = `<div class="head-row"><div><h2>Expenses</h2><p class="sub" style="margin:0">Running costs. Material purchases are under Purchases (${inr(mats)} so far).</p></div></div>
+    <div class="grid2" style="margin-bottom:22px"><div class="panel" style="padding:18px 20px"><h3>By category</h3>${Object.keys(cats).length ? Object.entries(cats).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<div class="cat"><span>${esc(k)}</span><span class="track"><span class="alu" style="display:block;width:${(v / max * 100).toFixed(1)}%"></span></span><span class="num">${inr(v)}</span></div>`).join('') : '<p class="muted">No expenses yet.</p>'}</div>
+    <div class="panel" style="padding:18px 20px"><h3>Total so far</h3><dl class="kv"><dt>Expenses</dt><dd>${inr(sum(D.expenses, e => e.amount))}</dd><dt>Material purchases</dt><dd>${inr(mats)}</dd><dt class="tot">All money out</dt><dd class="tot">${inr(mats + sum(D.expenses, e => e.amount))}</dd></dl></div></div>
+    <div class="bar"><input class="filter" id="ef" placeholder="Filter expenses…">
+      <select class="filter" id="ec" style="min-width:160px"><option>All</option>${Object.keys(cats).map(c => `<option>${esc(c)}</option>`).join('')}</select>
+      <select class="filter" id="em" style="min-width:140px"><option>All</option>${months.map(m => `<option value="${m}">${MON[+m.slice(5) - 1]} ${m.slice(0, 4)}</option>`).join('')}</select></div>
+    <div class="panel" id="et"></div>`;
+  const t = table($('#et'), { rows: D.expenses, sort: 'date', dir: -1,
+    filter: r => (cf === 'All' || r.category === cf) && (mf === 'All' || (r.date || '').startsWith(mf)) && (!ft || JSON.stringify(r).toLowerCase().includes(ft)),
+    hl: r => r.id === (location.hash.split('/')[1] || ''),
+    cols: [{ k: 'date', t: 'Date', h: r => dt(r.date) }, { k: 'category', t: 'Category' }, { k: 'description', t: 'Description' }, { k: 'party', t: 'Paid to' }, { k: 'lot', t: 'For lot', h: r => r.lot ? `<button class="link" data-go="purchases">${esc(r.lot)}</button>` : '' }, { k: 'amount', t: 'Amount', num: 1, sv: r => +r.amount, h: r => inr(r.amount) }],
+    foot: (c, rows) => ({ date: `${rows.length} entr${rows.length === 1 ? 'y' : 'ies'}`, amount: inr(sum(rows, r => r.amount)) })[c.k],
+    empty: '<div class="empty"><h3>No expenses yet</h3><p>Tell Claude what you spent (date, what for, amount) and it will be listed here.</p></div>' });
+  $('#ef').oninput = e => { ft = e.target.value.trim().toLowerCase(); t.draw(); };
+  $('#ec').onchange = e => { cf = e.target.value; t.draw(); };
+  $('#em').onchange = e => { mf = e.target.value; t.draw(); };
+};
+
+/* ---------------- global search ---------------- */
+function renderSearch(text) {
+  drawTabs('');
+  const toks = text.toLowerCase().split(/\s+/).filter(Boolean);
+  const hit = s => { s = s.toLowerCase(); return toks.every(t => s.includes(t.replace(/^#/, '#'))); };
+  const mk = s => { let out = esc(s); toks.forEach(t => { if (t.length < 2 && !/^\d$/.test(t)) return; const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'); out = out.replace(re, '<mark>$1</mark>'); }); return out; };
+  const groups = [
+    ['Profiles', M.profiles.filter(p => hit(`${p.name} ${p.series} ${(p.aliases || []).join(' ')}`)).map(p => ({ t: p.name, d: `${p.series}${p.aliases && p.aliases.length ? ' — supplier name ' + p.aliases.join(', ') : ''}`, r: p.kg ? `${n2(p.kg)} kg` : 'no stock', go: 'stock/' + p.name }))],
+    ['Bundles', M.bundles.filter(b => hit(`#${b.no} bundle ${b.no} ${b.profile} ${b.supplier_name} ${b.pcs} pcs ${n2(b.kg)} kg ${b.kg} ${b.party} ${b.list} ${b.note}`)).map(b => ({ t: `Bundle #${b.no} — ${b.profile}`, d: `${b.party}, ${b.list}, ${b.pcs} pcs, ${n3(b.avg)} kg per length${b.note ? ' — ' + b.note : ''}`, r: `${n2(b.kg)} kg`, go: `lists/${b.list}/${b.no}` }))],
+    ['Packing lists', M.lists.filter(l => hit(`${l.id} ${l.party} ${l.date} ${dt(l.date)} ${l.lot} ${l.direction === 'in' ? 'received' : 'sent'}`)).map(l => ({ t: `${l.id} — ${l.party}`, d: `${l.direction === 'in' ? 'Received' : 'Sent'} ${dt(l.received || l.date)}, ${l.bundles.length} bundles`, r: `${n2(l.kg)} kg`, go: 'lists/' + l.id }))],
+    ['Lots', M.lots.filter(l => hit(`${l.id} ${l.supplier} ${l.received} ${dt(l.received)} ${l.material_cost} ${n0(l.material_cost)} ${l.total} ${n0(l.total)}`)).map(l => ({ t: `${l.id} — ${l.supplier}`, d: `Received ${dt(l.received)}, ₹${n2(l.rate)} per kg landed`, r: inr(l.total), go: 'purchases' }))],
+    ['Expenses', D.expenses.filter(e => hit(`${e.category} ${e.description} ${e.party} ${e.lot} ${e.amount} ${n0(e.amount)} ${dt(e.date)}`)).map(e => ({ t: e.description || e.category, d: `${e.category}, ${dt(e.date)}`, r: inr(e.amount), go: 'expenses/' + e.id }))],
+    ...[['Purchase orders', D.purchase_orders, 'purchases'], ['Sales orders', D.sales_orders, 'sales'], ['Work orders', D.work_orders, 'work']].map(([g, arr, to]) => [g, arr.filter(o => hit(JSON.stringify(o))).map(o => ({ t: `${o.id} — ${o.party || ''}`, d: `${dt(o.date)}, ${o.status || 'Open'}`, r: o.amount ? inr(o.amount) : '', go: to }))])
+  ].filter(g => g[1].length);
+  const total = sum(groups, g => g[1].length);
+  $('#view').innerHTML = `<div class="head-row"><div><h2>${total ? `${total} result${total > 1 ? 's' : ''} for “${esc(text)}”` : `Nothing found for “${esc(text)}”`}</h2><p class="sub" style="margin:0">${total ? 'Click a result to open it. Press Esc to clear.' : 'Try part of a profile name (3/4, domal), a bundle number (#82), a party or an amount.'}</p></div></div>
+    ${groups.map(([g, rs]) => `<div class="res-group"><h3>${g}<span>${rs.length}</span></h3><div class="panel">${rs.slice(0, 60).map(r => `<div class="res" data-go="${esc(r.go)}"><span class="t">${mk(r.t)}</span><span class="d">${mk(r.d)}</span><span class="r">${esc(r.r)}</span></div>`).join('')}${rs.length > 60 ? `<p class="sub" style="padding:10px 14px;margin:0">${rs.length - 60} more — add another word to narrow it down.</p>` : ''}</div></div>`).join('')}`;
+}
+document.addEventListener('click', e => { if (e.target.closest('.res')) q.value = ''; }, true);
+
+route();
+}
+</script>
+<script>
+/* Start-up. On the PC, data.js gives the data directly. Online, data.enc.js holds it encrypted:
+   the data is sealed with a one-time AES-GCM key, that key is sealed with an RSA-OAEP public key,
+   and the matching private key is sealed with a key made from the password (PBKDF2-SHA256).
+   Everything is unlocked here in the browser; the password never leaves the device. */
+(function () {
+  'use strict';
+  const E = window.ACTA_ENC, KEY = 'acta.key';
+  if (window.ACTA_DATA || !E) { bootDashboard(); return; }
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+  const kept = { get() { try { return localStorage.getItem(KEY); } catch (_) { return null; } },
+    set(v) { try { localStorage.setItem(KEY, v); } catch (_) {} }, del() { try { localStorage.removeItem(KEY); } catch (_) {} } };
+  const subtle = window.crypto && window.crypto.subtle;
+
+  async function keyFromPassword(pw) {
+    const base = await subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+    return subtle.deriveKey({ name: 'PBKDF2', hash: 'SHA-256', salt: unb64(E.lock.salt), iterations: E.lock.iter }, base, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
+  }
+  async function unlock(key) {
+    const pkcs8 = await subtle.decrypt({ name: 'AES-GCM', iv: unb64(E.lock.iv) }, key, unb64(E.lock.ct));
+    const priv = await subtle.importKey('pkcs8', pkcs8, { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['decrypt']);
+    const dataKey = await subtle.importKey('raw', await subtle.decrypt({ name: 'RSA-OAEP' }, priv, unb64(E.key)), 'AES-GCM', false, ['decrypt']);
+    const plain = await subtle.decrypt({ name: 'AES-GCM', iv: unb64(E.iv) }, dataKey, unb64(E.ct));
+    return JSON.parse(new TextDecoder().decode(plain));
+  }
+  function start(data) {
+    window.ACTA_DATA = data;
+    document.body.classList.remove('locked');
+    const l = document.getElementById('lock'); if (l) l.remove();
+    bootDashboard();
+    const f = document.getElementById('fresh');
+    if (f) { f.insertAdjacentHTML('beforeend', '<button class="lockout" id="lockout" type="button">Lock</button>');
+      document.getElementById('lockout').onclick = () => { kept.del(); location.replace(location.pathname); }; }
+  }
+  function showLock(message) {
+    document.body.classList.add('locked');
+    document.body.insertAdjacentHTML('afterbegin', `<div class="lock" id="lock"><form id="lockf">
+      <div class="mark" aria-hidden="true"><span style="width:100%"></span><span class="b" style="width:74%"></span><span style="width:48%"></span></div>
+      <h1>Stock &amp; orders</h1><p class="firm">${esc(E.company || '')}</p>
+      <input type="text" name="username" value="Acta dashboard" autocomplete="username" hidden>
+      <label class="f" for="pw">Password</label>
+      <input id="pw" name="password" type="password" autocomplete="current-password" required>
+      <label class="keep"><input type="checkbox" id="keep" checked> Keep me signed in on this device</label>
+      <button id="go" type="submit">Unlock</button>
+      <p class="err" id="err" role="alert">${esc(message || '')}</p></form></div>`);
+    const pw = document.getElementById('pw'), go = document.getElementById('go'), err = document.getElementById('err');
+    pw.focus();
+    if (!subtle) { err.textContent = 'This page has to be opened over https:// to unlock.'; go.disabled = true; return; }
+    document.getElementById('lockf').onsubmit = async e => {
+      e.preventDefault(); err.textContent = ''; go.disabled = true; go.textContent = 'Unlocking…';
+      let key, data;
+      try { key = await keyFromPassword(pw.value); data = await unlock(key); }
+      catch (_) { go.disabled = false; go.textContent = 'Unlock'; err.textContent = "That password didn't work. Check it and try again."; pw.select(); return; }
+      if (document.getElementById('keep').checked) kept.set(b64(await subtle.exportKey('raw', key)));
+      start(data);
+    };
+  }
+
+  const saved = kept.get();
+  if (saved && subtle) {
+    subtle.importKey('raw', unb64(saved), 'AES-GCM', true, ['decrypt']).then(unlock)
+      .then(data => start(data), () => { kept.del(); showLock('The password has changed. Enter the new one.'); });
+  } else showLock();
+})();
+</script>
+</body>
 </html>
