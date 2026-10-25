@@ -224,6 +224,35 @@ body.locked{background:var(--black)}
 .toast.err{background:var(--warn)}
 .toast button{border:0;background:none;color:var(--gold);font-weight:600;cursor:pointer;padding:4px}
 
+/* access checklist */
+.perms{border:1px solid var(--rule);border-radius:8px;padding:12px 14px;background:#FAFAFA}
+.perms .pm-h{margin:0 0 10px;font-size:13px;color:var(--steel);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pm-cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.perms fieldset{border:0;margin:0;padding:0;display:grid;gap:7px;align-content:start}
+.perms legend{font:600 13px var(--display);color:var(--ink);margin-bottom:6px;padding:0}
+.form .pm,.pm{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--ink);cursor:pointer;line-height:1.35}
+.pm input{margin-top:1px;width:17px;height:17px;flex:none}
+.form.wide{max-width:none}
+/* attendance, targets, activity */
+.checkin{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;margin:0 0 18px;border-left:4px solid var(--gold)}
+.checkin h3{margin:0}.checkin .sub{margin:2px 0 0}.checkin .pill{align-self:flex-start}
+.nw{white-space:nowrap}
+.flag .b.okb{background:var(--ok-soft);color:var(--ok)} .flag .b.greyb{background:var(--rule2);color:var(--steel)}
+table.att th,table.att td{padding:6px 7px;font-size:12.5px} table.att .sun{background:#F4F4F2}
+.goal{display:block;height:14px;background:var(--rule2);border-radius:3px;overflow:hidden}
+.goal i{display:block;height:100%;background:linear-gradient(180deg,#F3DE7C 0%,#E2C545 50%,#B8981F 100%);border-radius:3px}
+.cell{width:96px;height:34px;border:1px solid var(--rule);border-radius:6px;padding:0 8px;text-align:right;font-variant-numeric:tabular-nums}
+.cell:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(226,197,69,.45)}
+.mnav{display:inline-flex;align-items:center;gap:8px}
+.iconbtn.light{background:var(--sheet);border-color:var(--rule);color:var(--ink);height:34px;min-width:34px;font-size:18px}
+.iconbtn.light[disabled]{opacity:.4;cursor:default}
+.filter.mini{min-width:0;height:32px;padding:0 6px}
+.row-i{display:inline-flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+.act-day{padding:10px 16px 6px;font:600 13px var(--display);background:#FAFAFA;border-bottom:1px solid var(--rule2)}
+.act{display:grid;grid-template-columns:52px 160px minmax(0,1fr);gap:10px;padding:7px 16px;border-bottom:1px solid var(--rule2);font-size:13.5px}
+.act .tm{color:var(--steel);font-variant-numeric:tabular-nums}.act .who{font-weight:600}
+.ov.one{grid-template-columns:minmax(0,1fr);max-width:760px}
+@media (max-width:720px){.pm-cols{grid-template-columns:1fr}.act{grid-template-columns:46px minmax(0,1fr)}.act .what{grid-column:2}.checkin{flex-direction:column;align-items:stretch}.checkin .bigbtn{width:100%}}
 @media (max-width:1100px){.ov,.grid2,.grid2.wide{grid-template-columns:minmax(0,1fr)}.ov .side{order:-1}.top-in{grid-template-columns:1fr auto;gap:12px}.search{grid-column:1/-1;grid-row:2;justify-self:stretch;max-width:none}.meta{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:720px){
   main{padding:16px 14px 96px}
@@ -231,7 +260,7 @@ body.locked{background:var(--black)}
   .brand h1{font-size:20px} .brand p{font-size:12px} .brand{gap:10px} .brand .logo{width:44px;height:44px}
   .fresh{display:none}
   .search kbd{display:none}
-  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--black);border-top:1px solid var(--hd-line);padding:4px 4px calc(6px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:0;max-width:none}
+  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--black);border-top:1px solid var(--hd-line);padding:4px 4px calc(6px + env(safe-area-inset-bottom));display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0;max-width:none}
   .tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11.5px;padding:7px 2px 5px;border-bottom:0;border-top:3px solid transparent;white-space:normal;line-height:1.15;text-align:center}
   .tab[aria-selected=true]{border-top-color:var(--gold);color:var(--gold)}
   .tab .ico{display:block}
@@ -346,13 +375,36 @@ const I18N = {
     exp_h: 'Expenses', exp_sub: 'Running costs. Material purchases are under Purchases ({m} so far).', by_cat: 'By category', total_sofar: 'Total so far', expenses: 'Expenses', material_purch: 'Material purchases', all_out: 'All money out', description: 'Description', paid_to: 'Paid to', for_what: 'For', entries_n: '{n} entries', no_exp_h: 'No expenses yet', no_exp_p: 'Tell Claude what you spent (date, what for, amount, and the order if it was for one).', month: 'Month',
     profit_h: 'Profit by order', profit_sub: 'Order value minus material at landed cost, consumables used on its work orders, and expenses booked to it.', order_value: 'Order value', direct_costs: 'Direct costs', profit: 'Profit', margin: 'Margin', overheads: 'Expenses not tied to an order ({m})', consumables: 'Consumables',
     f_est_kg: 'kg estimated from average weight per length', f_no_kg: 'kg not known yet', f_no_mat_rate: 'no landed cost for a profile (not received yet)', f_no_cons: 'no consumable use recorded yet', revenue: 'Value', mat_cost: 'Material', est: 'est.',
-    users_h: 'Users', users_sub: 'Employees sign in with the ID and password you give them. They never see costs, expenses or profit.', name: 'Name', role: 'Role', state: 'State', on: 'On', off: 'Off', added: 'Added',
+    users_h: 'Users', users_sub: 'Employees sign in with the ID and password you give them. Tick what each one may see and do; the database enforces it.', name: 'Name', role: 'Role', state: 'State', on: 'On', off: 'Off', added: 'Added',
     add_emp: 'Add an employee', full_name: 'Full name', login_id_hint: 'Login ID (a-z, 0-9)', gen: 'Generate', create: 'Create login', creating: 'Creating…', give_creds: 'Give these to {name}:', copy: 'Copy', copied: 'Copied',
     reset_pw: 'Reset password', new_pw: 'New password', set_pw: 'Set password', switch_off: 'Switch off', switch_on: 'Switch on', pw_set: 'Password changed.', saved: 'Saved.',
     acc_h: 'My account', language: 'Language', change_pw: 'Change my password', confirm_pw: 'Type it again', pw_mismatch: 'The two passwords are different.', pw_short: 'Use at least 8 characters.', signout: 'Sign out', signed_in_as: 'Signed in as {name} ({role})',
     results: '{n} results for “{q}”', result1: '1 result for “{q}”', nothing_for: 'Nothing found for “{q}”', res_hint: 'Click a result to open it. Press Esc to clear.', res_try: 'Try part of a profile name (3/4, domal), a bundle number (#82), a party or an order number.',
     g_profiles: 'Profiles', g_bundles: 'Bundles', g_lists: 'Packing lists', g_orders: 'Orders', g_work: 'Work orders', g_cons: 'Consumables', g_lots: 'Lots', g_exp: 'Expenses', more_n: '{n} more — add another word to narrow it down.',
     no_stock: 'no stock', more_h: 'More', lengths_h: 'Lengths', incomplete: 'incomplete', left_out: 'Not in the totals until their kg and material cost are known: {ids}.', offline_only: 'Not available in the offline copy.',
+    access: 'Access', can_see: 'Can see', can_do: 'Can do', preset: 'Quick choice', custom_n: 'Custom ({n})',
+    pm_stock: 'Stock & packing lists', pm_orders: 'Customer orders', pm_rates: 'Order rates & value', pm_work: 'Work orders',
+    pm_consumables: 'Consumables stock', pm_purchases: 'Purchases & landed cost', pm_expenses: 'Expenses', pm_consumable_costs: 'Consumable costs',
+    pm_profit: 'Profit per order', pm_confirm_orders: 'Confirm orders', pm_move_work: 'Move work orders up to ready to dispatch', pm_dispatch: 'Mark dispatched & delivered',
+    ps_floor: 'Floor staff', ps_sales: 'Sales', ps_office: 'Office & accounts', ps_all: 'Everything',
+    only_master_users: 'Only you can add or change logins.', save_access: 'Save access', access_saved: 'Access saved for {name}.', your_access: 'What you can see and do',
+    do_dispatch: 'Mark dispatched', do_deliver: 'Mark delivered', do_back_to: 'Back to {st}',
+    tab_team: 'Team', team_att: 'Attendance', team_sales: 'Sales targets', team_activity: 'Activity', team_users: 'Logins', no_emps: 'No employees yet. Add them under Logins.',
+    att_h: 'Attendance', check_in: 'Mark my attendance', checking: 'Marking…', checked_in_at: 'Present today, marked at {time}', not_checked: 'Attendance not marked yet today',
+    not_checked_short: 'not marked yet', loc_note: 'Your location is saved with your attendance.', loc_saved: 'Location saved with it.', loc_none: 'location not shared',
+    loc_denied: 'Location was not allowed, so attendance was marked without it.', checked_ok: 'Attendance marked.', open_map: 'Map', present: 'Present',
+    today_h: 'Today', days_present: 'Days', att_month: 'Attendance in {m}', my_att: 'My attendance', time: 'Time', location: 'Location', employee: 'Employee', present_n: '{n} of {m} present',
+    tab_mysales: 'My sales', my_sales_h: 'My sales & incentive', target: 'Target', achieved: 'Paid sales', pipeline: 'Waiting for payment', incentive: 'Incentive',
+    earned: 'Incentive earned', of_target: '{p}% of target', no_target: 'No target set for this month yet.',
+    incentive_rule: 'An order counts in the month its full payment is received, at its weighed kg.', kg_pending_weigh: '{n} lines not weighed',
+    set_targets: 'Targets for {m}', target_kg: 'Target kg', inc_per_kg: 'Incentive ₹/kg', save_targets: 'Save targets', copy_last: 'Copy last month',
+    salesperson: 'Salesperson', none_sel: '— none —', paid: 'Full payment', paid_on: 'Received on {d}', mark_paid: 'Mark fully paid', unpaid: 'Not received yet',
+    clear_paid: 'Undo', paid_orders: 'Paid this month', waiting_orders: 'Waiting for payment', prev_m: 'Previous month', next_m: 'Next month',
+    act_sub: 'Sign-ins, screens opened, changes and attendance. Only you can see this.', everyone: 'Everyone', employees_only: 'Employees', any_day: 'Any day', last_seen: 'Last active',
+    k_sign_in: 'Signed in', k_open: 'Opened the app', k_sign_out: 'Signed out', k_view: 'Opened', k_attendance: 'Attendance', k_status: 'Changed status',
+    k_paid: 'Payment', k_target: 'Target', k_salesperson: 'Salesperson', k_access: 'Access changed', k_password: 'Changed password', no_activity: 'Nothing recorded yet.',
+    tracked_note: 'Your sign-ins, the screens you open, your changes and your attendance location are recorded and the master can see them.',
+    lede_hi: 'Hello {name}.', never: 'never', orders_n: '{n} orders',
   },
   hi: {
     app: 'स्टॉक और ऑर्डर', search: 'प्रोफ़ाइल, बंडल नंबर, पार्टी या ऑर्डर खोजें…',
@@ -394,13 +446,36 @@ const I18N = {
     exp_h: 'खर्च', exp_sub: 'चालू खर्च। माल की खरीद "खरीद" में है (अब तक {m})।', by_cat: 'प्रकार के हिसाब से', total_sofar: 'अब तक कुल', expenses: 'खर्च', material_purch: 'माल की खरीद', all_out: 'कुल पैसा गया', description: 'विवरण', paid_to: 'किसे दिया', for_what: 'किसके लिए', entries_n: '{n} एंट्री', no_exp_h: 'अभी कोई खर्च नहीं', no_exp_p: 'जो खर्च किया वह Claude को बताएँ (तारीख, किस लिए, रकम, और अगर किसी ऑर्डर के लिए था तो वह ऑर्डर)।', month: 'महीना',
     profit_h: 'हर ऑर्डर का मुनाफ़ा', profit_sub: 'ऑर्डर की कीमत में से लैंडेड कॉस्ट पर माल, उसके वर्क ऑर्डर में लगी खपत सामग्री, और उस पर डाले गए खर्च घटाकर।', order_value: 'ऑर्डर की कीमत', direct_costs: 'सीधी लागत', profit: 'मुनाफ़ा', margin: 'मार्जिन', overheads: 'किसी ऑर्डर से न जुड़े खर्च ({m})', consumables: 'खपत सामग्री',
     f_est_kg: 'किलो औसत वज़न से अंदाज़ा', f_no_kg: 'किलो अभी पता नहीं', f_no_mat_rate: 'किसी प्रोफ़ाइल की लैंडेड कॉस्ट नहीं (माल अभी आया नहीं)', f_no_cons: 'अभी खपत सामग्री का इस्तेमाल दर्ज नहीं', revenue: 'कीमत', mat_cost: 'माल', est: 'अंदाज़ा',
-    users_h: 'यूज़र', users_sub: 'कर्मचारी आपकी दी हुई आईडी और पासवर्ड से लॉग इन करते हैं। उन्हें लागत, खर्च या मुनाफ़ा कभी नहीं दिखता।', name: 'नाम', role: 'भूमिका', state: 'स्थिति', on: 'चालू', off: 'बंद', added: 'जोड़ा',
+    users_h: 'यूज़र', users_sub: 'कर्मचारी आपकी दी हुई आईडी और पासवर्ड से लॉग इन करते हैं। हर एक के लिए चुनें कि वह क्या देख और कर सकता है; डेटाबेस यही लागू करता है।', name: 'नाम', role: 'भूमिका', state: 'स्थिति', on: 'चालू', off: 'बंद', added: 'जोड़ा',
     add_emp: 'नया कर्मचारी जोड़ें', full_name: 'पूरा नाम', login_id_hint: 'लॉग इन आईडी (a-z, 0-9)', gen: 'बनाएँ', create: 'लॉग इन बनाएँ', creating: 'बन रहा है…', give_creds: '{name} को ये दें:', copy: 'कॉपी', copied: 'कॉपी हो गया',
     reset_pw: 'पासवर्ड बदलें', new_pw: 'नया पासवर्ड', set_pw: 'पासवर्ड सेट करें', switch_off: 'बंद करें', switch_on: 'चालू करें', pw_set: 'पासवर्ड बदल गया।', saved: 'सेव हो गया।',
     acc_h: 'मेरा खाता', language: 'भाषा', change_pw: 'मेरा पासवर्ड बदलें', confirm_pw: 'दोबारा लिखें', pw_mismatch: 'दोनों पासवर्ड अलग हैं।', pw_short: 'कम से कम 8 अक्षर रखें।', signout: 'लॉग आउट', signed_in_as: '{name} ({role}) के रूप में लॉग इन',
     results: '"{q}" के {n} नतीजे', result1: '"{q}" का 1 नतीजा', nothing_for: '"{q}" के लिए कुछ नहीं मिला', res_hint: 'खोलने के लिए नतीजे पर क्लिक करें। Esc से साफ़ करें।', res_try: 'प्रोफ़ाइल का हिस्सा (3/4, domal), बंडल नंबर (#82), पार्टी या ऑर्डर नंबर लिखें।',
     g_profiles: 'प्रोफ़ाइल', g_bundles: 'बंडल', g_lists: 'पैकिंग लिस्ट', g_orders: 'ऑर्डर', g_work: 'वर्क ऑर्डर', g_cons: 'खपत सामग्री', g_lots: 'लॉट', g_exp: 'खर्च', more_n: '{n} और — छाँटने के लिए एक और शब्द लिखें।',
     no_stock: 'स्टॉक नहीं', more_h: 'और', lengths_h: 'पीस', incomplete: 'अधूरा', left_out: 'जब तक किलो और माल की लागत पता न हो, ये कुल में नहीं जुड़े: {ids}।', offline_only: 'ऑफ़लाइन कॉपी में यह उपलब्ध नहीं।',
+    access: 'एक्सेस', can_see: 'देख सकते हैं', can_do: 'कर सकते हैं', preset: 'जल्दी चुनें', custom_n: 'अपने हिसाब से ({n})',
+    pm_stock: 'स्टॉक और पैकिंग लिस्ट', pm_orders: 'ग्राहकों के ऑर्डर', pm_rates: 'ऑर्डर के रेट और कीमत', pm_work: 'वर्क ऑर्डर',
+    pm_consumables: 'खपत सामग्री का स्टॉक', pm_purchases: 'खरीद और लैंडेड कॉस्ट', pm_expenses: 'खर्च', pm_consumable_costs: 'खपत सामग्री की लागत',
+    pm_profit: 'हर ऑर्डर का मुनाफ़ा', pm_confirm_orders: 'ऑर्डर कन्फ़र्म करना', pm_move_work: 'वर्क ऑर्डर का स्टेज बदलना (डिस्पैच के लिए तैयार तक)', pm_dispatch: 'डिस्पैच और डिलीवर करना',
+    ps_floor: 'फ़्लोर स्टाफ़', ps_sales: 'सेल्स', ps_office: 'ऑफ़िस और अकाउंट्स', ps_all: 'सब कुछ',
+    only_master_users: 'लॉग इन सिर्फ़ आप बना या बदल सकते हैं।', save_access: 'एक्सेस सेव करें', access_saved: '{name} का एक्सेस सेव हो गया।', your_access: 'आप क्या देख और कर सकते हैं',
+    do_dispatch: 'डिस्पैच हुआ करें', do_deliver: 'डिलीवर हुआ करें', do_back_to: 'वापस: {st}',
+    tab_team: 'टीम', team_att: 'हाज़िरी', team_sales: 'सेल्स टारगेट', team_activity: 'गतिविधि', team_users: 'लॉग इन', no_emps: 'अभी कोई कर्मचारी नहीं। "लॉग इन" में जोड़ें।',
+    att_h: 'हाज़िरी', check_in: 'मेरी हाज़िरी लगाएँ', checking: 'हाज़िरी लग रही है…', checked_in_at: 'आज हाज़िर, {time} पर लगी', not_checked: 'आज अभी हाज़िरी नहीं लगी',
+    not_checked_short: 'अभी नहीं लगी', loc_note: 'आपकी हाज़िरी के साथ आपकी लोकेशन सेव होती है।', loc_saved: 'साथ में लोकेशन सेव हुई।', loc_none: 'लोकेशन नहीं दी',
+    loc_denied: 'लोकेशन की अनुमति नहीं मिली, इसलिए हाज़िरी बिना लोकेशन के लगी।', checked_ok: 'हाज़िरी लग गई।', open_map: 'नक्शा', present: 'हाज़िर',
+    today_h: 'आज', days_present: 'दिन', att_month: '{m} की हाज़िरी', my_att: 'मेरी हाज़िरी', time: 'समय', location: 'लोकेशन', employee: 'कर्मचारी', present_n: '{m} में से {n} हाज़िर',
+    tab_mysales: 'मेरी सेल्स', my_sales_h: 'मेरी सेल्स और इंसेंटिव', target: 'टारगेट', achieved: 'पेमेंट आई सेल्स', pipeline: 'पेमेंट बाकी', incentive: 'इंसेंटिव',
+    earned: 'कमाया इंसेंटिव', of_target: 'टारगेट का {p}%', no_target: 'इस महीने का टारगेट अभी तय नहीं हुआ।',
+    incentive_rule: 'ऑर्डर उसी महीने में गिना जाता है जिसमें उसका पूरा पेमेंट आता है, तौले गए किलो के हिसाब से।', kg_pending_weigh: '{n} लाइन तौली नहीं गईं',
+    set_targets: '{m} के टारगेट', target_kg: 'टारगेट किलो', inc_per_kg: 'इंसेंटिव ₹/किलो', save_targets: 'टारगेट सेव करें', copy_last: 'पिछले महीने जैसा',
+    salesperson: 'सेल्सपर्सन', none_sel: '— कोई नहीं —', paid: 'पूरा पेमेंट', paid_on: '{d} को आया', mark_paid: 'पूरा पेमेंट आया', unpaid: 'अभी नहीं आया',
+    clear_paid: 'हटाएँ', paid_orders: 'इस महीने पेमेंट आया', waiting_orders: 'पेमेंट बाकी', prev_m: 'पिछला महीना', next_m: 'अगला महीना',
+    act_sub: 'लॉग इन, खोली गई स्क्रीन, बदलाव और हाज़िरी। यह सिर्फ़ आप देख सकते हैं।', everyone: 'सभी', employees_only: 'कर्मचारी', any_day: 'कोई भी दिन', last_seen: 'आख़िरी बार सक्रिय',
+    k_sign_in: 'लॉग इन किया', k_open: 'ऐप खोला', k_sign_out: 'लॉग आउट किया', k_view: 'खोला', k_attendance: 'हाज़िरी', k_status: 'स्टेटस बदला',
+    k_paid: 'पेमेंट', k_target: 'टारगेट', k_salesperson: 'सेल्सपर्सन', k_access: 'एक्सेस बदला', k_password: 'पासवर्ड बदला', no_activity: 'अभी कुछ दर्ज नहीं।',
+    tracked_note: 'आपके लॉग इन, खोली गई स्क्रीन, बदलाव और हाज़िरी की लोकेशन रिकॉर्ड होती है और मास्टर इन्हें देख सकते हैं।',
+    lede_hi: 'नमस्ते {name}।', never: 'कभी नहीं', orders_n: '{n} ऑर्डर',
   }
 };
 let LANG = store.get('acta.lang') === 'hi' ? 'hi' : 'en';
@@ -422,15 +497,30 @@ const dueBadge = d => { if (!d) return ''; const n = daysTo(d); if (n < 0) retur
 /* ------------------------------ data access ------------------------------ */
 let SB = null, ME = null, RAW = null, M = null, LOADED_AT = null;
 const isMaster = () => !ME || ME.role === 'master';          // offline copy = master view
+/* access: what each login may see and do (set by the master; enforced by the database) */
+const PERM_SEE = ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'profit'];
+const PERM_DO = ['confirm_orders', 'move_work', 'dispatch'];
+const PERM_NEEDS = { profit: ['stock', 'orders', 'rates', 'work', 'purchases', 'expenses', 'consumable_costs'], rates: ['orders'], confirm_orders: ['orders'], move_work: ['work'] };
+const PRESETS = {
+  floor: ['stock', 'orders', 'work', 'consumables', 'confirm_orders', 'move_work'],
+  sales: ['stock', 'orders', 'rates', 'work', 'confirm_orders'],
+  office: ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'confirm_orders', 'dispatch'],
+  all: [...PERM_SEE, ...PERM_DO],
+};
+const can = p => !ME || ME.role === 'master' || !!(ME.perms && ME.perms[p] === true);
+const uname = u => u ? (u.full_name || u.username) : '';
+const hm = s => { if (!s) return ''; const d = new Date(new Date(s).getTime() + 5.5 * 3600e3); return String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0'); };
+const istDay = s => new Date(new Date(s).getTime() + 5.5 * 3600e3).toISOString().slice(0, 10);
+const monthName = ym => `${MONTH_FULL[LANG][+ym.slice(5, 7) - 1]} ${ym.slice(0, 4)}`;
+const shiftMonth = (ym, n) => { const d = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7) - 1 + n, 1)); return d.toISOString().slice(0, 7); };
+const mapLink = a => a && a.lat != null ? `<a class="link" href="https://www.google.com/maps?q=${+a.lat},${+a.lng}" target="_blank" rel="noopener">${esc(t('open_map'))}</a>` : '';
 function makeClient() {
   const keep = store.get('acta.keep') !== '0';
   let storage; try { storage = keep ? window.localStorage : window.sessionStorage; } catch (_) { storage = undefined; }
   SB = window.supabase.createClient(CFG.url, CFG.key, { auth: { persistSession: true, storageKey: 'acta.auth', storage } });
 }
-async function q(table, order) {
-  let qq = SB.from(table).select('*');
-  if (order) qq = qq.order(order, { ascending: true });
-  const { data, error } = await qq;
+async function q(table, cols) {
+  const { data, error } = await SB.from(table).select(cols || '*');
   if (error) throw error;
   return data || [];
 }
@@ -441,21 +531,35 @@ async function callFn(name, body) {
   if (data && data.error) throw new Error(data.error);
   return data;
 }
+function logAct(kind, detail) { if (ONLINE && SB && ME) SB.rpc('log_activity', { p_kind: kind, p_detail: detail || null }).then(() => {}, () => {}); }
+// The rate column of order lines is not readable directly; rates come from order_rates() for logins allowed to see them.
+const SOL_COLS = 'id,sales_order,line_no,profile,finish,pcs,kg,kg_actual,rate_unit';
 async function loadRaw() {
   if (SNAP) return SNAP;
   const master = ME.role === 'master';
-  const base = ['alu_profiles', 'packing_lists', 'bundles', 'bundle_notes', 'stock_adjustments', 'sales_orders', 'sales_order_lines', 'work_orders', 'work_order_lines', 'status_history', 'consumables', 'app_users'];
-  const extra = master ? ['lots', 'expenses', 'consumable_txns', 'purchase_orders', 'purchase_order_lines'] : [];
-  const names = [...base, ...extra];
-  const rows = await Promise.all(names.map(n => q(n)));
-  const R = Object.fromEntries(names.map((n, i) => [n, rows[i]]));
-  if (!master) R.consumable_stock = await rpc('consumable_stock');
+  const plan = [['alu_profiles', 1], ['app_users', 1], ['attendance', 1], ['sales_targets', 1],
+    ['packing_lists', can('stock')], ['bundles', can('stock')], ['bundle_notes', can('stock')], ['stock_adjustments', can('stock')],
+    ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
+    ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
+    ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
+    ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')]].filter(x => x[1]).map(x => x[0]);
+  const rows = await Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
+  const R = Object.fromEntries(plan.map((n, i) => [n, rows[i]]));
+  const more = [];
+  if (can('orders') && can('rates')) more.push(rpc('order_rates').then(rs => {
+    const m = {}; (rs || []).forEach(x => m[x.sales_order + ':' + x.line_no] = x.rate);
+    (R.sales_order_lines || []).forEach(l => { const v = m[l.sales_order + ':' + l.line_no]; if (v != null) l.rate = +v; });
+  }));
+  if (can('consumables') && !can('consumable_costs')) more.push(rpc('consumable_stock').then(r => { R.consumable_stock = r || []; }));
+  if (!master) more.push(rpc('my_sales').then(r => { R.my_sales = r || []; }));
+  if (master) more.push(SB.from('activity_log').select('*').order('at', { ascending: false }).limit(2000).then(({ data, error }) => { if (error) throw error; R.activity_log = data || []; }));
+  await Promise.all(more);
   return R;
 }
 
 /* ------------------------------ model ------------------------------ */
 function buildModel(R) {
-  const master = isMaster();
+  const seeCost = can('purchases');
   const A = k => R[k] || [];
   const lineSort = (a, b) => (a.line_no || 0) - (b.line_no || 0);
   const bundlesBy = groupBy(A('bundles'), 'packing_list');
@@ -488,7 +592,7 @@ function buildModel(R) {
   }));
   A('stock_adjustments').forEach(a => { const p = ensure(a.profile); p.inPcs += +a.pcs || 0; p.inKg += +a.kg || 0; });
   const profiles = Object.values(prof).map(p => { const rate = p.inKg ? p.cost / p.inKg : 0; const pcs = p.inPcs - p.outPcs, kg = p.inKg - p.outKg;
-    return { ...p, pcs, kg, rate: master ? rate : 0, value: master ? kg * rate : 0, avg: pcs > 0 ? kg / pcs : (p.inPcs ? p.inKg / p.inPcs : 0), lo: p.avgs.length ? Math.min(...p.avgs) : 0, hi: p.avgs.length ? Math.max(...p.avgs) : 0 }; })
+    return { ...p, pcs, kg, rate: seeCost ? rate : 0, value: seeCost ? kg * rate : 0, avg: pcs > 0 ? kg / pcs : (p.inPcs ? p.inKg / p.inPcs : 0), lo: p.avgs.length ? Math.min(...p.avgs) : 0, hi: p.avgs.length ? Math.max(...p.avgs) : 0 }; })
     .sort((a, b) => a.order - b.order);
   const P = Object.fromEntries(profiles.map(p => [p.name, p]));
   const seriesOrder = []; profiles.forEach(p => { if (!seriesOrder.includes(p.series)) seriesOrder.push(p.series); });
@@ -516,9 +620,9 @@ function buildModel(R) {
   const consById = Object.fromEntries(cons.map(c => [c.id, c]));
   const expenses = A('expenses').map(e => ({ ...e, amount: +e.amount }));
 
-  // profit per order (master only)
-  if (master) sales.forEach(s => {
-    const flags = new Set(); let rev = 0, mat = 0;
+  // order value (needs rates) and profit (needs the cost figures)
+  sales.forEach(s => {
+    const flags = new Set(); let rev = 0, mat = 0; const hasRate = s.lines.some(l => l.rate != null);
     const lines = s.lines.map(l => {
       const p = P[l.profile]; const per = p && p.inPcs ? p.inKg / p.inPcs : 0;
       let kg = l.kg != null ? +l.kg : null, est = false;
@@ -530,6 +634,9 @@ function buildModel(R) {
       const material = (kg || 0) * matRate; rev += revenue; mat += material;
       return { ...l, kgCalc: kg, est, revenue, matRate, material };
     });
+    s.kgKnown = sum(s.lines.filter(l => l.kg != null), l => +l.kg); s.noKg = s.lines.filter(l => l.kg == null).length;
+    if (hasRate) s.val = { rev, flags: [...flags].filter(f => f !== 'f_no_mat_rate'), complete: !flags.has('f_no_kg') };
+    if (!can('profit')) return;
     const woIds = new Set(s.work.map(w => w.id));
     const used = txs.filter(x => x.kind === 'usage' && (x.sales_order === s.id || woIds.has(x.work_order))).map(x => ({ ...x, item: consById[x.consumable], cost: x.qty * ((consById[x.consumable] || {}).avg || 0) }));
     if (!used.length) flags.add('f_no_cons');
@@ -541,7 +648,15 @@ function buildModel(R) {
   });
   const pos = A('purchase_orders').map(o => ({ ...o, lines: A('purchase_order_lines').filter(l => l.purchase_order === o.id) }));
   const users = A('app_users');
-  return { profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users,
+  const userById = Object.fromEntries(users.filter(u => u.id).map(u => [u.id, u]));
+  const attendance = A('attendance').slice().sort((a, b) => String(b.day).localeCompare(a.day));
+  const targets = A('sales_targets').map(x => ({ ...x, month: String(x.month).slice(0, 7), target_kg: +x.target_kg, incentive_per_kg: +x.incentive_per_kg }));
+  const salesRows = (!ONLINE || isMaster()) ? sales.map(s => ({ id: s.id, date: s.date, party: s.party, status: s.status, paid_on: s.paid_on, salesperson: s.salesperson, kg: s.kgKnown, lines: s.lines.length, lines_no_kg: s.noKg }))
+    : A('my_sales').map(r => ({ ...r, kg: +r.kg, salesperson: ME.id }));
+  const meId = ME && ME.id;
+  return { profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
+    attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
+    myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
     stockKg: sum(profiles, p => p.kg), stockPcs: sum(profiles, p => p.pcs), stockVal: sum(profiles, p => p.value), inStock: profiles.filter(p => p.pcs > 0 || p.kg > 0.001) };
 }
 
@@ -556,18 +671,20 @@ const ICONS = {
 const ico = k => `<svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
 const TABS = [
   { k: 'overview', label: 'tab_overview', mob: 'tab_home', icon: 'home' },
-  { k: 'sales', label: 'tab_sales', icon: 'sales', ct: () => M.sales.filter(openSO).length },
-  { k: 'work', label: 'tab_work', mob: 'tab_work_s', icon: 'work', ct: () => M.work.filter(openWO).length },
-  { k: 'stock', label: 'tab_stock', icon: 'stock', ct: () => M.inStock.length },
-  { k: 'lists', label: 'tab_lists', ct: () => M.lists.length },
-  { k: 'cons', label: 'tab_cons', ct: () => M.cons.length },
-  { k: 'purchases', label: 'tab_purchases', master: 1, ct: () => M.lots.length + M.pos.length },
-  { k: 'expenses', label: 'tab_expenses', master: 1, ct: () => M.expenses.length },
-  { k: 'profit', label: 'tab_profit', master: 1 },
-  { k: 'users', label: 'tab_users', master: 1, online: 1 },
+  { k: 'sales', label: 'tab_sales', icon: 'sales', need: () => can('orders'), ct: () => M.sales.filter(openSO).length },
+  { k: 'work', label: 'tab_work', mob: 'tab_work_s', icon: 'work', need: () => can('work'), ct: () => M.work.filter(openWO).length },
+  { k: 'stock', label: 'tab_stock', icon: 'stock', need: () => can('stock'), ct: () => M.inStock.length },
+  { k: 'lists', label: 'tab_lists', need: () => can('stock'), ct: () => M.lists.length },
+  { k: 'cons', label: 'tab_cons', need: () => can('consumables') || can('consumable_costs'), ct: () => M.cons.length },
+  { k: 'attendance', label: 'att_h', need: () => ONLINE && !isMaster() },
+  { k: 'mysales', label: 'tab_mysales', need: () => ONLINE && !isMaster() && (M.myTargets.length > 0 || M.salesRows.length > 0) },
+  { k: 'purchases', label: 'tab_purchases', need: () => can('purchases'), ct: () => M.lots.length + M.pos.length },
+  { k: 'expenses', label: 'tab_expenses', need: () => can('expenses'), ct: () => M.expenses.length },
+  { k: 'profit', label: 'tab_profit', need: () => can('profit') },
+  { k: 'team', label: 'tab_team', need: () => isMaster() },
   { k: 'account', label: 'tab_account', hidden: 1 },
 ];
-const allowed = tb => (!tb.master || isMaster()) && (!tb.online || ONLINE);
+const allowed = tb => !tb.need || tb.need();
 function drawTabs(active) {
   const primary = ['overview', 'sales', 'work', 'stock'];
   const moreActive = !primary.includes(active) && active !== '';
@@ -661,6 +778,7 @@ function cards(el, cfg) {
 
 /* ------------------------------ routing ------------------------------ */
 const VIEWS = {};
+let lastView = '';
 function route() {
   if (!M) return;
   const h = decodeURIComponent(location.hash.replace(/^#/, '')) || 'overview';
@@ -668,6 +786,7 @@ function route() {
   const tb = TABS.find(x => x.k === name);
   const ok = VIEWS[name] && (name === 'more' || !tb || allowed(tb));
   drawTabs(ok ? name : 'overview'); drawHeader();
+  if (ONLINE && ME) { const key = (ok ? name : 'overview') + (ok && arg && !arg.startsWith('stage:') ? '/' + arg : ''); if (key !== lastView) { lastView = key; logAct('view', key); } }
   $('#view').innerHTML = SNAP ? `<p class="banner">${esc(t('offline_note'))}</p>` : '';
   (ok ? VIEWS[name] : VIEWS.overview)(arg); window.scrollTo(0, 0);
 }
@@ -675,23 +794,31 @@ const view = html => $('#view').insertAdjacentHTML('beforeend', html);
 
 /* ------------------------------ status actions ------------------------------ */
 function soActions(o) {
-  if (!ONLINE || ['cancelled'].includes(o.status) && !isMaster()) return '';
+  if (!ONLINE) return '';
   if (isMaster()) return `<div class="acts no-print"><select class="filter" data-so-select="${esc(o.id)}" style="min-width:190px">${['received', 'confirmed', 'dispatched', 'delivered', 'cancelled'].map(s => `<option value="${s}" ${s === o.status ? 'selected' : ''}>${esc(stLabel(s))}</option>`).join('')}</select><button class="bigbtn" data-so-save="${esc(o.id)}" type="button">${esc(t('save'))}</button></div>`;
-  if (o.status === 'received') return `<div class="acts no-print"><button class="bigbtn" data-so="${esc(o.id)}" data-to="confirmed" data-from="received" type="button">${esc(t('do_confirm'))}</button></div>`;
-  if (o.status === 'confirmed') return `<div class="acts no-print"><button class="bigbtn ghost" data-so="${esc(o.id)}" data-to="received" data-from="confirmed" type="button">${esc(t('do_unconfirm'))}</button></div>`;
-  return '';
+  const b = [];   // [to, label, primary]
+  if (can('confirm_orders')) {
+    if (o.status === 'received') b.push(['confirmed', t('do_confirm'), 1]);
+    if (o.status === 'confirmed') b.push(['received', t('do_unconfirm'), 0]);
+  }
+  if (can('dispatch')) {
+    if (o.status === 'confirmed') b.push(['dispatched', t('do_dispatch'), 1]);
+    if (o.status === 'dispatched') { b.push(['delivered', t('do_deliver'), 1]); b.push(['confirmed', t('do_back_to', { st: stLabel('confirmed') }), 0]); }
+    if (o.status === 'delivered') b.push(['dispatched', t('do_back_to', { st: stLabel('dispatched') }), 0]);
+  }
+  if (!b.length) return '';
+  b.sort((x, y) => y[2] - x[2]);
+  return `<div class="acts no-print">${b.map(([to, lbl, pri]) => `<button class="bigbtn ${pri ? '' : 'ghost'}" data-so="${esc(o.id)}" data-to="${to}" data-from="${o.status}" type="button">${esc(lbl)}</button>`).join('')}</div>`;
 }
 function woSteps(w) {
   const i = WO_FLOW.indexOf(w.stage);
   return `<div class="steps">${WO_FLOW.map((s, j) => `<span class="step ${j < i ? 'done' : j === i ? 'cur' : ''}"><i></i>${esc(sgLabel(s))}</span>`).join('')}</div>`;
 }
+const woMoveOk = (a, b) => isMaster() || (Math.max(a, b) <= 3 ? can('move_work') : can('dispatch'));
 function woActions(w, mode = 'both') {
   if (!ONLINE) return '';
   const i = WO_FLOW.indexOf(w.stage), next = WO_FLOW[i + 1], prev = WO_FLOW[i - 1];
-  const canNext = next && (isMaster() || i + 1 <= 3);
-  const canBack = prev && (isMaster() || i <= 3);
-  if (!canNext && !canBack) return '';
-  const showNext = canNext && mode !== 'back', showBack = canBack && mode !== 'next';
+  const showNext = next && woMoveOk(i, i + 1) && mode !== 'back', showBack = prev && woMoveOk(i, i - 1) && mode !== 'next';
   if (!showNext && !showBack) return '';
   return `<div class="acts no-print">${showNext ? `<button class="bigbtn" data-wo="${esc(w.id)}" data-to="${next}" data-from="${w.stage}" type="button">${esc(t('do_' + next))}</button>` : ''}${showBack ? `<button class="bigbtn ghost" data-wo="${esc(w.id)}" data-to="${prev}" data-from="${w.stage}" type="button">${esc(t('do_back'))}</button>` : ''}</div>`;
 }
@@ -717,58 +844,85 @@ document.addEventListener('click', e => {
 const histList = h => h.length ? `<ul class="hist">${h.map(x => `<li>${esc(dtm(x.changed_at))} · <b>${esc(x.changed_by_name || '')}</b> · ${esc((x.entity === 'sales_order' ? stLabel(x.from_status) : sgLabel(x.from_status)) || '–')} → ${esc(x.entity === 'sales_order' ? stLabel(x.to_status) : sgLabel(x.to_status))}</li>`).join('')}</ul>` : '<p class="faint" style="margin:0;font-size:12.5px">–</p>';
 
 /* ------------------------------ views ------------------------------ */
+function checkInCard() {
+  const r = M.myAttToday;
+  return `<section class="panel checkin no-print">${r
+    ? `<div><h3>${esc(t('checked_in_at', { time: hm(r.checked_in_at) }))}</h3><p class="sub">${esc(r.lat != null ? t('loc_saved') : t('loc_none'))}</p></div><span class="pill ok">${esc(t('present'))}</span>`
+    : `<div><h3>${esc(t('not_checked'))}</h3><p class="sub">${esc(t('loc_note'))}</p></div><button class="bigbtn" type="button" data-checkin>${esc(t('check_in'))}</button>`}</section>`;
+}
+async function doCheckIn(btn) {
+  btn.disabled = true; btn.textContent = t('checking');
+  const pos = await new Promise(res => { try { if (!navigator.geolocation) return res(null); navigator.geolocation.getCurrentPosition(p => res(p), () => res(null), { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }); } catch (_) { res(null); } });
+  try { await rpc('check_in', pos ? { p_lat: pos.coords.latitude, p_lng: pos.coords.longitude, p_acc: pos.coords.accuracy } : {}); }
+  catch (e) { btn.disabled = false; btn.textContent = t('check_in'); toast(t('err', { msg: e.message || e }), 'err'); return; }
+  await reload(true); toast(pos ? t('checked_ok') : t('loc_denied'));
+}
+function salesFor(uid, ym) {
+  const tg = M.targets.find(x => x.employee === uid && x.month === ym) || null;
+  const mine = M.salesRows.filter(r => r.salesperson === uid);
+  const paid = mine.filter(r => r.paid_on && String(r.paid_on).slice(0, 7) === ym);
+  const waiting = mine.filter(r => !r.paid_on && r.status !== 'cancelled');
+  const kg = sum(paid, r => r.kg), rate = tg ? tg.incentive_per_kg : 0, target = tg ? tg.target_kg : 0;
+  return { tg, target, rate, kg, earned: kg * rate, pct: target ? kg / target * 100 : null, paid, waiting, waitKg: sum(waiting, r => r.kg), noKg: sum(paid, r => r.lines_no_kg || 0) };
+}
+const goalBar = pct => `<span class="goal" role="img" aria-label="${pct == null ? '' : pct.toFixed(0) + '%'}"><i style="width:${Math.min(100, pct || 0).toFixed(1)}%"></i></span>`;
 VIEWS.overview = () => {
-  const master = isMaster();
   const month = today().slice(0, 7);
+  const showStock = can('stock');
   const max = Math.max(1, ...M.profiles.map(p => p.kg));
   const showZero = store.get('acta.showZero') === '1';
   const toConfirm = M.sales.filter(o => o.status === 'received');
   const woOpen = M.work.filter(openWO);
   const dueSoon = woOpen.filter(w => w.due && daysTo(w.due) <= 3).sort((a, b) => String(a.due).localeCompare(b.due));
   const lowCons = M.cons.filter(c => c.low);
-  const lede = `${esc(t('lede', { kg: n2(M.stockKg) }))} <span class="soft">— ${esc(t('lede_more', { pcs: n0(M.stockPcs), n: M.inStock.length }))}${master ? ', ' + esc(t('lede_val', { val: inr(M.stockVal) })) : '.'}</span>`;
-  const latest = master ? [...M.lots].sort((a, b) => String(b.received || '').localeCompare(a.received || ''))[0] : null;
-  const lotsM = M.lots.filter(l => (l.received || l.doc_date || '').slice(0, 7) === month);
-  const expM = M.expenses.filter(e => (e.date || '').slice(0, 7) === month);
+  const lede = showStock
+    ? `${esc(t('lede', { kg: n2(M.stockKg) }))} <span class="soft">— ${esc(t('lede_more', { pcs: n0(M.stockPcs), n: M.inStock.length }))}${can('purchases') ? ', ' + esc(t('lede_val', { val: inr(M.stockVal) })) : '.'}</span>`
+    : esc(t('lede_hi', { name: uname(ME) }));
+  const latest = can('purchases') ? [...M.lots].sort((a, b) => String(b.received || '').localeCompare(a.received || ''))[0] : null;
+  const lotsM = can('purchases') ? M.lots.filter(l => (l.received || l.doc_date || '').slice(0, 7) === month) : [];
+  const expM = can('expenses') ? M.expenses.filter(e => (e.date || '').slice(0, 7) === month) : [];
   const consBuyM = sum(M.txs.filter(x => (x.kind === 'purchase') && String(x.date).startsWith(month)), x => x.qty * (x.rate || 0));
   const byCat = {}; expM.forEach(e => byCat[e.category] = (byCat[e.category] || 0) + e.amount);
-  view(`<p class="lede">${lede}</p>
-    <div class="ov">
-      <section class="panel rack" aria-label="${esc(t('rack'))}">
-        <div class="rack-head"><h2>${esc(t('rack'))}</h2><span class="muted">${esc(t('rack_sub'))}</span><span class="sp"></span>
-          <label class="toggle"><input type="checkbox" id="z" ${showZero ? 'checked' : ''}> ${esc(t('show_zero'))}</label></div>
-        ${M.seriesOrder.map(s => { const ps = M.profiles.filter(p => p.series === s && (showZero || p.kg > 0.001)); if (!ps.length) return '';
-          return `<div class="series"><p class="series-h"><b>${esc(s)}</b><span>${n2(sum(ps, p => p.kg))} kg</span></p>
-          ${ps.map(p => `<div class="bar-row ${p.kg > 0.001 ? '' : 'zero'}" data-go="stock/${esc(p.name)}">
-            <span class="nm">${esc(p.name)}${p.isNew ? `<span class="new">${esc(t('new'))}</span>` : ''}</span>
-            <span class="track">${p.kg > 0.001 ? `<span class="alu" style="display:block;width:${(p.kg / max * 100).toFixed(1)}%"></span>` : ''}</span>
-            <span class="v">${p.kg > 0.001 ? n2(p.kg) + ' kg' : `<span class="faint">${esc(t('none'))}</span>`}</span>
-            <span class="w">${p.pcs ? n0(p.pcs) + ' ' + esc(t('lengths')) : ''}</span></div>`).join('')}</div>`; }).join('')}
-      </section>
-      <aside class="panel side">
-        <section><h3>${esc(t('todo'))}</h3>
-          <div class="tiles four"><button data-go="sales"><b>${toConfirm.length}</b><span>${esc(t('to_confirm'))}</span></button><button data-go="work"><b>${woOpen.length}</b><span>${esc(t('wo_open'))}</span></button></div>
-          ${['pending', 'in_process', 'completed', 'ready'].some(s => woOpen.some(w => w.stage === s)) ? `<p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px">${['pending', 'in_process', 'completed', 'ready'].map(s => { const n = woOpen.filter(w => w.stage === s).length; return n ? `<button class="chip" data-go="work/stage:${s}">${esc(sgLabel(s))} · ${n}</button>` : ''; }).join('')}</p>` : ''}
-          ${dueSoon.length ? `<h3 style="margin:14px 0 6px">${esc(t('due_soon'))}</h3>${dueSoon.slice(0, 6).map(w => `<div class="flag" data-go="work/${esc(w.id)}"><span class="b">${esc(w.id)}</span><span class="t">${esc(w.party || '')} · ${esc(procLabel(w.process))} ${dueBadge(w.due)}</span></div>`).join('')}` : ''}
-        </section>
-        ${lowCons.length ? `<section><h3>${esc(t('low_cons'))}</h3>${lowCons.map(c => `<div class="flag" data-go="cons/${esc(c.id)}"><span class="b">${esc(t('low'))}</span><span class="t">${esc(c.name)} — ${nq(c.qty)} ${esc(c.unit)}</span></div>`).join('')}</section>` : ''}
-        <section><h3>${esc(t('check_bundles'))}</h3>
-          ${M.notes.length ? M.notes.map(n => `<div class="flag" data-go="lists/${esc(n.packing_list)}${n.bundle ? '/' + n.bundle : ''}"><span class="b">${n.bundle ? '#' + n.bundle : '!'}</span><span class="t">${esc(n.text)}</span></div>`).join('') : `<p class="muted">${esc(t('nothing_check'))}</p>`}
-        </section>
-        ${master && latest ? `<section><h3>${esc(t('latest_lot'))}</h3><dl class="kv"><dt>${esc(latest.supplier)}</dt><dd>${dt(latest.received)}</dd><dt>${esc(t('received'))}</dt><dd>${n2(latest.kg)} kg</dd><dt>${esc(t('lengths_h'))}</dt><dd>${n0(latest.pcs)}</dd><dt>${esc(t('landed'))}</dt><dd>₹${n2(latest.rate)} ${esc(t('per_kg'))}</dd></dl>
-          <p style="margin:10px 0 0"><button class="link" data-go="purchases">${esc(t('see_purchases'))}</button></p></section>` : ''}
-        ${master ? `<section><h3>${esc(t('spent_in', { m: MONTH_FULL[LANG][+month.slice(5) - 1] }))}</h3>
-          <dl class="kv"><dt>${esc(t('material_bought'))}</dt><dd>${inr(sum(lotsM, l => l.material_cost))}</dd>
-          ${consBuyM ? `<dt>${esc(t('consumables_bought'))}</dt><dd>${inr(consBuyM)}</dd>` : ''}
-          ${Object.entries(byCat).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${inr(v)}</dd>`).join('')}
-          <dt class="tot">${esc(t('total'))}</dt><dd class="tot">${inr(sum(lotsM, l => l.material_cost) + sum(expM, e => e.amount) + consBuyM)}</dd></dl></section>` : ''}
-      </aside>
-    </div>`);
-  $('#z').onchange = e => { store.set('acta.showZero', e.target.checked ? '1' : '0'); route(); };
+  const S = [];
+  if (can('orders') || can('work')) S.push(`<section><h3>${esc(t('todo'))}</h3>
+    <div class="tiles four">${can('orders') ? `<button data-go="sales"><b>${toConfirm.length}</b><span>${esc(t('to_confirm'))}</span></button>` : ''}${can('work') ? `<button data-go="work"><b>${woOpen.length}</b><span>${esc(t('wo_open'))}</span></button>` : ''}</div>
+    ${can('work') && ['pending', 'in_process', 'completed', 'ready'].some(s => woOpen.some(w => w.stage === s)) ? `<p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px">${['pending', 'in_process', 'completed', 'ready'].map(s => { const n = woOpen.filter(w => w.stage === s).length; return n ? `<button class="chip" data-go="work/stage:${s}">${esc(sgLabel(s))} · ${n}</button>` : ''; }).join('')}</p>` : ''}
+    ${can('work') && dueSoon.length ? `<h3 style="margin:14px 0 6px">${esc(t('due_soon'))}</h3>${dueSoon.slice(0, 6).map(w => `<div class="flag" data-go="work/${esc(w.id)}"><span class="b">${esc(w.id)}</span><span class="t">${esc(w.party || '')} · ${esc(procLabel(w.process))} ${dueBadge(w.due)}</span></div>`).join('')}` : ''}</section>`);
+  if (isMaster()) {
+    const emps = M.users.filter(u => u.role === 'employee' && u.active !== false);
+    const pres = M.attendance.filter(a => a.day === today() && emps.some(u => u.id === a.user_id)).length;
+    if (emps.length) S.push(`<section><h3>${esc(t('team_att'))}</h3><p style="margin:0 0 6px">${esc(t('present_n', { n: pres, m: emps.length }))}</p><button class="link" data-go="team/att">${esc(t('tab_team'))}</button></section>`);
+  }
+  if (!isMaster() && ONLINE && M.myTargets.length) {
+    const s = salesFor(ME.id, month);
+    S.push(`<section><h3>${esc(t('tab_mysales'))} · ${esc(monthName(month))}</h3>${s.tg ? `${goalBar(s.pct)}<dl class="kv" style="margin-top:10px"><dt>${esc(t('achieved'))}</dt><dd>${n2(s.kg)} / ${n0(s.target)} kg</dd><dt>${esc(t('earned'))}</dt><dd><b>${inr(s.earned)}</b></dd></dl>` : `<p class="muted">${esc(t('no_target'))}</p>`}<p style="margin:10px 0 0"><button class="link" data-go="mysales">${esc(t('my_sales_h'))}</button></p></section>`);
+  }
+  if (lowCons.length && (can('consumables') || can('consumable_costs'))) S.push(`<section><h3>${esc(t('low_cons'))}</h3>${lowCons.map(c => `<div class="flag" data-go="cons/${esc(c.id)}"><span class="b">${esc(t('low'))}</span><span class="t">${esc(c.name)} — ${nq(c.qty)} ${esc(c.unit)}</span></div>`).join('')}</section>`);
+  if (showStock) S.push(`<section><h3>${esc(t('check_bundles'))}</h3>${M.notes.length ? M.notes.map(n => `<div class="flag" data-go="lists/${esc(n.packing_list)}${n.bundle ? '/' + n.bundle : ''}"><span class="b">${n.bundle ? '#' + n.bundle : '!'}</span><span class="t">${esc(n.text)}</span></div>`).join('') : `<p class="muted">${esc(t('nothing_check'))}</p>`}</section>`);
+  if (latest) S.push(`<section><h3>${esc(t('latest_lot'))}</h3><dl class="kv"><dt>${esc(latest.supplier)}</dt><dd>${dt(latest.received)}</dd><dt>${esc(t('received'))}</dt><dd>${n2(latest.kg)} kg</dd><dt>${esc(t('lengths_h'))}</dt><dd>${n0(latest.pcs)}</dd><dt>${esc(t('landed'))}</dt><dd>₹${n2(latest.rate)} ${esc(t('per_kg'))}</dd></dl>
+    <p style="margin:10px 0 0"><button class="link" data-go="purchases">${esc(t('see_purchases'))}</button></p></section>`);
+  if (can('purchases') || can('expenses') || can('consumable_costs')) S.push(`<section><h3>${esc(t('spent_in', { m: MONTH_FULL[LANG][+month.slice(5) - 1] }))}</h3>
+    <dl class="kv">${can('purchases') ? `<dt>${esc(t('material_bought'))}</dt><dd>${inr(sum(lotsM, l => l.material_cost))}</dd>` : ''}
+    ${consBuyM ? `<dt>${esc(t('consumables_bought'))}</dt><dd>${inr(consBuyM)}</dd>` : ''}
+    ${Object.entries(byCat).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${inr(v)}</dd>`).join('')}
+    <dt class="tot">${esc(t('total'))}</dt><dd class="tot">${inr(sum(lotsM, l => l.material_cost) + sum(expM, e => e.amount) + consBuyM)}</dd></dl></section>`);
+  const rack = showStock ? `<section class="panel rack" aria-label="${esc(t('rack'))}">
+      <div class="rack-head"><h2>${esc(t('rack'))}</h2><span class="muted">${esc(t('rack_sub'))}</span><span class="sp"></span>
+        <label class="toggle"><input type="checkbox" id="z" ${showZero ? 'checked' : ''}> ${esc(t('show_zero'))}</label></div>
+      ${M.seriesOrder.map(s => { const ps = M.profiles.filter(p => p.series === s && (showZero || p.kg > 0.001)); if (!ps.length) return '';
+        return `<div class="series"><p class="series-h"><b>${esc(s)}</b><span>${n2(sum(ps, p => p.kg))} kg</span></p>
+        ${ps.map(p => `<div class="bar-row ${p.kg > 0.001 ? '' : 'zero'}" data-go="stock/${esc(p.name)}">
+          <span class="nm">${esc(p.name)}${p.isNew ? `<span class="new">${esc(t('new'))}</span>` : ''}</span>
+          <span class="track">${p.kg > 0.001 ? `<span class="alu" style="display:block;width:${(p.kg / max * 100).toFixed(1)}%"></span>` : ''}</span>
+          <span class="v">${p.kg > 0.001 ? n2(p.kg) + ' kg' : `<span class="faint">${esc(t('none'))}</span>`}</span>
+          <span class="w">${p.pcs ? n0(p.pcs) + ' ' + esc(t('lengths')) : ''}</span></div>`).join('')}</div>`; }).join('')}
+    </section>` : '';
+  view(`${ONLINE && !isMaster() ? checkInCard() : ''}<p class="lede">${lede}</p>
+    <div class="ov ${showStock ? '' : 'one'}">${rack}${S.length ? `<aside class="panel side">${S.join('')}</aside>` : ''}</div>`);
+  if ($('#z')) $('#z').onchange = e => { store.set('acta.showZero', e.target.checked ? '1' : '0'); route(); };
 };
 
 function bundleTable(bundles, opts = {}) {
-  const master = isMaster();
   return `<div class="tw"><table class="compact"><thead><tr>${opts.list ? `<th>${esc(t('list'))}</th><th>${esc(t('date'))}</th>` : ''}<th class="num">${esc(t('bundle'))}</th>${opts.profile ? `<th>${esc(t('profile'))}</th>` : ''}<th>${esc(t('sup_name'))}</th><th class="num">${esc(t('len_ft'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('kg_per_len'))}</th><th class="num">${esc(t('vs_typ'))}</th><th>${esc(t('check'))}</th></tr></thead>
     <tbody>${bundles.map(b => `<tr id="b-${esc(b.list)}-${b.no}" class="${opts.hl && +opts.hl === b.no ? 'hl' : ''}">${opts.list ? `<td><button class="link" data-go="lists/${esc(b.list)}/${b.no}">${esc(b.list)}</button> <span class="pill ${b.direction}">${esc(t(b.direction === 'in' ? 'in' : 'out'))}</span></td><td>${dt(b.date)}</td>` : ''}
       <td class="num">${b.no}</td>${opts.profile ? `<td>${esc(b.profile)}</td>` : ''}<td class="muted">${esc(b.supplier_name || '')}</td><td class="num">${b.len_ft || ''}</td><td class="num">${n0(b.pcs)}</td><td class="num">${n2(b.kg)}</td><td class="num">${n3(b.avg)}</td>
@@ -777,7 +931,7 @@ function bundleTable(bundles, opts = {}) {
 }
 
 VIEWS.stock = (arg) => {
-  const master = isMaster();
+  const master = can('purchases');
   const series = ['All', ...M.seriesOrder];
   let sel = 'All', ft = '', only = store.get('acta.onlyStock') !== '0';
   if (arg) only = false;
@@ -803,7 +957,7 @@ VIEWS.stock = (arg) => {
 };
 
 VIEWS.lists = (arg) => {
-  const master = isMaster();
+  const master = can('purchases');
   const [id, bno] = (arg || '').split('/');
   const l = M.lists.find(x => x.id === id);
   if (!l) {
@@ -832,24 +986,50 @@ VIEWS.lists = (arg) => {
 
 /* orders */
 function orderLines(o, withStock) {
+  withStock = withStock && can('stock');
   if (!o.lines.length) return `<p class="muted">${esc(t('no_lines'))}</p>`;
   return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('profile'))}</th><th>${esc(t('finish'))}</th><th class="num">${esc(t('pcs'))}</th>${withStock ? `<th class="num">${esc(t('in_stock_now'))}</th>` : ''}<th class="num">${esc(t('kg'))}</th>${o.lines.some(l => l.rate != null) ? `<th class="num">${esc(t('rate'))}</th>` : ''}</tr></thead><tbody>${o.lines.map(l => {
     const p = M.P[l.profile], have = p ? p.pcs : 0, short = l.pcs && have < l.pcs;
-    return `<tr><td><button class="link" data-go="stock/${esc(l.profile)}">${esc(l.profile)}</button></td><td>${esc(l.finish || '')}</td><td class="num">${l.pcs ? n0(l.pcs) : ''}</td>${withStock ? `<td class="num">${n0(have)}${short ? ` <span class="pill warn">${esc(t('short', { n: n0(l.pcs - have) }))}</span>` : ''}</td>` : ''}<td class="num">${l.kg != null ? n2(l.kg) : ''}</td>${o.lines.some(x => x.rate != null) ? `<td class="num">${l.rate != null ? '₹' + n2(l.rate) + ' / ' + esc(l.rate_unit === 'pc' ? 'pc' : 'kg') : ''}</td>` : ''}</tr>`; }).join('')}</tbody></table></div>`;
+    return `<tr><td>${can('stock') ? `<button class="link" data-go="stock/${esc(l.profile)}">${esc(l.profile)}</button>` : esc(l.profile)}</td><td>${esc(l.finish || '')}</td><td class="num">${l.pcs ? n0(l.pcs) : ''}</td>${withStock ? `<td class="num">${n0(have)}${short ? ` <span class="pill warn">${esc(t('short', { n: n0(l.pcs - have) }))}</span>` : ''}</td>` : ''}<td class="num">${l.kg != null ? n2(l.kg) : ''}</td>${o.lines.some(x => x.rate != null) ? `<td class="num">${l.rate != null ? '₹' + n2(l.rate) + ' / ' + esc(l.rate_unit === 'pc' ? 'pc' : 'kg') : ''}</td>` : ''}</tr>`; }).join('')}</tbody></table></div>`;
 }
 function soDetail(o, inCard) {
-  const facts = [[t('phone'), o.phone ? `<a class="link" href="tel:${esc(o.phone)}">${esc(o.phone)}</a>` : ''], [t('taken_by'), esc(o.taken_by || '')], [t('due'), dt(o.due) + ' ' + (openSO(o) ? dueBadge(o.due) : '')], [t('material_from'), esc(t(o.material_by === 'party' ? 'mat_party' : 'mat_acta'))],
+  const facts = [[t('phone'), o.phone ? `<a class="link" href="tel:${esc(o.phone)}">${esc(o.phone)}</a>` : ''], [t('taken_by'), esc(o.taken_by || '')], [t('due'), dt(o.due) + ' ' + (openSO(o) ? dueBadge(o.due) : '')], [t('material_from'), esc(t(o.material_by === 'party' ? 'mat_party' : 'mat_acta'))], ...soPayFacts(o),
     [t('linked'), o.work.map(w => `<button class="link" data-go="work/${esc(w.id)}">${esc(w.id)}</button> ${sgPill(w.stage)}`).join('<br>')]].filter(f => f[1] && String(f[1]).trim());
   return `<div class="grid2 wide"><div>${inCard ? '' : soActions(o)}${orderLines(o, openSO(o))}</div><div><dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>${o.notes ? `<p class="note">${esc(o.notes)}</p>` : ''}<h3 style="margin-top:12px">${esc(t('history'))}</h3>${histList(o.history)}</div></div>`;
 }
 function woDetail(w, inCard) {
-  const facts = [[t('process'), esc(procLabel(w.process))], [t('shade'), esc(w.shade || '')], [t('due'), dt(w.due) + ' ' + (openWO(w) ? dueBadge(w.due) : '')], [t('for_order'), w.sales_order ? `<button class="link" data-go="sales/${esc(w.sales_order)}">${esc(w.sales_order)}</button>` : ''], [t('party'), esc(w.party || '')]].filter(f => f[1] && String(f[1]).trim());
+  const facts = [[t('process'), esc(procLabel(w.process))], [t('shade'), esc(w.shade || '')], [t('due'), dt(w.due) + ' ' + (openWO(w) ? dueBadge(w.due) : '')], [t('for_order'), w.sales_order && can('orders') ? `<button class="link" data-go="sales/${esc(w.sales_order)}">${esc(w.sales_order)}</button>` : ''], [t('party'), esc(w.party || '')]].filter(f => f[1] && String(f[1]).trim());
   return `<div class="grid2 wide"><div>${woSteps(w)}${woActions(w, inCard ? 'back' : 'both')}${orderLines({ lines: w.lines }, openWO(w))}</div><div><dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>${w.notes ? `<p class="note">${esc(w.notes)}</p>` : ''}<h3 style="margin-top:12px">${esc(t('history'))}</h3>${histList(w.history)}</div></div>`;
 }
+function soPayFacts(o) {
+  const sp = M.userById[o.salesperson];
+  if (!isMaster() || !ONLINE) return [[t('salesperson'), esc(uname(sp)) || ''], [t('paid'), o.paid_on ? esc(t('paid_on', { d: dt(o.paid_on) })) : (isMaster() ? esc(t('unpaid')) : '')]];
+  const people = M.users.filter(u => u.active !== false || u.id === o.salesperson);
+  return [[t('salesperson'), `<span class="row-i"><select class="filter mini" data-sp-sel="${esc(o.id)}"><option value="">${esc(t('none_sel'))}</option>${people.map(u => `<option value="${esc(u.id)}" ${u.id === o.salesperson ? 'selected' : ''}>${esc(uname(u))}</option>`).join('')}</select><button class="btn" type="button" data-sp-save="${esc(o.id)}">${esc(t('save'))}</button></span>`],
+    [t('paid'), o.paid_on ? `${esc(t('paid_on', { d: dt(o.paid_on) }))} <button class="link" type="button" data-unpaid="${esc(o.id)}">${esc(t('clear_paid'))}</button>`
+      : `<span class="row-i"><input class="filter mini" type="date" data-paid-date="${esc(o.id)}" value="${today()}" max="${today()}"><button class="btn" type="button" data-paid="${esc(o.id)}">${esc(t('mark_paid'))}</button></span>`]];
+}
+async function masterCall(btn, fn, args, keepId) {
+  btn.disabled = true;
+  try { await rpc(fn, args); } catch (err) { btn.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+  const v = location.hash.replace(/^#/, '').split('/')[0];
+  if (keepId && v === 'sales') history.replaceState(null, '', '#sales/' + keepId);
+  await reload(true); toast(t('saved'));
+}
+document.addEventListener('click', e => {
+  const sp = e.target.closest('[data-sp-save]');
+  if (sp) { const id = sp.dataset.spSave; const sel = document.querySelector(`[data-sp-sel="${CSS.escape(id)}"]`); masterCall(sp, 'set_order_salesperson', { p_id: id, p_user: (sel && sel.value) || null }, id); return; }
+  const pd = e.target.closest('[data-paid]');
+  if (pd) { const id = pd.dataset.paid; const inp = document.querySelector(`[data-paid-date="${CSS.escape(id)}"]`); if (inp && inp.value) masterCall(pd, 'set_order_paid', { p_id: id, p_paid_on: inp.value }, id); return; }
+  const up = e.target.closest('[data-unpaid]');
+  if (up) { masterCall(up, 'set_order_paid', { p_id: up.dataset.unpaid, p_paid_on: null }, up.dataset.unpaid); return; }
+  const ci = e.target.closest('[data-checkin]');
+  if (ci) { doCheckIn(ci); }
+});
 const valTxt = p => inr(p.rev) + (!p.complete ? ` <span class="pill warn">${esc(t('incomplete'))}</span>` : p.flags.includes('f_est_kg') ? ` <span class="faint">${esc(t('est'))}</span>` : '');
 const itemsTxt = o => o.lines.map(l => `${l.profile} × ${n0(l.pcs)}`).join(', ');
 VIEWS.sales = (arg) => {
-  const master = isMaster();
+  const showVal = can('rates');
   const pick = arg && M.sales.find(o => o.id === arg);
   let stf = pick && !openSO(pick) ? 'all' : 'open', ft = '';
   view(`<div class="head-row"><div><h2>${esc(t('sales_h'))}</h2><p class="sub" style="margin:0">${esc(t('sales_sub'))}</p></div></div>
@@ -858,13 +1038,13 @@ VIEWS.sales = (arg) => {
   const empty = `<div class="empty panel"><h3>${esc(t('no_sales_h'))}</h3><p>${esc(t('no_sales_p'))}</p></div>`;
   let ctl;
   if (mobile()) ctl = cards($('#list'), { rows: M.sales, id: r => r.id, open: arg || null, filter, empty, order: (a, b) => String(a.due || '9').localeCompare(b.due || '9'),
-    card: o => `<div class="c-top"><div><div class="c-id">${esc(o.id)} ${dueBadge(openSO(o) ? o.due : '')}</div><div class="c-party">${esc(o.party)}</div><div class="c-meta">${esc(t('due'))}: ${dt(o.due)}${master && o.pnl && o.pnl.rev ? ' · ' + valTxt(o.pnl) : ''}</div></div>${stPill(o.status)}</div><div class="c-items">${esc(itemsTxt(o))}</div>${soActions(o)}`,
+    card: o => `<div class="c-top"><div><div class="c-id">${esc(o.id)} ${dueBadge(openSO(o) ? o.due : '')}</div><div class="c-party">${esc(o.party)}</div><div class="c-meta">${esc(t('due'))}: ${dt(o.due)}${showVal && o.val && o.val.rev ? ' · ' + valTxt(o.val) : ''}</div></div>${stPill(o.status)}</div><div class="c-items">${esc(itemsTxt(o))}</div>${soActions(o)}`,
     detail: o => soDetail(o, true) });
   else { $('#list').className = 'panel'; ctl = table($('#list'), { rows: M.sales, id: r => r.id, sort: 'date', dir: -1, open: arg || null, filter, empty,
     cols: [{ k: 'id', t: t('no'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'party', t: t('customer') },
       { k: 'items', t: t('items'), sv: r => r.lines.length, h: r => esc(r.lines.map(l => l.profile).slice(0, 2).join(', ') + (r.lines.length > 2 ? ` +${r.lines.length - 2}` : '')) },
       { k: 'pcs', t: t('pcs'), num: 1, sv: r => sum(r.lines, l => l.pcs), h: r => n0(sum(r.lines, l => l.pcs)) },
-      { k: 'amount', t: t('amount'), num: 1, hide: !master, sv: r => r.pnl ? r.pnl.rev : 0, h: r => r.pnl && r.pnl.rev ? valTxt(r.pnl) : '' },
+      { k: 'amount', t: t('amount'), num: 1, hide: !showVal, sv: r => r.val ? r.val.rev : 0, h: r => r.val && r.val.rev ? valTxt(r.val) : '' },
       { k: 'due', t: t('due'), h: r => dt(r.due) + ' ' + (openSO(r) ? dueBadge(r.due) : '') }, { k: 'status', t: t('status'), h: r => stPill(r.status) }],
     detail: o => soDetail(o) }); }
   document.querySelectorAll('#view [data-st]').forEach(b => b.onclick = () => { stf = b.dataset.st; document.querySelectorAll('#view [data-st]').forEach(x => x.setAttribute('aria-pressed', x === b)); ctl.draw(); });
@@ -899,7 +1079,7 @@ VIEWS.work = (arg) => {
 
 /* consumables */
 VIEWS.cons = (arg) => {
-  const master = isMaster();
+  const master = can('consumable_costs');
   const cats = ['all', 'Anodising chemical', 'Powder', 'LPG', 'Other'];
   let cf = 'all', ft = '';
   view(`<div class="head-row"><div><h2>${esc(t('cons_h'))}</h2><p class="sub" style="margin:0">${esc(t('cons_sub'))}</p></div></div>
@@ -981,40 +1161,166 @@ VIEWS.profit = () => {
         ${p.flags.length ? `<p class="note" style="margin-top:12px">${p.flags.map(f => esc(t(f))).join('<br>')}</p>` : ''}</div></div>`; } });
 };
 
-/* users (master, online) */
+/* ------------------------------ team (master) and the employee's own pages ------------------------------ */
 const genPw = () => { const a = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'; const r = crypto.getRandomValues(new Uint32Array(10)); return Array.from(r, x => a[x % a.length]).join(''); };
-VIEWS.users = () => {
-  const emps = M.users.slice().sort((a, b) => (a.role === 'master' ? -1 : 1) - (b.role === 'master' ? -1 : 1) || String(a.full_name).localeCompare(b.full_name));
-  view(`<div class="head-row"><div><h2>${esc(t('users_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('users_sub'))}</p></div></div>
+function permsBox(perms) {
+  const box = k => `<label class="pm"><input type="checkbox" data-perm="${k}" ${perms && perms[k] ? 'checked' : ''}> <span>${esc(t('pm_' + k))}</span></label>`;
+  return `<div class="perms"><p class="pm-h"><span>${esc(t('preset'))}:</span> ${Object.keys(PRESETS).map(p => `<button type="button" class="chip" data-preset="${p}">${esc(t('ps_' + p))}</button>`).join('')}</p>
+    <div class="pm-cols"><fieldset><legend>${esc(t('can_see'))}</legend>${PERM_SEE.map(box).join('')}</fieldset>
+    <fieldset><legend>${esc(t('can_do'))}</legend>${PERM_DO.map(box).join('')}<p class="faint" style="font-size:12px;margin:6px 0 0">${esc(t('only_master_users'))}</p></fieldset></div></div>`;
+}
+function wirePerms(root) {
+  root.querySelectorAll('.perms').forEach(box => {
+    if (box.dataset.wired) return; box.dataset.wired = '1';
+    const set = (k, v) => { const i = box.querySelector(`[data-perm="${k}"]`); if (i) i.checked = v; };
+    box.addEventListener('change', e => {
+      const i = e.target.closest('[data-perm]'); if (!i) return; const k = i.dataset.perm;
+      if (i.checked) (PERM_NEEDS[k] || []).forEach(n => set(n, true));
+      else Object.entries(PERM_NEEDS).forEach(([j, needs]) => { if (needs.includes(k)) set(j, false); });
+    });
+    box.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => { const on = PRESETS[b.dataset.preset]; [...PERM_SEE, ...PERM_DO].forEach(k => set(k, on.includes(k))); });
+  });
+}
+const readPerms = box => Object.fromEntries([...PERM_SEE, ...PERM_DO].map(k => [k, !!(box.querySelector(`[data-perm="${k}"]`) || {}).checked]));
+const permsObj = list => Object.fromEntries([...PERM_SEE, ...PERM_DO].map(k => [k, list.includes(k)]));
+function accessName(u) {
+  if (u.role === 'master') return t('ps_all');
+  const on = [...PERM_SEE, ...PERM_DO].filter(k => u.perms && u.perms[k] === true);
+  const pre = Object.entries(PRESETS).find(([, ks]) => ks.length === on.length && ks.every(k => on.includes(k)));
+  return pre ? t('ps_' + pre[0]) : t('custom_n', { n: on.length });
+}
+const lastSeen = uid => { const a = M.activity.find(x => x.user_id === uid); return a ? dtm(a.at) : ''; };
+const monthNav = (base, ym) => `<span class="mnav"><button class="iconbtn light" type="button" data-go="${base}/${shiftMonth(ym, -1)}" aria-label="${esc(t('prev_m'))}">‹</button><b>${esc(monthName(ym))}</b><button class="iconbtn light" type="button" data-go="${base}/${shiftMonth(ym, 1)}" aria-label="${esc(t('next_m'))}" ${ym >= today().slice(0, 7) ? 'disabled' : ''}>›</button></span>`;
+const ymOf = s => /^\d{4}-\d{2}$/.test(s || '') ? s : today().slice(0, 7);
+
+VIEWS.team = (arg) => {
+  if (!isMaster()) return VIEWS.overview();
+  const [sec0, sub] = (arg || '').split('/');
+  const sec = ['att', 'sales', 'activity', 'users'].includes(sec0) ? sec0 : 'att';
+  view(`<div class="head-row"><div><h2>${esc(t('tab_team'))}</h2></div></div>
+    <div class="bar">${[['att', 'team_att'], ['sales', 'team_sales'], ['activity', 'team_activity'], ['users', 'team_users']].map(([k, l]) => `<button class="chip" type="button" data-go="team/${k}" aria-pressed="${k === sec}">${esc(t(l))}</button>`).join('')}</div>`);
+  TEAM[sec](sub);
+};
+const TEAM = {};
+TEAM.att = (sub) => {
+  const ym = ymOf(sub), td = today();
+  const emps = M.users.filter(u => u.role === 'employee');
+  if (!emps.length) { view(`<div class="panel empty"><p>${esc(t('no_emps'))}</p></div>`); return; }
+  const rows = M.attendance;
+  view(`<div class="panel" style="padding:16px 20px;margin-bottom:18px"><h3>${esc(t('today_h'))} · ${esc(dt(td))}</h3>
+    ${emps.filter(u => u.active !== false).map(u => { const a = rows.find(x => x.user_id === u.id && x.day === td);
+      return `<div class="flag" style="cursor:default"><span class="b ${a ? 'okb' : 'greyb'}">${a ? hm(a.checked_in_at) : '–'}</span><span class="t">${esc(uname(u))} ${a ? (a.lat != null ? mapLink(a) : `<span class="faint">${esc(t('loc_none'))}</span>`) : `<span class="faint">${esc(t('not_checked_short'))}</span>`}</span></div>`; }).join('')}</div>
+    <div class="head-row"><div><h3 style="margin:0">${esc(t('att_month', { m: monthName(ym) }))}</h3></div><span class="sp"></span>${monthNav('team/att', ym)}</div>`);
+  const nDays = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).getUTCDate();
+  const days = Array.from({ length: nDays }, (_, i) => ym + '-' + String(i + 1).padStart(2, '0'));
+  view(`<div class="panel"><div class="tw"><table class="compact att"><thead><tr><th>${esc(t('employee'))}</th>${days.map(d => `<th class="num ${new Date(d + 'T00:00:00Z').getUTCDay() === 0 ? 'sun' : ''}">${+d.slice(8)}</th>`).join('')}<th class="num">${esc(t('days_present'))}</th></tr></thead>
+    <tbody>${emps.map(u => { const mine = rows.filter(a => a.user_id === u.id && String(a.day).startsWith(ym));
+      return `<tr><td><b>${esc(uname(u))}</b></td>${days.map(d => { const a = mine.find(x => x.day === d); const sun = new Date(d + 'T00:00:00Z').getUTCDay() === 0 ? 'sun' : '';
+        if (a) return `<td class="num ${sun}">${a.lat != null ? `<a class="link" href="https://www.google.com/maps?q=${+a.lat},${+a.lng}" target="_blank" rel="noopener" title="${esc(dtm(a.checked_in_at))}">${hm(a.checked_in_at)}</a>` : hm(a.checked_in_at)}</td>`;
+        return `<td class="num faint ${sun}">${d <= td ? '·' : ''}</td>`; }).join('')}<td class="num"><b>${mine.length}</b></td></tr>`; }).join('')}</tbody></table></div></div>`);
+};
+TEAM.sales = (sub) => {
+  const ym = ymOf(sub), prev = shiftMonth(ym, -1);
+  const emps = M.users.filter(u => u.role === 'employee' && (u.active !== false || M.targets.some(x => x.employee === u.id && x.month === ym)));
+  if (!emps.length) { view(`<div class="panel empty"><p>${esc(t('no_emps'))}</p></div>`); return; }
+  const S = Object.fromEntries(emps.map(u => [u.id, salesFor(u.id, ym)]));
+  view(`<div class="head-row"><div><h3 style="margin:0">${esc(t('set_targets', { m: monthName(ym) }))}</h3><p class="sub" style="margin:2px 0 0">${esc(t('incentive_rule'))}</p></div><span class="sp"></span>${monthNav('team/sales', ym)}</div>
+    <div class="panel" id="tt"><div class="tw"><table><thead><tr><th>${esc(t('employee'))}</th><th class="num">${esc(t('target_kg'))}</th><th class="num">${esc(t('inc_per_kg'))}</th><th class="num">${esc(t('achieved'))}</th><th class="num">%</th><th class="num">${esc(t('earned'))}</th><th class="num">${esc(t('pipeline'))}</th></tr></thead>
+    <tbody>${emps.map(u => { const s = S[u.id];
+      return `<tr data-emp="${esc(u.id)}"><td><b>${esc(uname(u))}</b>${s.paid.length ? `<div class="faint" style="font-size:12px">${s.paid.map(r => esc(r.id)).join(', ')}</div>` : ''}</td>
+        <td class="num">${ONLINE ? `<input class="cell" type="number" min="0" step="1" inputmode="decimal" data-tk value="${s.tg ? s.target : ''}">` : n0(s.target)}</td>
+        <td class="num">${ONLINE ? `<input class="cell" type="number" min="0" step="0.01" inputmode="decimal" data-tr value="${s.tg ? s.rate : ''}">` : n2(s.rate)}</td>
+        <td class="num">${n2(s.kg)} kg${s.noKg ? `<div><span class="pill warn">${esc(t('kg_pending_weigh', { n: s.noKg }))}</span></div>` : ''}</td>
+        <td class="num">${s.pct == null ? '–' : s.pct.toFixed(0) + '%'}</td><td class="num"><b>${inr(s.earned)}</b></td>
+        <td class="num">${s.waiting.length ? esc(t('orders_n', { n: s.waiting.length })) + (s.waitKg ? ` · ${n2(s.waitKg)} kg` : '') : '–'}</td></tr>`; }).join('')}</tbody>
+    <tfoot><tr><td>${esc(t('total'))}</td><td class="num">${n0(sum(emps, u => S[u.id].target))}</td><td></td><td class="num">${n2(sum(emps, u => S[u.id].kg))} kg</td><td></td><td class="num">${inr(sum(emps, u => S[u.id].earned))}</td><td></td></tr></tfoot></table></div>
+    ${ONLINE ? `<div class="acts" style="padding:4px 16px 14px"><button class="btn" type="button" id="copyprev">${esc(t('copy_last'))}</button><button class="btn primary" type="button" id="savet">${esc(t('save_targets'))}</button></div>` : ''}</div>`);
+  if (!ONLINE) return;
+  $('#copyprev').onclick = () => document.querySelectorAll('#tt tr[data-emp]').forEach(tr => { const p = M.targets.find(x => x.employee === tr.dataset.emp && x.month === prev); if (p) { tr.querySelector('[data-tk]').value = p.target_kg; tr.querySelector('[data-tr]').value = p.incentive_per_kg; } });
+  $('#savet').onclick = async () => {
+    const b = $('#savet'); b.disabled = true;
+    try {
+      for (const tr of document.querySelectorAll('#tt tr[data-emp]')) {
+        const tk = tr.querySelector('[data-tk]').value, tr2 = tr.querySelector('[data-tr]').value, old = S[tr.dataset.emp].tg;
+        if (tk === '' && tr2 === '' && !old) continue;
+        if (old && +tk === old.target_kg && +tr2 === old.incentive_per_kg) continue;
+        await rpc('set_sales_target', { p_employee: tr.dataset.emp, p_month: ym + '-01', p_target_kg: +tk || 0, p_incentive_per_kg: +tr2 || 0 });
+      }
+    } catch (err) { b.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    await reload(true); toast(t('saved'));
+  };
+};
+const KIND_KEYS = ['sign_in', 'open', 'sign_out', 'view', 'attendance', 'status', 'paid', 'target', 'salesperson', 'access', 'password'];
+function actText(a) {
+  if (a.kind === 'view') { const [n, ...r] = String(a.detail || '').split('/'); const tb = TABS.find(x => x.k === n); return (tb ? t(tb.label) : n === 'team' ? t('tab_team') : n === 'more' ? t('more_h') : n) + (r.length ? ' · ' + r.join('/') : ''); }
+  return a.detail || '';
+}
+TEAM.activity = () => {
+  if (!ONLINE) { view(`<div class="panel empty"><p>${esc(t('offline_only'))}</p></div>`); return; }
+  const people = M.users.filter(u => u.id);
+  const role = Object.fromEntries(people.map(u => [u.id, u.role]));
+  const ev = [...M.activity.map(a => ({ at: a.at, uid: a.user_id, name: a.user_name, kind: a.kind, text: actText(a) })),
+    ...M.history.map(h => ({ at: h.changed_at, uid: h.changed_by, name: h.changed_by_name, kind: 'status', text: `${h.entity_id}: ${(h.entity === 'sales_order' ? stLabel(h.from_status) : sgLabel(h.from_status)) || '–'} → ${h.entity === 'sales_order' ? stLabel(h.to_status) : sgLabel(h.to_status)}` }))]
+    .sort((a, b) => String(b.at).localeCompare(a.at));
+  view(`<p class="sub">${esc(t('act_sub'))}</p><div class="bar"><select class="filter" id="aw" style="min-width:180px"><option value="emp">${esc(t('employees_only'))}</option><option value="all">${esc(t('everyone'))}</option>${people.map(u => `<option value="${esc(u.id)}">${esc(uname(u))}</option>`).join('')}</select>
+    <input class="filter" type="date" id="ad" style="min-width:150px" max="${today()}"><button class="btn" type="button" id="adc">${esc(t('any_day'))}</button></div><div class="panel" id="al"></div>`);
+  const draw = () => {
+    const w = $('#aw').value, d = $('#ad').value;
+    const rows = ev.filter(e => (w === 'all' || (w === 'emp' ? role[e.uid] !== 'master' : e.uid === w)) && (!d || istDay(e.at) === d)).slice(0, 600);
+    if (!rows.length) { $('#al').innerHTML = `<p class="sub" style="padding:16px">${esc(t('no_activity'))}</p>`; return; }
+    let last = '', html = '';
+    rows.forEach(e => { const day = istDay(e.at); if (day !== last) { html += `<div class="act-day">${esc(dt(day))}</div>`; last = day; }
+      html += `<div class="act"><span class="tm">${hm(e.at)}</span><span class="who">${esc(e.name || '')}</span><span class="what"><b>${esc(t('k_' + (KIND_KEYS.includes(e.kind) ? e.kind : 'view')))}</b> ${esc(e.text || '')}</span></div>`; });
+    $('#al').innerHTML = html;
+  };
+  $('#aw').onchange = draw; $('#ad').onchange = draw; $('#adc').onclick = () => { $('#ad').value = ''; draw(); };
+  draw();
+};
+TEAM.users = () => {
+  if (!ONLINE) { view(`<div class="panel empty"><p>${esc(t('offline_only'))}</p></div>`); return; }
+  view(`<p class="sub" style="max-width:80ch">${esc(t('users_sub'))}</p>
     <div class="grid2"><div class="panel" id="ut"></div>
     <div class="panel" style="padding:18px 20px"><h3>${esc(t('add_emp'))}</h3>
-      <form class="form" id="addf" autocomplete="off">
+      <form class="form wide" id="addf" autocomplete="off">
         <label>${esc(t('full_name'))}<input id="nf" required maxlength="60"></label>
         <label>${esc(t('login_id_hint'))}<input id="nu" required pattern="[a-z0-9._\\-]{3,30}" maxlength="30" autocapitalize="none" spellcheck="false"></label>
         <label>${esc(t('password'))}<span class="row"><input id="np" required minlength="8" autocomplete="new-password"><button class="btn" type="button" id="gen">${esc(t('gen'))}</button></span></label>
+        <div><h3 style="margin:4px 0 8px">${esc(t('access'))}</h3>${permsBox(permsObj(PRESETS.floor))}</div>
         <button class="btn primary" type="submit" id="addb">${esc(t('create'))}</button>
         <p class="msg" id="addm"></p>
       </form><div id="creds"></div></div></div>`);
+  wirePerms($('#addf'));
   $('#nf').oninput = e => { if (!$('#nu').dataset.touched) $('#nu').value = e.target.value.toLowerCase().trim().replace(/\s+/g, '.').replace(/[^a-z0-9._-]/g, '').slice(0, 30); };
   $('#nu').oninput = e => { e.target.dataset.touched = '1'; };
   $('#gen').onclick = () => { $('#np').value = genPw(); };
   $('#addf').onsubmit = async e => {
     e.preventDefault(); const b = $('#addb'), m = $('#addm'); b.disabled = true; b.textContent = t('creating'); m.className = 'msg'; m.textContent = '';
-    const name = $('#nf').value.trim(), username = $('#nu').value.trim().toLowerCase(), password = $('#np').value;
+    const name = $('#nf').value.trim(), username = $('#nu').value.trim().toLowerCase(), password = $('#np').value, perms = readPerms($('#addf .perms'));
     try {
-      await callFn('manage-employee', { action: 'create', username, full_name: name, password });
+      await callFn('manage-employee', { action: 'create', username, full_name: name, password, perms });
+      logAct('access', `${name} (${username}): ${accessName({ perms })}`);
+      await reload(false); drawUsersTable();
       $('#creds').innerHTML = `<p class="creds">${esc(t('give_creds', { name }))}<br>${esc(t('login_id'))}: <code>${esc(username)}</code><br>${esc(t('password'))}: <code>${esc(password)}</code> <button class="link" type="button" id="cp">${esc(t('copy'))}</button></p>`;
       $('#cp').onclick = () => { try { navigator.clipboard.writeText(`nkbapex.in\n${t('login_id')}: ${username}\n${t('password')}: ${password}`); $('#cp').textContent = t('copied'); } catch (_) {} };
-      $('#addf').reset(); delete $('#nu').dataset.touched; await reload(false); drawUsersTable();
+      $('#nf').value = ''; $('#nu').value = ''; $('#np').value = ''; delete $('#nu').dataset.touched;
     } catch (err) { m.className = 'msg err'; m.textContent = t('err', { msg: err.message }); }
     b.disabled = false; b.textContent = t('create');
   };
-  const drawUsersTable = () => table($('#ut'), { rows: M.users, id: r => r.id,
-    cols: [{ k: 'full_name', t: t('name'), h: r => `<b>${esc(r.full_name || r.username)}</b>` }, { k: 'username', t: t('login_id') }, { k: 'role', t: t('role'), h: r => esc(t(r.role)) },
-      { k: 'active', t: t('state'), h: r => r.active ? `<span class="pill ok">${esc(t('on'))}</span>` : `<span class="pill grey">${esc(t('off'))}</span>` }, { k: 'created_at', t: t('added'), h: r => dt(r.created_at) }],
-    detail: r => r.role === 'master' ? `<p class="muted" style="margin:0">${esc(t('change_pw'))}: <button class="link" data-go="account">${esc(t('tab_account'))}</button></p>` : `<div class="grid2"><form class="form" data-pw="${esc(r.id)}"><label>${esc(t('new_pw'))}<span class="row"><input name="p" required minlength="8" autocomplete="new-password"><button class="btn" type="button" data-genfor="${esc(r.id)}">${esc(t('gen'))}</button></span></label><button class="btn primary" type="submit">${esc(t('set_pw'))}</button><p class="msg"></p></form>
-      <div><button class="btn" type="button" data-act="${esc(r.id)}" data-on="${r.active ? '0' : '1'}">${esc(t(r.active ? 'switch_off' : 'switch_on'))}</button></div></div>`,
+  const drawUsersTable = () => table($('#ut'), { rows: M.users.filter(u => u.id), id: r => r.id,
+    cols: [{ k: 'full_name', t: t('name'), h: r => `<b>${esc(uname(r))}</b><div class="faint" style="font-size:12px">${esc(r.username)}</div>` }, { k: 'role', t: t('access'), sv: r => accessName(r), h: r => esc(accessName(r)) },
+      { k: 'seen', t: t('last_seen'), sv: r => (M.activity.find(x => x.user_id === r.id) || {}).at || '', h: r => esc(lastSeen(r.id) || t('never')) },
+      { k: 'active', t: t('state'), h: r => r.active ? `<span class="pill ok">${esc(t('on'))}</span>` : `<span class="pill grey">${esc(t('off'))}</span>` }],
+    detail: r => r.role === 'master' ? `<p class="muted" style="margin:0">${esc(t('change_pw'))}: <button class="link" data-go="account">${esc(t('tab_account'))}</button></p>`
+      : `<form class="form wide" data-perms-for="${esc(r.id)}"><h3 style="margin:0">${esc(t('access'))}</h3>${permsBox(r.perms || {})}<button class="btn primary" type="submit">${esc(t('save_access'))}</button></form>
+        <div class="grid2" style="margin-top:18px"><form class="form" data-pw="${esc(r.id)}"><label>${esc(t('new_pw'))}<span class="row"><input name="p" required minlength="8" autocomplete="new-password"><button class="btn" type="button" data-genfor="${esc(r.id)}">${esc(t('gen'))}</button></span></label><button class="btn primary" type="submit">${esc(t('set_pw'))}</button><p class="msg"></p></form>
+        <div><button class="btn" type="button" data-act="${esc(r.id)}" data-on="${r.active ? '0' : '1'}">${esc(t(r.active ? 'switch_off' : 'switch_on'))}</button></div></div>`,
     after: el => {
+      wirePerms(el);
+      el.querySelectorAll('form[data-perms-for]').forEach(f => f.onsubmit = async e => { e.preventDefault(); const b = f.querySelector('button[type=submit]'); b.disabled = true;
+        const u = M.users.find(x => x.id === f.dataset.permsFor);
+        try { await rpc('set_employee_perms', { p_id: f.dataset.permsFor, p_perms: readPerms(f.querySelector('.perms')) }); } catch (err) { b.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+        await reload(false); const nu = M.users.find(x => x.id === f.dataset.permsFor); logAct('access', `${uname(u)}: ${accessName(nu || u)}`);
+        drawUsersTable(); toast(t('access_saved', { name: uname(u) })); });
       el.querySelectorAll('[data-genfor]').forEach(b => b.onclick = () => { b.closest('form').querySelector('input').value = genPw(); });
       el.querySelectorAll('form[data-pw]').forEach(f => f.onsubmit = async e => { e.preventDefault(); const m = f.querySelector('.msg'); const p = f.querySelector('input').value;
         try { await callFn('manage-employee', { action: 'set_password', id: f.dataset.pw, password: p }); m.className = 'msg ok'; m.textContent = t('pw_set') + ' ' + p; } catch (err) { m.className = 'msg err'; m.textContent = t('err', { msg: err.message }); } });
@@ -1023,18 +1329,38 @@ VIEWS.users = () => {
     } });
   drawUsersTable();
 };
+VIEWS.attendance = () => {
+  if (!ONLINE || isMaster()) return VIEWS.overview();
+  const mine = M.attendance.filter(a => a.user_id === ME.id);
+  view(`${checkInCard()}<div class="head-row"><div><h2>${esc(t('my_att'))}</h2><p class="sub" style="margin:0">${esc(t('att_month', { m: monthName(today().slice(0, 7)) }))}: <b>${mine.filter(a => String(a.day).startsWith(today().slice(0, 7))).length}</b> ${esc(t('days_present'))}</p></div></div><div class="panel" id="am"></div>`);
+  table($('#am'), { rows: mine, sort: 'day', dir: -1, cols: [{ k: 'day', t: t('date'), h: r => dt(r.day) }, { k: 'checked_in_at', t: t('time'), h: r => hm(r.checked_in_at) }, { k: 'loc', t: t('location'), nosort: 1, h: r => r.lat != null ? mapLink(r) : `<span class="faint">${esc(t('loc_none'))}</span>` }],
+    empty: `<p class="sub" style="padding:16px">${esc(t('no_tx'))}</p>` });
+};
+VIEWS.mysales = (arg) => {
+  if (!ONLINE || isMaster()) return VIEWS.overview();
+  const ym = ymOf(arg), s = salesFor(ME.id, ym);
+  view(`<div class="head-row"><div><h2>${esc(t('my_sales_h'))}</h2><p class="sub" style="margin:0">${esc(t('incentive_rule'))}</p></div><span class="sp"></span>${monthNav('mysales', ym)}</div>
+    <div class="panel meta"><div><span>${esc(t('target'))}</span><b>${s.tg ? n0(s.target) + ' kg' : '–'}</b></div><div><span>${esc(t('achieved'))}</span><b>${n2(s.kg)} kg</b></div><div><span>${esc(t('inc_per_kg'))}</span><b>${s.tg ? '₹' + n2(s.rate) : '–'}</b></div><div><span>${esc(t('earned'))}</span><b class="pos">${inr(s.earned)}</b></div></div>
+    ${s.tg ? `<div class="panel" style="padding:16px 20px;margin-bottom:18px">${goalBar(s.pct)}<p style="margin:8px 0 0">${esc(t('of_target', { p: (s.pct || 0).toFixed(0) }))}${s.noKg ? ` <span class="pill warn">${esc(t('kg_pending_weigh', { n: s.noKg }))}</span>` : ''}</p></div>` : `<p class="note">${esc(t('no_target'))}</p>`}
+    <div class="grid2"><div><h3>${esc(t('paid_orders'))}</h3><div class="panel" id="mp"></div></div><div><h3>${esc(t('waiting_orders'))}</h3><div class="panel" id="mw"></div></div></div>`);
+  const cols = [{ k: 'id', t: t('no'), h: r => `<b class="nw">${esc(r.id)}</b>` }, { k: 'party', t: t('customer') }, { k: 'kg', t: t('kg'), num: 1, h: r => r.lines_no_kg && !r.kg ? '–' : n2(r.kg) + (r.lines_no_kg ? '*' : '') }];
+  table($('#mp'), { rows: s.paid, cols: [...cols, { k: 'paid_on', t: t('paid'), h: r => dt(r.paid_on) }], foot: (c, rows) => ({ id: t('total'), kg: n2(sum(rows, r => r.kg)) })[c.k], empty: `<p class="sub" style="padding:16px">–</p>` });
+  table($('#mw'), { rows: s.waiting, cols: [...cols, { k: 'status', t: t('status'), h: r => stPill(r.status) }], empty: `<p class="sub" style="padding:16px">–</p>` });
+};
 
 /* account + more */
 VIEWS.account = () => {
   if (!ONLINE) { view(`<div class="panel empty"><p>${esc(t('offline_only'))}</p></div>`); return; }
-  view(`<div class="head-row"><div><h2>${esc(t('acc_h'))}</h2><p class="sub" style="margin:0">${esc(t('signed_in_as', { name: ME.full_name || ME.username, role: t(ME.role) }))} · ${esc(t('login_id'))}: ${esc(ME.username)}</p></div></div>
+  const mineSee = PERM_SEE.filter(k => can(k)), mineDo = PERM_DO.filter(k => can(k));
+  view(`<div class="head-row"><div><h2>${esc(t('acc_h'))}</h2><p class="sub" style="margin:0">${esc(t('signed_in_as', { name: uname(ME), role: t(ME.role) }))} · ${esc(t('login_id'))}: ${esc(ME.username)}</p></div></div>
     <div class="grid2"><div class="panel" style="padding:18px 20px"><h3>${esc(t('language'))}</h3><span class="seg"><button type="button" data-lang="en" aria-pressed="${LANG === 'en'}">English</button><button type="button" data-lang="hi" aria-pressed="${LANG === 'hi'}">हिंदी</button></span>
+      ${isMaster() ? '' : `<h3 style="margin-top:22px">${esc(t('your_access'))}</h3><p style="margin:0 0 4px"><b>${esc(t('can_see'))}:</b> ${esc(mineSee.map(k => t('pm_' + k)).join(', ') || '–')}</p><p style="margin:0"><b>${esc(t('can_do'))}:</b> ${esc(mineDo.map(k => t('pm_' + k)).join(', ') || '–')}</p><p class="note" style="margin-top:12px">${esc(t('tracked_note'))}</p>`}
       <h3 style="margin-top:22px">${esc(t('signout'))}</h3><button class="btn" id="so" type="button">${esc(t('signout'))}</button></div>
     <div class="panel" style="padding:18px 20px"><h3>${esc(t('change_pw'))}</h3><form class="form" id="pwf"><label>${esc(t('new_pw'))}<input type="password" id="p1" required minlength="8" autocomplete="new-password"></label><label>${esc(t('confirm_pw'))}<input type="password" id="p2" required minlength="8" autocomplete="new-password"></label><button class="btn primary" type="submit">${esc(t('change_pw'))}</button><p class="msg" id="pwm"></p></form></div></div>`);
-  $('#so').onclick = async () => { try { await SB.auth.signOut(); } catch (_) {} location.hash = ''; location.reload(); };
+  $('#so').onclick = async () => { try { await rpc('log_activity', { p_kind: 'sign_out', p_detail: null }); } catch (_) {} try { await SB.auth.signOut(); } catch (_) {} location.hash = ''; location.reload(); };
   $('#pwf').onsubmit = async e => { e.preventDefault(); const m = $('#pwm'); const a = $('#p1').value, b = $('#p2').value;
     if (a.length < 8) { m.className = 'msg err'; m.textContent = t('pw_short'); return; } if (a !== b) { m.className = 'msg err'; m.textContent = t('pw_mismatch'); return; }
-    const { error } = await SB.auth.updateUser({ password: a }); if (error) { m.className = 'msg err'; m.textContent = t('err', { msg: error.message }); } else { m.className = 'msg ok'; m.textContent = t('pw_set'); $('#pwf').reset(); } };
+    const { error } = await SB.auth.updateUser({ password: a }); if (error) { m.className = 'msg err'; m.textContent = t('err', { msg: error.message }); } else { m.className = 'msg ok'; m.textContent = t('pw_set'); $('#pwf').reset(); logAct('password'); } };
 };
 VIEWS.more = () => {
   view(`<h2 style="margin-bottom:12px">${esc(t('more_h'))}</h2><div class="menu-list">${TABS.filter(tb => allowed(tb) && !['overview', 'sales', 'work', 'stock'].includes(tb.k) && (tb.k !== 'account' || ONLINE)).map(tb => `<button type="button" data-go="${tb.k}"><span>${esc(t(tb.label))}</span><span class="faint">${tb.ct ? tb.ct() : '›'}</span></button>`).join('')}</div>
@@ -1051,13 +1377,13 @@ function renderSearch(text) {
   const groups = [
     ['g_orders', M.sales.filter(o => hit([o.id, o.party, o.phone, o.taken_by, stLabel(o.status), ...o.lines.map(l => l.profile)].join(' '))).map(o => ({ t: `${o.id} — ${o.party}`, d: `${stLabel(o.status)} · ${t('due')} ${dt(o.due)} · ${itemsTxt(o)}`, r: n0(sum(o.lines, l => l.pcs)) + ' ' + t('pcs'), go: 'sales/' + o.id }))],
     ['g_work', M.work.filter(w => hit([w.id, w.party, w.process, procLabel(w.process), w.shade, sgLabel(w.stage), w.sales_order, ...w.lines.map(l => l.profile)].join(' '))).map(w => ({ t: `${w.id} — ${procLabel(w.process)}${w.shade ? ', ' + w.shade : ''}`, d: `${w.party || ''} · ${sgLabel(w.stage)} · ${itemsTxt(w)}`, r: dt(w.due), go: 'work/' + w.id }))],
-    ['g_profiles', M.profiles.filter(p => hit(`${p.name} ${p.series} ${p.aliases.join(' ')}`)).map(p => ({ t: p.name, d: `${p.series}${p.aliases.length ? ' — ' + p.aliases.join(', ') : ''}`, r: p.kg ? `${n2(p.kg)} kg` : t('no_stock'), go: 'stock/' + p.name }))],
+    ['g_profiles', (can('stock') ? M.profiles : []).filter(p => hit(`${p.name} ${p.series} ${p.aliases.join(' ')}`)).map(p => ({ t: p.name, d: `${p.series}${p.aliases.length ? ' — ' + p.aliases.join(', ') : ''}`, r: p.kg ? `${n2(p.kg)} kg` : t('no_stock'), go: 'stock/' + p.name }))],
     ['g_bundles', M.bundles.filter(b => hit(`#${b.no} bundle ${b.no} ${b.profile} ${b.supplier_name} ${b.pcs} pcs ${n2(b.kg)} kg ${b.kg} ${b.party} ${b.list} ${b.note}`)).map(b => ({ t: `${t('bundle')} #${b.no} — ${b.profile}`, d: `${b.party}, ${b.list}, ${b.pcs} ${t('pcs')}, ${n3(b.avg)} kg${b.note ? ' — ' + b.note : ''}`, r: `${n2(b.kg)} kg`, go: `lists/${b.list}/${b.no}` }))],
     ['g_lists', M.lists.filter(l => hit(`${l.id} ${l.party} ${l.date} ${dt(l.date)} ${l.lot || ''}`)).map(l => ({ t: `${l.id} — ${l.party}`, d: `${t(l.direction === 'in' ? 'rcv' : 'sent')} ${dt(l.received || l.date)}, ${l.bundles.length} ${t('bundles')}`, r: `${n2(l.kg)} kg`, go: 'lists/' + l.id }))],
     ['g_cons', M.cons.filter(c => hit(`${c.name} ${c.category} ${t('c_' + c.category)} ${c.shade || ''}`)).map(c => ({ t: c.name, d: t('c_' + c.category), r: `${nq(c.qty)} ${c.unit}`, go: 'cons/' + c.id }))],
-    ...(master ? [
+    ...[
       ['g_lots', M.lots.filter(l => hit(`${l.id} ${l.supplier} ${l.received} ${dt(l.received)} ${l.material_cost} ${n0(l.material_cost)}`)).map(l => ({ t: `${l.id} — ${l.supplier}`, d: `${dt(l.received)}, ₹${n2(l.rate)} / kg`, r: inr(l.total), go: 'purchases' }))],
-      ['g_exp', M.expenses.filter(e => hit(`${e.category} ${e.description} ${e.party || ''} ${e.amount} ${n0(e.amount)} ${dt(e.date)} ${e.sales_order || ''} ${e.work_order || ''}`)).map(e => ({ t: e.description || e.category, d: `${e.category}, ${dt(e.date)}`, r: inr(e.amount), go: 'expenses/' + e.id }))]] : [])
+      ['g_exp', M.expenses.filter(e => hit(`${e.category} ${e.description} ${e.party || ''} ${e.amount} ${n0(e.amount)} ${dt(e.date)} ${e.sales_order || ''} ${e.work_order || ''}`)).map(e => ({ t: e.description || e.category, d: `${e.category}, ${dt(e.date)}`, r: inr(e.amount), go: 'expenses/' + e.id }))]].filter(g => g[0] === 'g_lots' ? can('purchases') : can('expenses'))
   ].filter(g => g[1].length);
   const total = sum(groups, g => g[1].length);
   $('#view').innerHTML = `<div class="head-row"><div><h2>${esc(total ? (total === 1 ? t('result1', { q: text }) : t('results', { n: total, q: text })) : t('nothing_for', { q: text }))}</h2><p class="sub" style="margin:0">${esc(total ? t('res_hint') : t('res_try'))}</p></div></div>
@@ -1085,11 +1411,11 @@ function showLogin(message, prefill) {
     let res;
     try { res = await SB.auth.signInWithPassword({ email, password: pw.value }); } catch (ex) { res = { error: ex }; }
     if (res.error) { btn.disabled = false; btn.textContent = t('signin'); const m = String(res.error.message || ''); err.textContent = /invalid|credential/i.test(m) ? t('bad_login') : /banned/i.test(m) ? t('off_login') : /fetch|network/i.test(m) ? t('net_err') : t('err', { msg: m }); pw.select(); return; }
-    const ok = await afterSignIn(res.data.user);
+    const ok = await afterSignIn(res.data.user, 'sign_in');
     if (!ok) { btn.disabled = false; btn.textContent = t('signin'); }
   };
 }
-async function afterSignIn(user) {
+async function afterSignIn(user, how) {
   try {
     const rows = await q('app_users');
     ME = rows.find(r => r.id === user.id) || null;
@@ -1098,7 +1424,7 @@ async function afterSignIn(user) {
   if (!store.get('acta.lang') && ME.lang) LANG = ME.lang;
   const lk = document.getElementById('lock'); if (lk) lk.remove();
   document.body.classList.remove('locked');
-  await reload(false); route();
+  await reload(false); logAct(how || 'open'); route();
   return true;
 }
 async function reload(rerender) {
@@ -1123,7 +1449,7 @@ setInterval(() => { if (document.visibilityState === 'visible' && ONLINE && ME) 
   if (session && session.user) {
     document.body.classList.add('locked');
     document.body.insertAdjacentHTML('afterbegin', `<div class="lock" id="lock"><img class="badge" src="${LOGO}" alt="NKB Aluminium" width="132" height="132"><p>${esc(t('loading'))}</p></div>`);
-    if (await afterSignIn(session.user)) return;
+    if (await afterSignIn(session.user, 'open')) return;
     return;
   }
   showLogin();
