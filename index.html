@@ -253,6 +253,25 @@ table.att th,table.att td{padding:6px 7px;font-size:12.5px} table.att .sun{backg
 .act .tm{color:var(--steel);font-variant-numeric:tabular-nums}.act .who{font-weight:600}
 .ov.one{grid-template-columns:minmax(0,1fr);max-width:760px}
 @media (max-width:720px){.pm-cols{grid-template-columns:1fr}.act{grid-template-columns:46px minmax(0,1fr)}.act .what{grid-column:2}.checkin{flex-direction:column;align-items:stretch}.checkin .bigbtn{width:100%}}
+/* attendance strip, salary */
+.att-strip{padding:14px 18px;margin:0 0 18px;border-left:4px solid var(--gold)}
+.att-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.att-head h3{margin:0}
+.att-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ach{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);border-radius:999px;padding:4px 5px 4px 12px;font-size:13.5px;background:var(--sheet)}
+.ach.on{background:var(--ok-soft);border-color:#BFDCCB;padding-right:12px}
+.btn.mini{min-height:30px;padding:3px 11px;font-size:12.5px;border-radius:999px}
+.checkin h3{font-size:17px}.checkin .bigbtn{min-height:54px;font-size:16.5px;padding:0 26px}
+.ledger td{vertical-align:top}
+.sal-forms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px;align-items:start}
+.form.sal-f{max-width:none;border:1px solid var(--rule);border-radius:8px;padding:12px 14px;background:#FAFAFA;gap:8px}
+.form.sal-f h3{margin:0}
+.form.sal-f input{height:40px}
+.form.sal-f.inline{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));align-items:end}
+.link.danger{color:var(--warn)}
+.show-sm{display:none}
+@media (max-width:720px){.show-sm{display:block}}
+@media (max-width:1100px){.sal-forms{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:1100px){.ov,.grid2,.grid2.wide{grid-template-columns:minmax(0,1fr)}.ov .side{order:-1}.top-in{grid-template-columns:1fr auto;gap:12px}.search{grid-column:1/-1;grid-row:2;justify-self:stretch;max-width:none}.meta{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:720px){
   main{padding:16px 14px 96px}
@@ -405,6 +424,15 @@ const I18N = {
     k_paid: 'Payment', k_target: 'Target', k_salesperson: 'Salesperson', k_access: 'Access changed', k_password: 'Changed password', no_activity: 'Nothing recorded yet.',
     tracked_note: 'Your sign-ins, the screens you open, your changes and your attendance location are recorded and the master can see them.',
     lede_hi: 'Hello {name}.', never: 'never', orders_n: '{n} orders',
+    tab_salary: 'Salary', tab_mysalary: 'My salary', sal_h: 'Salary ledger', sal_sub_m: 'Salary earned and money paid for each employee. Balance = salary earned − paid.',
+    sal_sub_e: 'Your salary earned and the money paid to you.', monthly_salary: 'Monthly salary', earned_total: 'Salary', paid_total: 'Paid', balance: 'Balance',
+    bal_due: 'to pay', bal_adv: 'advance', last_payment: 'Last payment', record_payment: 'Record payment', add_salary: 'Add salary', for_month: 'Month',
+    period: 'Days / period (if any)', mode: 'Paid by', note_l: 'Note', amt: 'Amount', add_all: 'Add {m} salary for everyone', add_all_sure: 'Tap again to add {n} salaries',
+    add_all_done: 'Added {n} salaries.', add_all_none: 'Everyone already has {m} salary, or has no monthly salary set.', edit: 'Edit', remove: 'Remove',
+    confirm_remove: 'Tap again to remove', save_changes: 'Save changes', cancel: 'Cancel', removed: 'Removed.', own_locked: 'Only the master can change your own salary.',
+    k_salary: 'Salary', pm_salary: 'Manage salaries (pay and change; not their own)', details: 'Details', sal_kind_salary: 'Salary', sal_kind_payment: 'Paid',
+    owed_total: 'To pay staff', adv_total: 'Advances given', paid_month: 'Paid in {m}', no_salary: 'No salary entries yet.', people_n: '{n} people',
+    att_today: "Today's attendance", mark_present: 'Mark present', full_register: 'Full register', marked_ok: '{name} marked present.',
   },
   hi: {
     app: 'स्टॉक और ऑर्डर', search: 'प्रोफ़ाइल, बंडल नंबर, पार्टी या ऑर्डर खोजें…',
@@ -476,6 +504,15 @@ const I18N = {
     k_paid: 'पेमेंट', k_target: 'टारगेट', k_salesperson: 'सेल्सपर्सन', k_access: 'एक्सेस बदला', k_password: 'पासवर्ड बदला', no_activity: 'अभी कुछ दर्ज नहीं।',
     tracked_note: 'आपके लॉग इन, खोली गई स्क्रीन, बदलाव और हाज़िरी की लोकेशन रिकॉर्ड होती है और मास्टर इन्हें देख सकते हैं।',
     lede_hi: 'नमस्ते {name}।', never: 'कभी नहीं', orders_n: '{n} ऑर्डर',
+    tab_salary: 'सैलरी', tab_mysalary: 'मेरी सैलरी', sal_h: 'सैलरी खाता', sal_sub_m: 'हर कर्मचारी की बनी सैलरी और दिया गया पैसा। बाकी = बनी सैलरी − दिया गया।',
+    sal_sub_e: 'आपकी बनी सैलरी और आपको दिया गया पैसा।', monthly_salary: 'मासिक सैलरी', earned_total: 'सैलरी', paid_total: 'दिया', balance: 'बाकी',
+    bal_due: 'देना है', bal_adv: 'एडवांस', last_payment: 'आख़िरी भुगतान', record_payment: 'भुगतान दर्ज करें', add_salary: 'सैलरी जोड़ें', for_month: 'महीना',
+    period: 'दिन / अवधि (अगर हो)', mode: 'कैसे दिया', note_l: 'नोट', amt: 'रकम', add_all: 'सबकी {m} की सैलरी जोड़ें', add_all_sure: '{n} सैलरी जोड़ने के लिए फिर दबाएँ',
+    add_all_done: '{n} सैलरी जुड़ गईं।', add_all_none: 'सबकी {m} की सैलरी पहले से है, या मासिक सैलरी तय नहीं है।', edit: 'बदलें', remove: 'हटाएँ',
+    confirm_remove: 'हटाने के लिए फिर दबाएँ', save_changes: 'बदलाव सेव करें', cancel: 'रद्द करें', removed: 'हटा दिया।', own_locked: 'आपकी अपनी सैलरी सिर्फ़ मास्टर बदल सकते हैं।',
+    k_salary: 'सैलरी', pm_salary: 'सैलरी संभालना (भुगतान और बदलाव; अपनी नहीं)', details: 'विवरण', sal_kind_salary: 'सैलरी', sal_kind_payment: 'दिया',
+    owed_total: 'स्टाफ़ को देना है', adv_total: 'दिया हुआ एडवांस', paid_month: '{m} में दिया', no_salary: 'अभी कोई सैलरी एंट्री नहीं।', people_n: '{n} लोग',
+    att_today: 'आज की हाज़िरी', mark_present: 'हाज़िर लगाएँ', full_register: 'पूरा रजिस्टर', marked_ok: '{name} की हाज़िरी लग गई।',
   }
 };
 let LANG = store.get('acta.lang') === 'hi' ? 'hi' : 'en';
@@ -499,7 +536,7 @@ let SB = null, ME = null, RAW = null, M = null, LOADED_AT = null;
 const isMaster = () => !ME || ME.role === 'master';          // offline copy = master view
 /* access: what each login may see and do (set by the master; enforced by the database) */
 const PERM_SEE = ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'profit'];
-const PERM_DO = ['confirm_orders', 'move_work', 'dispatch'];
+const PERM_DO = ['confirm_orders', 'move_work', 'dispatch', 'salary'];
 const PERM_NEEDS = { profit: ['stock', 'orders', 'rates', 'work', 'purchases', 'expenses', 'consumable_costs'], rates: ['orders'], confirm_orders: ['orders'], move_work: ['work'] };
 const PRESETS = {
   floor: ['stock', 'orders', 'work', 'consumables', 'confirm_orders', 'move_work'],
@@ -537,7 +574,7 @@ const SOL_COLS = 'id,sales_order,line_no,profile,finish,pcs,kg,kg_actual,rate_un
 async function loadRaw() {
   if (SNAP) return SNAP;
   const master = ME.role === 'master';
-  const plan = [['alu_profiles', 1], ['app_users', 1], ['attendance', 1], ['sales_targets', 1],
+  const plan = [['alu_profiles', 1], ['app_users', 1], ['attendance', 1], ['sales_targets', 1], ['salary_entries', 1],
     ['packing_lists', can('stock')], ['bundles', can('stock')], ['bundle_notes', can('stock')], ['stock_adjustments', can('stock')],
     ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
@@ -551,6 +588,7 @@ async function loadRaw() {
     (R.sales_order_lines || []).forEach(l => { const v = m[l.sales_order + ':' + l.line_no]; if (v != null) l.rate = +v; });
   }));
   if (can('consumables') && !can('consumable_costs')) more.push(rpc('consumable_stock').then(r => { R.consumable_stock = r || []; }));
+  more.push(rpc('salary_overview').then(r => { R.salary_overview = r || []; }));
   if (!master) more.push(rpc('my_sales').then(r => { R.my_sales = r || []; }));
   if (master) more.push(SB.from('activity_log').select('*').order('at', { ascending: false }).limit(2000).then(({ data, error }) => { if (error) throw error; R.activity_log = data || []; }));
   await Promise.all(more);
@@ -653,8 +691,15 @@ function buildModel(R) {
   const targets = A('sales_targets').map(x => ({ ...x, month: String(x.month).slice(0, 7), target_kg: +x.target_kg, incentive_per_kg: +x.incentive_per_kg }));
   const salesRows = (!ONLINE || isMaster()) ? sales.map(s => ({ id: s.id, date: s.date, party: s.party, status: s.status, paid_on: s.paid_on, salesperson: s.salesperson, kg: s.kgKnown, lines: s.lines.length, lines_no_kg: s.noKg }))
     : A('my_sales').map(r => ({ ...r, kg: +r.kg, salesperson: ME.id }));
+  const salEntries = A('salary_entries').map(e => ({ ...e, amount: +e.amount }));
+  const salPeople = (R.salary_overview || users.filter(u => u.role === 'employee' && u.id).map(u => {
+      const es = salEntries.filter(e => e.employee === u.id && !e.voided);
+      const earned = sum(es.filter(e => e.kind === 'salary'), e => e.amount), paid = sum(es.filter(e => e.kind === 'payment'), e => e.amount);
+      const pays = es.filter(e => e.kind === 'payment').map(e => String(e.entry_date)).sort();
+      return { id: u.id, username: u.username, full_name: u.full_name, active: u.active, monthly_salary: u.monthly_salary, earned, paid, balance: earned - paid, last_paid_on: pays.length ? pays[pays.length - 1] : null, can_edit: false };
+    })).map(x => ({ ...x, earned: +x.earned, paid: +x.paid, balance: +x.balance }));
   const meId = ME && ME.id;
-  return { profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
+  return { salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
     attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
     myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
     stockKg: sum(profiles, p => p.kg), stockPcs: sum(profiles, p => p.pcs), stockVal: sum(profiles, p => p.value), inStock: profiles.filter(p => p.pcs > 0 || p.kg > 0.001) };
@@ -677,6 +722,7 @@ const TABS = [
   { k: 'lists', label: 'tab_lists', need: () => can('stock'), ct: () => M.lists.length },
   { k: 'cons', label: 'tab_cons', need: () => can('consumables') || can('consumable_costs'), ct: () => M.cons.length },
   { k: 'attendance', label: 'att_h', need: () => ONLINE && !isMaster() },
+  { k: 'salary', label: 'tab_salary', need: () => isMaster() || can('salary') || (ONLINE && !isMaster()) },
   { k: 'mysales', label: 'tab_mysales', need: () => ONLINE && !isMaster() && (M.myTargets.length > 0 || M.salesRows.length > 0) },
   { k: 'purchases', label: 'tab_purchases', need: () => can('purchases'), ct: () => M.lots.length + M.pos.length },
   { k: 'expenses', label: 'tab_expenses', need: () => can('expenses'), ct: () => M.expenses.length },
@@ -848,7 +894,7 @@ function checkInCard() {
   const r = M.myAttToday;
   return `<section class="panel checkin no-print">${r
     ? `<div><h3>${esc(t('checked_in_at', { time: hm(r.checked_in_at) }))}</h3><p class="sub">${esc(r.lat != null ? t('loc_saved') : t('loc_none'))}</p></div><span class="pill ok">${esc(t('present'))}</span>`
-    : `<div><h3>${esc(t('not_checked'))}</h3><p class="sub">${esc(t('loc_note'))}</p></div><button class="bigbtn" type="button" data-checkin>${esc(t('check_in'))}</button>`}</section>`;
+    : `<div><h3>${esc(t('not_checked'))}</h3><p class="sub">${esc(dt(today()))} · ${esc(t('loc_note'))}</p></div><button class="bigbtn" type="button" data-checkin>${esc(t('check_in'))}</button>`}</section>`;
 }
 async function doCheckIn(btn) {
   btn.disabled = true; btn.textContent = t('checking');
@@ -888,11 +934,6 @@ VIEWS.overview = () => {
     <div class="tiles four">${can('orders') ? `<button data-go="sales"><b>${toConfirm.length}</b><span>${esc(t('to_confirm'))}</span></button>` : ''}${can('work') ? `<button data-go="work"><b>${woOpen.length}</b><span>${esc(t('wo_open'))}</span></button>` : ''}</div>
     ${can('work') && ['pending', 'in_process', 'completed', 'ready'].some(s => woOpen.some(w => w.stage === s)) ? `<p style="margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px">${['pending', 'in_process', 'completed', 'ready'].map(s => { const n = woOpen.filter(w => w.stage === s).length; return n ? `<button class="chip" data-go="work/stage:${s}">${esc(sgLabel(s))} · ${n}</button>` : ''; }).join('')}</p>` : ''}
     ${can('work') && dueSoon.length ? `<h3 style="margin:14px 0 6px">${esc(t('due_soon'))}</h3>${dueSoon.slice(0, 6).map(w => `<div class="flag" data-go="work/${esc(w.id)}"><span class="b">${esc(w.id)}</span><span class="t">${esc(w.party || '')} · ${esc(procLabel(w.process))} ${dueBadge(w.due)}</span></div>`).join('')}` : ''}</section>`);
-  if (isMaster()) {
-    const emps = M.users.filter(u => u.role === 'employee' && u.active !== false);
-    const pres = M.attendance.filter(a => a.day === today() && emps.some(u => u.id === a.user_id)).length;
-    if (emps.length) S.push(`<section><h3>${esc(t('team_att'))}</h3><p style="margin:0 0 6px">${esc(t('present_n', { n: pres, m: emps.length }))}</p><button class="link" data-go="team/att">${esc(t('tab_team'))}</button></section>`);
-  }
   if (!isMaster() && ONLINE && M.myTargets.length) {
     const s = salesFor(ME.id, month);
     S.push(`<section><h3>${esc(t('tab_mysales'))} · ${esc(monthName(month))}</h3>${s.tg ? `${goalBar(s.pct)}<dl class="kv" style="margin-top:10px"><dt>${esc(t('achieved'))}</dt><dd>${n2(s.kg)} / ${n0(s.target)} kg</dd><dt>${esc(t('earned'))}</dt><dd><b>${inr(s.earned)}</b></dd></dl>` : `<p class="muted">${esc(t('no_target'))}</p>`}<p style="margin:10px 0 0"><button class="link" data-go="mysales">${esc(t('my_sales_h'))}</button></p></section>`);
@@ -917,7 +958,7 @@ VIEWS.overview = () => {
           <span class="v">${p.kg > 0.001 ? n2(p.kg) + ' kg' : `<span class="faint">${esc(t('none'))}</span>`}</span>
           <span class="w">${p.pcs ? n0(p.pcs) + ' ' + esc(t('lengths')) : ''}</span></div>`).join('')}</div>`; }).join('')}
     </section>` : '';
-  view(`${ONLINE && !isMaster() ? checkInCard() : ''}<p class="lede">${lede}</p>
+  view(`${ONLINE && !isMaster() ? checkInCard() : ''}${isMaster() ? attStrip() : ''}<p class="lede">${lede}</p>
     <div class="ov ${showStock ? '' : 'one'}">${rack}${S.length ? `<aside class="panel side">${S.join('')}</aside>` : ''}</div>`);
   if ($('#z')) $('#z').onchange = e => { store.set('acta.showZero', e.target.checked ? '1' : '0'); route(); };
 };
@@ -1161,6 +1202,139 @@ VIEWS.profit = () => {
         ${p.flags.length ? `<p class="note" style="margin-top:12px">${p.flags.map(f => esc(t(f))).join('<br>')}</p>` : ''}</div></div>`; } });
 };
 
+/* ------------------------------ salary ledger ------------------------------ */
+const salCan = () => isMaster() || can('salary');
+const SAL_MODES = ['Cash', 'UPI', 'Bank', 'Mobile recharge'];
+const balTxt = b => b > 0.004 ? `<span class="pos">${inr(b)}</span> <span class="faint">${esc(t('bal_due'))}</span>` : b < -0.004 ? `<span class="neg">${inr(-b)}</span> <span class="faint">${esc(t('bal_adv'))}</span>` : `<span class="faint">₹0</span>`;
+const balShort = b => `<span class="${b > 0.004 ? 'pos' : b < -0.004 ? 'neg' : 'faint'}">${inr(b)}</span>`;
+function ledgerRows(uid) {
+  const es = M.salEntries.filter(e => e.employee === uid && !e.voided).slice()
+    .sort((a, b) => String(a.entry_date).localeCompare(String(b.entry_date)) || (a.kind === b.kind ? 0 : a.kind === 'salary' ? -1 : 1) || (a.id || 0) - (b.id || 0));
+  let bal = 0; es.forEach(e => { bal += e.kind === 'salary' ? e.amount : -e.amount; e.bal = bal; });
+  return es.reverse();
+}
+function ledgerTable(p, editable) {
+  const rows = ledgerRows(p.id);
+  if (!rows.length) return `<p class="sub" style="padding:12px 16px;margin:0">${esc(t('no_salary'))}</p>`;
+  return `<div class="tw"><table class="compact ledger"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('details'))}</th><th class="num hide-sm">${esc(t('earned_total'))}</th><th class="num hide-sm">${esc(t('paid_total'))}</th><th class="num">${esc(t('balance'))}</th>${editable ? '<th></th>' : ''}</tr></thead>
+    <tbody>${rows.map(e => `<tr data-sal-row="${e.id}"><td class="nw">${e.kind === 'salary' ? esc(monthName(String(e.entry_date).slice(0, 7))) : dt(e.entry_date)}</td>
+      <td><b>${esc(t(e.kind === 'salary' ? 'sal_kind_salary' : 'sal_kind_payment'))}</b>${e.mode ? ' · ' + esc(e.mode) : ''}${e.period_label ? `<div class="faint">${esc(e.period_label)}</div>` : ''}${e.note ? `<div class="faint">${esc(e.note)}</div>` : ''}<div class="show-sm"><b>${e.kind === 'salary' ? '+' : '−'}${inr(e.amount)}</b></div></td>
+      <td class="num hide-sm">${e.kind === 'salary' ? inr(e.amount) : ''}</td><td class="num hide-sm">${e.kind === 'payment' ? inr(e.amount) : ''}</td><td class="num">${balShort(e.bal)}</td>
+      ${editable ? `<td class="nw"><button class="link" type="button" data-sal-edit="${e.id}">${esc(t('edit'))}</button> <button class="link danger" type="button" data-sal-void="${e.id}">${esc(t('remove'))}</button></td>` : ''}</tr>`).join('')}</tbody></table></div>`;
+}
+function salForms(p) {
+  const m = today().slice(0, 7);
+  return `<div class="sal-forms">
+    <form class="form sal-f" data-sal-pay="${esc(p.id)}"><h3>${esc(t('record_payment'))}</h3>
+      <label>${esc(t('date'))}<input type="date" name="d" value="${today()}" max="${today()}" required></label>
+      <label>${esc(t('amt'))} ₹<input type="number" name="a" min="1" step="1" inputmode="decimal" required></label>
+      <label>${esc(t('mode'))}<input name="m" list="sal-modes" value="Cash" maxlength="60"></label>
+      <label>${esc(t('note_l'))}<input name="n" maxlength="200"></label>
+      <button class="btn primary" type="submit">${esc(t('record_payment'))}</button></form>
+    <form class="form sal-f" data-sal-add="${esc(p.id)}"><h3>${esc(t('add_salary'))}</h3>
+      <label>${esc(t('for_month'))}<input type="month" name="d" value="${m}" required></label>
+      <label>${esc(t('amt'))} ₹<input type="number" name="a" min="1" step="1" inputmode="decimal" value="${p.monthly_salary ? +p.monthly_salary : ''}" required></label>
+      <label>${esc(t('period'))}<input name="l" maxlength="80"></label>
+      <label>${esc(t('note_l'))}<input name="n" maxlength="200"></label>
+      <button class="btn primary" type="submit">${esc(t('add_salary'))}</button></form>
+    <form class="form sal-f" data-sal-rate="${esc(p.id)}"><h3>${esc(t('monthly_salary'))}</h3>
+      <label>₹<input type="number" name="a" min="0" step="1" inputmode="decimal" value="${p.monthly_salary ? +p.monthly_salary : ''}"></label>
+      <button class="btn" type="submit">${esc(t('save'))}</button></form>
+  </div><datalist id="sal-modes">${SAL_MODES.map(x => `<option value="${x}">`).join('')}</datalist>`;
+}
+VIEWS.salary = (arg) => {
+  const people = M.salPeople;
+  const mine = ME ? people.find(p => p.id === ME.id) : null;
+  if (!salCan()) {
+    if (!mine) { view(`<div class="panel empty"><p>${esc(t('no_salary'))}</p></div>`); return; }
+    view(`<div class="head-row"><div><h2>${esc(t('tab_mysalary'))}</h2><p class="sub" style="margin:0">${esc(t('sal_sub_e'))}</p></div></div>
+      <div class="panel meta"><div><span>${esc(t('monthly_salary'))}</span><b>${mine.monthly_salary ? inr(+mine.monthly_salary) : '–'}</b></div><div><span>${esc(t('earned_total'))}</span><b>${inr(mine.earned)}</b></div><div><span>${esc(t('paid_total'))}</span><b>${inr(mine.paid)}</b></div><div><span>${esc(t('balance'))}</span><b>${balTxt(mine.balance)}</b></div></div>
+      <div class="panel">${ledgerTable(mine, false)}</div>`);
+    return;
+  }
+  const month = today().slice(0, 7);
+  const owed = sum(people.filter(p => p.balance > 0), p => p.balance), adv = sum(people.filter(p => p.balance < 0), p => -p.balance);
+  const paidM = sum(M.salEntries.filter(e => !e.voided && e.kind === 'payment' && String(e.entry_date).startsWith(month)), e => e.amount);
+  const addable = people.filter(p => p.can_edit && p.active !== false && +p.monthly_salary > 0 && !M.salEntries.some(e => e.employee === p.id && !e.voided && e.kind === 'salary' && String(e.entry_date).startsWith(month)));
+  view(`<div class="head-row"><div><h2>${esc(t('sal_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('sal_sub_m'))}</p></div><span class="sp"></span>
+      ${ONLINE ? `<button class="btn" type="button" id="addall" data-n="${addable.length}">${esc(t('add_all', { m: monthName(month) }))}</button>` : ''}</div>
+    <div class="panel meta"><div><span>${esc(t('owed_total'))}</span><b class="pos">${inr(owed)}</b></div><div><span>${esc(t('adv_total'))}</span><b class="neg">${inr(adv)}</b></div><div><span>${esc(t('paid_month', { m: monthName(month) }))}</span><b>${inr(paidM)}</b></div><div><span>${esc(t('employee'))}</span><b>${esc(t('people_n', { n: people.length }))}</b></div></div>
+    <div class="panel" id="st"></div>`);
+  table($('#st'), { rows: people, id: r => r.id, open: arg || null,
+    cols: [{ k: 'full_name', t: t('name'), sv: r => uname(r), h: r => `<b>${esc(uname(r))}</b>${r.active === false ? ` <span class="pill grey">${esc(t('off'))}</span>` : ''}<div class="faint" style="font-size:12px">${esc(r.username || '')}</div>` },
+      { k: 'monthly_salary', t: t('monthly_salary'), num: 1, sv: r => +r.monthly_salary || 0, h: r => r.monthly_salary ? inr(+r.monthly_salary) : '–' },
+      { k: 'earned', t: t('earned_total'), num: 1, h: r => inr(r.earned) }, { k: 'paid', t: t('paid_total'), num: 1, h: r => inr(r.paid) },
+      { k: 'balance', t: t('balance'), num: 1, h: r => balTxt(r.balance) }, { k: 'last_paid_on', t: t('last_payment'), h: r => r.last_paid_on ? dt(r.last_paid_on) : '–' }],
+    foot: (c, rows) => ({ full_name: t('total'), earned: inr(sum(rows, r => r.earned)), paid: inr(sum(rows, r => r.paid)), balance: balShort(sum(rows, r => r.balance)) })[c.k],
+    detail: p => (ONLINE && p.can_edit ? salForms(p) : ONLINE ? `<p class="note">${esc(t('own_locked'))}</p>` : '') + `<div class="panel">${ledgerTable(p, ONLINE && p.can_edit)}</div>` });
+  if (arg) setTimeout(() => { const tr = $('#st tr.open'); if (tr) tr.scrollIntoView({ block: 'start' }); }, 30);
+  const aa = $('#addall');
+  if (aa) aa.onclick = async () => {
+    if (!addable.length) { toast(t('add_all_none', { m: monthName(month) })); return; }
+    if (!aa.dataset.armed) { aa.dataset.armed = '1'; aa.textContent = t('add_all_sure', { n: addable.length }); setTimeout(() => { if (aa.isConnected) { delete aa.dataset.armed; aa.textContent = t('add_all', { m: monthName(month) }); } }, 5000); return; }
+    aa.disabled = true;
+    try { for (const p of addable) await rpc('salary_add', { p_employee: p.id, p_kind: 'salary', p_date: month + '-01', p_amount: +p.monthly_salary }); }
+    catch (err) { aa.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    await reload(true); toast(t('add_all_done', { n: addable.length }));
+  };
+};
+async function salCall(fn, args, uid) {
+  try { await rpc(fn, args); } catch (err) { toast(t('err', { msg: err.message || err }), 'err'); return false; }
+  if (location.hash.replace(/^#/, '').split('/')[0] === 'salary') history.replaceState(null, '', '#salary/' + uid);
+  await reload(true); return true;
+}
+const salEntry = id => M.salEntries.find(e => String(e.id) === String(id));
+document.addEventListener('submit', async e => {
+  const f = e.target; if (!f.matches('[data-sal-pay],[data-sal-add],[data-sal-rate],[data-sal-upd]')) return;
+  e.preventDefault(); const b = f.querySelector('button[type=submit]'); if (b) b.disabled = true;
+  const v = n => (f.elements[n] ? f.elements[n].value.trim() : '');
+  let ok;
+  if (f.dataset.salPay) ok = await salCall('salary_add', { p_employee: f.dataset.salPay, p_kind: 'payment', p_date: v('d'), p_amount: +v('a'), p_label: null, p_mode: v('m') || null, p_note: v('n') || null }, f.dataset.salPay);
+  else if (f.dataset.salAdd) ok = await salCall('salary_add', { p_employee: f.dataset.salAdd, p_kind: 'salary', p_date: v('d') + '-01', p_amount: +v('a'), p_label: v('l') || null, p_mode: null, p_note: v('n') || null }, f.dataset.salAdd);
+  else if (f.dataset.salRate) ok = await salCall('set_monthly_salary', { p_employee: f.dataset.salRate, p_amount: +v('a') || null }, f.dataset.salRate);
+  else { const en = salEntry(f.dataset.salUpd); ok = await salCall('salary_update', { p_id: +f.dataset.salUpd, p_date: en.kind === 'salary' ? v('d') + '-01' : v('d'), p_amount: +v('a'), p_label: v('l') || null, p_mode: v('m') || null, p_note: v('n') || null }, en.employee); }
+  if (ok) toast(t('saved')); else if (b) b.disabled = false;
+});
+document.addEventListener('click', async e => {
+  const ed = e.target.closest('[data-sal-edit]');
+  if (ed) {
+    document.querySelectorAll('tr.sal-edit').forEach(x => x.remove());
+    const en = salEntry(ed.dataset.salEdit), tr = ed.closest('tr'); if (!en || !tr) return;
+    const sal = en.kind === 'salary';
+    tr.insertAdjacentHTML('afterend', `<tr class="sal-edit"><td colspan="6"><form class="form sal-f inline" data-sal-upd="${en.id}">
+      <label>${esc(t(sal ? 'for_month' : 'date'))}<input type="${sal ? 'month' : 'date'}" name="d" value="${sal ? String(en.entry_date).slice(0, 7) : String(en.entry_date).slice(0, 10)}" required></label>
+      <label>${esc(t('amt'))} ₹<input type="number" name="a" min="1" step="0.01" value="${+en.amount}" required></label>
+      ${sal ? `<label>${esc(t('period'))}<input name="l" maxlength="80" value="${esc(en.period_label || '')}"></label>` : `<label>${esc(t('mode'))}<input name="m" list="sal-modes" maxlength="60" value="${esc(en.mode || '')}"></label>`}
+      <label>${esc(t('note_l'))}<input name="n" maxlength="200" value="${esc(en.note || '')}"></label>
+      <span class="row"><button class="btn primary" type="submit">${esc(t('save_changes'))}</button><button class="btn" type="button" data-sal-cancel>${esc(t('cancel'))}</button></span></form></td></tr>`);
+    return;
+  }
+  if (e.target.closest('[data-sal-cancel]')) { const r = e.target.closest('tr.sal-edit'); if (r) r.remove(); return; }
+  const vd = e.target.closest('[data-sal-void]');
+  if (vd) {
+    if (!vd.dataset.armed) { vd.dataset.armed = '1'; vd.textContent = t('confirm_remove'); setTimeout(() => { if (vd.isConnected) { delete vd.dataset.armed; vd.textContent = t('remove'); } }, 4000); return; }
+    const en = salEntry(vd.dataset.salVoid); vd.disabled = true;
+    if (await salCall('salary_void', { p_id: +vd.dataset.salVoid, p_reason: null }, en.employee)) toast(t('removed'));
+    return;
+  }
+  const mk = e.target.closest('[data-mark]');
+  if (mk) {
+    mk.disabled = true; const u = M.users.find(x => x.id === mk.dataset.mark);
+    try { await rpc('mark_attendance', { p_user: mk.dataset.mark }); } catch (err) { mk.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    await reload(true); toast(t('marked_ok', { name: uname(u) }));
+  }
+});
+function attStrip() {
+  const emps = M.users.filter(u => u.role === 'employee' && u.active !== false);
+  if (!emps.length) return '';
+  const td = today(), rows = M.attendance.filter(a => a.day === td);
+  const n = emps.filter(u => rows.some(a => a.user_id === u.id)).length;
+  return `<section class="panel att-strip no-print"><div class="att-head"><h3>${esc(t('att_today'))} · ${esc(t('present_n', { n, m: emps.length }))}</h3><button class="link" type="button" data-go="team/att">${esc(t('full_register'))}</button></div>
+    <div class="att-chips">${emps.map(u => { const a = rows.find(x => x.user_id === u.id);
+      return a ? `<span class="ach on"><b>${esc(uname(u))}</b> ${hm(a.checked_in_at)} ${a.lat != null ? mapLink(a) : `<span class="faint">${esc(a.location_note || t('loc_none'))}</span>`}</span>`
+        : `<span class="ach"><b>${esc(uname(u))}</b> ${ONLINE ? `<button class="btn mini" type="button" data-mark="${esc(u.id)}">${esc(t('mark_present'))}</button>` : `<span class="faint">${esc(t('not_checked_short'))}</span>`}</span>`; }).join('')}</div></section>`;
+}
+
 /* ------------------------------ team (master) and the employee's own pages ------------------------------ */
 const genPw = () => { const a = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'; const r = crypto.getRandomValues(new Uint32Array(10)); return Array.from(r, x => a[x % a.length]).join(''); };
 function permsBox(perms) {
@@ -1209,7 +1383,7 @@ TEAM.att = (sub) => {
   const rows = M.attendance;
   view(`<div class="panel" style="padding:16px 20px;margin-bottom:18px"><h3>${esc(t('today_h'))} · ${esc(dt(td))}</h3>
     ${emps.filter(u => u.active !== false).map(u => { const a = rows.find(x => x.user_id === u.id && x.day === td);
-      return `<div class="flag" style="cursor:default"><span class="b ${a ? 'okb' : 'greyb'}">${a ? hm(a.checked_in_at) : '–'}</span><span class="t">${esc(uname(u))} ${a ? (a.lat != null ? mapLink(a) : `<span class="faint">${esc(t('loc_none'))}</span>`) : `<span class="faint">${esc(t('not_checked_short'))}</span>`}</span></div>`; }).join('')}</div>
+      return `<div class="flag" style="cursor:default"><span class="b ${a ? 'okb' : 'greyb'}">${a ? hm(a.checked_in_at) : '–'}</span><span class="t">${esc(uname(u))} ${a ? (a.lat != null ? mapLink(a) : `<span class="faint">${esc(a.location_note || t('loc_none'))}</span>`) : ONLINE ? `<button class="btn mini" type="button" data-mark="${esc(u.id)}">${esc(t('mark_present'))}</button>` : `<span class="faint">${esc(t('not_checked_short'))}</span>`}</span></div>`; }).join('')}</div>
     <div class="head-row"><div><h3 style="margin:0">${esc(t('att_month', { m: monthName(ym) }))}</h3></div><span class="sp"></span>${monthNav('team/att', ym)}</div>`);
   const nDays = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7), 0)).getUTCDate();
   const days = Array.from({ length: nDays }, (_, i) => ym + '-' + String(i + 1).padStart(2, '0'));
@@ -1250,7 +1424,7 @@ TEAM.sales = (sub) => {
     await reload(true); toast(t('saved'));
   };
 };
-const KIND_KEYS = ['sign_in', 'open', 'sign_out', 'view', 'attendance', 'status', 'paid', 'target', 'salesperson', 'access', 'password'];
+const KIND_KEYS = ['sign_in', 'open', 'sign_out', 'view', 'attendance', 'status', 'paid', 'target', 'salesperson', 'access', 'password', 'salary'];
 function actText(a) {
   if (a.kind === 'view') { const [n, ...r] = String(a.detail || '').split('/'); const tb = TABS.find(x => x.k === n); return (tb ? t(tb.label) : n === 'team' ? t('tab_team') : n === 'more' ? t('more_h') : n) + (r.length ? ' · ' + r.join('/') : ''); }
   return a.detail || '';
