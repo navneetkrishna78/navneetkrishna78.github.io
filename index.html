@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-wvpToU8GX5awwNaeeqCQN1CPM0SZlQ8dWqvpahpYtAg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-hQsgmO5GVcdGnO6XfC3+pxKqRG8dpvU/spiTBCA+I7k='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -570,7 +570,8 @@ const I18N = {
     period: 'Days / period (if any)', mode: 'Paid by', note_l: 'Note', amt: 'Amount', add_all: 'Add {m} salary for everyone', add_all_sure: 'Tap again to add {n} salaries',
     add_all_done: 'Added {n} salaries.', add_all_none: 'Everyone already has {m} salary, or has no monthly salary set.', edit: 'Edit', remove: 'Remove',
     confirm_remove: 'Tap again to remove', save_changes: 'Save changes', cancel: 'Cancel', removed: 'Removed.', own_locked: 'Only the master can change your own salary.',
-    k_salary: 'Salary', pm_salary: 'Manage salaries (pay and change; not their own)', details: 'Details', sal_kind_salary: 'Salary', sal_kind_payment: 'Paid',
+    k_salary: 'Salary', k_stock: 'Stock',
+    adj_btn: 'Adjust stock', adj_h: 'Add or take out stock by hand', adj_sub: 'For stock counted on the floor, damaged or returned material, or anything not on a packing list. It adds to or takes from the profile you choose.', adj_dir: 'What to do', adj_plus: 'Add to stock', adj_minus: 'Take out of stock', adj_pcs: 'Lengths', adj_kg: 'Weight (kg)', adj_reason: 'Reason', adj_hist: 'Changes made by hand', adj_by: 'by {n}', adj_for: 'Adjust {name}', adj_edit: 'Change this adjustment', adj_need: 'Enter the lengths or the kg.', adj_pick: 'Choose a profile', adj_below: 'That would take stock below zero (now {pcs} lengths, {kg} kg).', adj_saved: 'Stock updated.', adj_add_btn: 'Add to the stock record', adj_ph: 'e.g. counted on shelf, damaged, returned', pm_salary: 'Manage salaries (pay and change; not their own)', details: 'Details', sal_kind_salary: 'Salary', sal_kind_payment: 'Paid',
     owed_total: 'To pay staff', adv_total: 'Advances given', paid_month: 'Paid in {m}', no_salary: 'No salary entries yet.', people_n: '{n} people',
     att_today: "Today's attendance", mark_present: 'Mark present', full_register: 'Full register', marked_ok: '{name} marked present.',
     employees_h: 'Employees', text_size: 'Text size', text_normal: 'Normal', text_large: 'Large', text_btn: 'Larger text',
@@ -653,7 +654,8 @@ const I18N = {
     period: 'दिन / अवधि (अगर हो)', mode: 'कैसे दिया', note_l: 'नोट', amt: 'रकम', add_all: 'सबकी {m} की सैलरी जोड़ें', add_all_sure: '{n} सैलरी जोड़ने के लिए फिर दबाएँ',
     add_all_done: '{n} सैलरी जुड़ गईं।', add_all_none: 'सबकी {m} की सैलरी पहले से है, या मासिक सैलरी तय नहीं है।', edit: 'बदलें', remove: 'हटाएँ',
     confirm_remove: 'हटाने के लिए फिर दबाएँ', save_changes: 'बदलाव सेव करें', cancel: 'रद्द करें', removed: 'हटा दिया।', own_locked: 'आपकी अपनी सैलरी सिर्फ़ मास्टर बदल सकते हैं।',
-    k_salary: 'सैलरी', pm_salary: 'सैलरी संभालना (भुगतान और बदलाव; अपनी नहीं)', details: 'विवरण', sal_kind_salary: 'सैलरी', sal_kind_payment: 'दिया',
+    k_salary: 'सैलरी', k_stock: 'स्टॉक',
+    adj_btn: 'स्टॉक ठीक करें', adj_h: 'हाथ से स्टॉक जोड़ें या घटाएँ', adj_sub: 'गोदाम में गिना हुआ, ख़राब या वापस आया माल, या जो पैकिंग लिस्ट में नहीं है। चुनी हुई प्रोफ़ाइल में जुड़ेगा या घटेगा।', adj_dir: 'क्या करना है', adj_plus: 'स्टॉक में जोड़ें', adj_minus: 'स्टॉक से घटाएँ', adj_pcs: 'पीस', adj_kg: 'वज़न (किलो)', adj_reason: 'कारण', adj_hist: 'हाथ से किए बदलाव', adj_by: '{n} द्वारा', adj_for: '{name} ठीक करें', adj_edit: 'यह बदलाव सुधारें', adj_need: 'पीस या किलो भरें।', adj_pick: 'प्रोफ़ाइल चुनें', adj_below: 'इससे स्टॉक शून्य से नीचे चला जाएगा (अभी {pcs} पीस, {kg} किलो)।', adj_saved: 'स्टॉक बदल गया।', adj_add_btn: 'स्टॉक रिकॉर्ड में जोड़ें', adj_ph: 'जैसे गिनती में मिला, ख़राब, वापस आया', pm_salary: 'सैलरी संभालना (भुगतान और बदलाव; अपनी नहीं)', details: 'विवरण', sal_kind_salary: 'सैलरी', sal_kind_payment: 'दिया',
     owed_total: 'स्टाफ़ को देना है', adv_total: 'दिया हुआ एडवांस', paid_month: '{m} में दिया', no_salary: 'अभी कोई सैलरी एंट्री नहीं।', people_n: '{n} लोग',
     att_today: 'आज की हाज़िरी', mark_present: 'हाज़िर लगाएँ', full_register: 'पूरा रजिस्टर', marked_ok: '{name} की हाज़िरी लग गई।',
     employees_h: 'कर्मचारी', text_size: 'अक्षरों का आकार', text_normal: 'सामान्य', text_large: 'बड़ा', text_btn: 'बड़े अक्षर',
@@ -755,8 +757,8 @@ function buildModel(R) {
   const lineSort = (a, b) => (a.line_no || 0) - (b.line_no || 0);
   const bundlesBy = groupBy(A('bundles'), 'packing_list');
   const prof = {};
-  A('alu_profiles').slice().sort((a, b) => (a.sort ?? 999) - (b.sort ?? 999)).forEach((p, i) => prof[p.name] = { name: p.name, series: p.series || 'Other', aliases: p.aliases || [], isNew: !!p.is_new, reorder: p.reorder_pcs, order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [] });
-  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [] });
+  A('alu_profiles').slice().sort((a, b) => (a.sort ?? 999) - (b.sort ?? 999)).forEach((p, i) => prof[p.name] = { name: p.name, series: p.series || 'Other', aliases: p.aliases || [], isNew: !!p.is_new, reorder: p.reorder_pcs, order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
+  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
   const lotKg = {};
   A('packing_lists').filter(l => l.direction === 'in' && l.lot).forEach(l => lotKg[l.lot] = (lotKg[l.lot] || 0) + sum(bundlesBy[l.id] || [], b => b.kg));
   const lots = A('lots').map(l => {
@@ -781,7 +783,7 @@ function buildModel(R) {
     if (l.direction === 'in') { p.inPcs += b.pcs; p.inKg += b.kg; p.cost += b.kg * (l.lotObj ? l.lotObj.rate : 0); p.avgs.push(b.avg); if ((l.received || l.date) > p.last) p.last = l.received || l.date; }
     else { p.outPcs += b.pcs; p.outKg += b.kg; }
   }));
-  A('stock_adjustments').forEach(a => { const p = ensure(a.profile); p.inPcs += +a.pcs || 0; p.inKg += +a.kg || 0; });
+  A('stock_adjustments').filter(a => !a.voided_at).forEach(a => { const p = ensure(a.profile); p.adj.push(a); p.inPcs += +a.pcs || 0; p.inKg += +a.kg || 0; });
   const profiles = Object.values(prof).map(p => { const rate = p.inKg ? p.cost / p.inKg : 0; const pcs = p.inPcs - p.outPcs, kg = p.inKg - p.outKg;
     return { ...p, pcs, kg, rate: seeCost ? rate : 0, value: seeCost ? kg * rate : 0, avg: pcs > 0 ? kg / pcs : (p.inPcs ? p.inKg / p.inPcs : 0), lo: p.avgs.length ? Math.min(...p.avgs) : 0, hi: p.avgs.length ? Math.max(...p.avgs) : 0 }; })
     .sort((a, b) => a.order - b.order);
@@ -1180,12 +1182,70 @@ function bundleTable(bundles, opts = {}) {
     <tfoot><tr>${opts.list ? '<td></td><td></td>' : ''}<td class="num">${bundles.length}</td>${opts.profile ? '<td></td>' : ''}<td></td><td></td><td class="num">${n0(sum(bundles, b => b.pcs))}</td><td class="num">${n2(sum(bundles, b => b.kg))}</td><td class="num">${n3(sum(bundles, b => b.kg) / (sum(bundles, b => b.pcs) || 1))}</td><td></td><td></td></tr></tfoot></table></div>`;
 }
 
+/* ---- manual stock adjustments (master only, online) ---- */
+const adjOk = () => ONLINE && isMaster();
+const adjEntry = id => M.profiles.flatMap(p => p.adj).find(a => String(a.id) === String(id));
+function adjDetail(r) {
+  if (!r.adj.length && !adjOk()) return '';
+  const rows = r.adj.slice().sort((a, b) => String(b.date).localeCompare(a.date) || b.id - a.id).map(a => `<tr><td class="nw">${dt(a.date)}</td><td class="num">${+a.pcs > 0 ? '+' : ''}${n0(a.pcs)}</td><td class="num">${+a.kg > 0 ? '+' : ''}${n2(a.kg)}</td><td>${esc(a.reason || '')}${a.created_by_name ? ` <span class="faint">${esc(t('adj_by', { n: a.created_by_name }))}</span>` : ''}</td>${adjOk() ? `<td class="nw"><button class="link" type="button" data-adj-edit="${a.id}">${esc(t('edit'))}</button> <button class="link" type="button" data-adj-void="${a.id}">${esc(t('remove'))}</button></td>` : ''}</tr>`).join('');
+  return `<h3 style="margin-top:18px">${esc(t('adj_hist'))}</h3>${rows ? `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('date'))}</th><th class="num">${esc(t('adj_pcs'))}</th><th class="num">${esc(t('kg'))}</th><th>${esc(t('adj_reason'))}</th>${adjOk() ? '<th></th>' : ''}</tr></thead><tbody>${rows}</tbody></table></div>` : ''}${adjOk() ? `<p><button class="btn" type="button" data-adj-open="${esc(r.name)}">${esc(t('adj_for', { name: r.name }))}</button></p>` : ''}`;
+}
+function adjForm(name, en) {
+  const neg = en ? (+en.pcs < 0 || +en.kg < 0) : false;
+  const v = en || {};
+  return `<div class="panel" style="padding:16px 18px;margin-bottom:18px"><h3>${esc(en ? t('adj_edit') : t('adj_h'))}</h3>${en ? '' : `<p class="sub">${esc(t('adj_sub'))}</p>`}
+    <form class="form" data-adj="${en ? 'u' + en.id : 'a'}">
+      <label>${esc(t('profile'))}<select name="p" ${en ? 'disabled' : 'required'}><option value="">${esc(t('adj_pick'))}</option>${M.profiles.map(p => `<option value="${esc(p.name)}" ${p.name === name ? 'selected' : ''}>${esc(p.name)}</option>`).join('')}</select></label>
+      <label>${esc(t('adj_dir'))}<select name="s"><option value="1">${esc(t('adj_plus'))}</option><option value="-1" ${neg ? 'selected' : ''}>${esc(t('adj_minus'))}</option></select></label>
+      <label>${esc(t('adj_pcs'))}<input type="number" name="c" min="0" step="1" inputmode="numeric" value="${en ? Math.abs(+v.pcs) : ''}"></label>
+      <label>${esc(t('adj_kg'))}<input type="number" name="k" min="0" step="0.001" inputmode="decimal" value="${en ? Math.abs(+v.kg) : ''}"></label>
+      <label>${esc(t('date'))}<input type="date" name="d" value="${en ? String(v.date).slice(0, 10) : today()}" max="${today()}" required></label>
+      <label>${esc(t('adj_reason'))}<input name="r" maxlength="200" placeholder="${esc(t('adj_ph'))}" value="${esc(v.reason || '')}"></label>
+      <span class="row"><button class="btn primary" type="submit">${esc(en ? t('save_changes') : t('adj_add_btn'))}</button><button class="btn" type="button" data-adj-cancel>${esc(t('cancel'))}</button></span></form></div>`;
+}
+function adjShow(name, en) {
+  const box = document.getElementById('adjp'); if (!box) return;
+  box.innerHTML = adjForm(name, en); box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  const f = box.querySelector('select[name=p]'); if (f && !en) f.focus();
+}
+document.addEventListener('submit', async e => {
+  const f = e.target; if (!f.matches('[data-adj]')) return;
+  e.preventDefault(); const b = f.querySelector('button[type=submit]'); const upd = f.dataset.adj[0] === 'u';
+  const el = n => f.elements[n]; const sg = +el('s').value;
+  const pcs = sg * (Math.round(+el('c').value) || 0), kg = sg * (Math.round((+el('k').value || 0) * 1000) / 1000);
+  if (!pcs && !kg) { toast(t('adj_need'), 'err'); return; }
+  const old = upd ? adjEntry(f.dataset.adj.slice(1)) : null;
+  const name = upd ? (old && old.profile) : el('p').value; const P = M.profiles.find(x => x.name === name);
+  if (!name || !P) { toast(t('adj_pick'), 'err'); return; }
+  const nowPcs = P.pcs + pcs - (old ? +old.pcs : 0), nowKg = P.kg + kg - (old ? +old.kg : 0);
+  if (nowPcs < 0 || nowKg < -0.0005) { toast(t('adj_below', { pcs: n0(P.pcs), kg: n2(P.kg) }), 'err'); return; }
+  if (b) b.disabled = true;
+  try {
+    if (upd) await rpc('stock_adjust_update', { p_id: +old.id, p_pcs: pcs, p_kg: kg, p_reason: el('r').value.trim() || null, p_date: el('d').value });
+    else await rpc('stock_adjust_add', { p_profile: name, p_pcs: pcs, p_kg: kg, p_reason: el('r').value.trim() || null, p_date: el('d').value });
+  } catch (err) { if (b) b.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+  history.replaceState(null, '', '#stock/' + name); await reload(true); toast(t('adj_saved'));
+});
+document.addEventListener('click', async e => {
+  const op = e.target.closest('[data-adj-open]'); if (op) { if (adjOk()) adjShow(op.dataset.adjOpen); return; }
+  const ed = e.target.closest('[data-adj-edit]'); if (ed) { const en = adjEntry(ed.dataset.adjEdit); if (en && adjOk()) adjShow(en.profile, en); return; }
+  if (e.target.closest('[data-adj-cancel]')) { const bx = document.getElementById('adjp'); if (bx) bx.innerHTML = ''; return; }
+  const vd = e.target.closest('[data-adj-void]');
+  if (vd) {
+    if (!vd.dataset.armed) { vd.dataset.armed = '1'; vd.textContent = t('confirm_remove'); setTimeout(() => { if (vd.isConnected) { delete vd.dataset.armed; vd.textContent = t('remove'); } }, 4000); return; }
+    const en = adjEntry(vd.dataset.adjVoid); vd.disabled = true;
+    try { await rpc('stock_adjust_void', { p_id: +vd.dataset.adjVoid }); } catch (err) { vd.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    if (en) history.replaceState(null, '', '#stock/' + en.profile); await reload(true); toast(t('removed'));
+  }
+});
+
 VIEWS.stock = (arg) => {
   const master = can('purchases');
   const series = ['All', ...M.seriesOrder];
   const S = uiState('stock', { sel: 'All', ft: '', only: store.get('acta.onlyStock') !== '0', tb: {} });
   if (!series.includes(S.sel)) S.sel = 'All';
-  view(`<div class="head-row"><div><h2>${esc(t('stock_h'))}</h2><p class="sub" style="margin:0">${esc(t(master ? 'stock_sub_m' : 'stock_sub'))}</p></div></div>
+  view(`<div class="head-row"><div><h2>${esc(t('stock_h'))}</h2><p class="sub" style="margin:0">${esc(t(master ? 'stock_sub_m' : 'stock_sub'))}</p></div>${adjOk() ? `<span class="sp"></span><button class="btn" type="button" data-adj-open="">${esc(t('adj_btn'))}</button>` : ''}</div>
+    <div id="adjp"></div>
     <div class="filters"><input class="filter" id="sf" type="search" placeholder="${esc(t('filter'))}" aria-label="${esc(t('filter'))}" value="${esc(S.ft)}"><div class="chips">${series.map(s => `<button class="chip" type="button" data-s="${esc(s)}" aria-pressed="${s === S.sel}">${esc(s === 'All' ? t('all') : s)}</button>`).join('')}</div>
     <label class="toggle"><input type="checkbox" id="only" ${S.only ? 'checked' : ''}> ${esc(t('only_stock'))}</label></div>
     <div class="panel" id="tb"></div>`);
@@ -1197,7 +1257,7 @@ VIEWS.stock = (arg) => {
       { k: 'avg', t: t('kg_per_len'), num: 1, ph: 0, h: r => r.avg ? n3(r.avg) : '' }, { k: 'lo', t: t('range'), num: 1, ph: 0, h: r => r.avgs.length ? `${n3(r.lo)} – ${n3(r.hi)}` : '' },
       { k: 'rate', t: t('rs_kg'), num: 1, ph: 0, hide: !master, h: r => r.rate ? n2(r.rate) : '' }, { k: 'value', t: t('value'), num: 1, hide: !master, h: r => r.value ? inr(r.value) : '' }, { k: 'last', t: t('last_rcv'), ph: 0, h: r => dt(r.last) }],
     foot: (c, rows) => ({ name: t('profiles_n', { n: rows.length }), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), value: inr(sum(rows, r => r.value)) })[c.k],
-    detail: r => r.bundles.length ? `<h3>${esc(t('bundles_of', { name: r.name, n: r.bundles.length }))}</h3>${bundleTable(r.bundles, { list: 1 })}` : `<p class="muted">${esc(t('no_bundles'))}</p>`,
+    detail: r => (r.bundles.length ? `<h3>${esc(t('bundles_of', { name: r.name, n: r.bundles.length }))}</h3>${bundleTable(r.bundles, { list: 1 })}` : `<p class="muted">${esc(t('no_bundles'))}</p>`) + adjDetail(r),
     empty: `<div class="empty"><h3>${esc(t('no_match_h'))}</h3><p>${esc(t('no_match_p'))}</p></div>`
   });
   document.querySelectorAll('#view [data-s]').forEach(b => b.onclick = () => { S.sel = b.dataset.s; document.querySelectorAll('#view [data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); tb.draw(); });
