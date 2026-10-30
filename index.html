@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-ULMvXXx8dI49OzdnDYwdIn7nqaXUlm2FxZjESxlwzIQ='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-bhK/g5bubH0SDF0W1d+Gs0CKz5wBU3Oqbgv4sPK5OCM='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -415,6 +415,7 @@ table.att th,table.att td{padding:7px 5px;font-size:var(--fs-cap)} table.att .su
 }
 @media (prefers-reduced-motion:no-preference){.alu{transition:width .5s ease-out}}
 @media (prefers-reduced-motion:reduce){.busy{animation:none;background:var(--gold)}}
+.rg-chk{display:flex;align-items:center;gap:8px;min-height:40px;font-size:var(--fs-sm);cursor:pointer}.rg-chk input{width:18px;height:18px}
 .rg-l{display:flex;flex-direction:column;gap:3px;font-size:var(--fs-cap);color:var(--steel)}
 #report{display:none}
 @page{size:A4;margin:12mm 12mm 14mm}
@@ -530,7 +531,7 @@ const I18N = {
     rg_print: 'Print A4 report', rg_empty_h: 'No sales found', rg_empty_p: 'Change the dates or party. A new sale appears here once its challan is sent to Claude.',
     rg_by_party: 'Party-wise', rg_by_mode: 'Payment-wise', rg_title: 'Sales Register', rg_period: 'Period', rg_party_l: 'Party', rg_printed: 'Printed on', rg_all_dates: 'All dates',
     rg_s1: 'Summary', rg_s2: 'Sale details (challan-wise)', rg_s3: 'Party-wise summary', rg_s4: 'Payment summary', rg_share: 'Share', rg_mode_none: 'Not recorded', rg_sr: 'Sr.',
-    rg_note_pending: 'Sales marked Pending have no amount yet and are not included in the totals.', rg_prepared: 'Prepared by', rg_checked: 'Checked by', rg_auth: 'Authorised signatory', rg_for_list: 'Packing list', rg_filter_party: 'Show only this party',
+    rg_note_pending: 'Sales marked Pending have no amount yet and are not included in the totals.', rg_prepared: 'Prepared by', rg_checked: 'Checked by', rg_auth: 'Authorised signatory', rg_for_list: 'Packing list', rg_filter_party: 'Show only this party', rg_job: 'Job work', rg_jobs: 'Include job-work orders', rg_order: 'Order',
     tab_cons: 'Consumables', tab_purchases: 'Purchases', tab_expenses: 'Expenses', tab_profit: 'Profit', tab_users: 'Users', tab_account: 'My account', tab_more: 'More',
     signin: 'Sign in', login_id: 'Login ID', password: 'Password', keep: 'Keep me signed in on this device', signing: 'Signing in…',
     bad_login: 'That ID or password is wrong.', off_login: 'This login has been switched off. Ask the master.', net_err: "Can't reach the server. Check the internet and try again.",
@@ -621,7 +622,7 @@ const I18N = {
     rg_print: 'A4 रिपोर्ट प्रिंट करें', rg_empty_h: 'कोई बिक्री नहीं मिली', rg_empty_p: 'तारीख या पार्टी बदलें। नई बिक्री का चालान Claude को भेजने पर यहाँ दिखेगा।',
     rg_by_party: 'पार्टी के हिसाब से', rg_by_mode: 'पेमेंट के हिसाब से', rg_title: 'बिक्री रजिस्टर', rg_period: 'अवधि', rg_party_l: 'पार्टी', rg_printed: 'प्रिंट की तारीख', rg_all_dates: 'सभी तारीख',
     rg_s1: 'सारांश', rg_s2: 'बिक्री का ब्योरा (चालान के हिसाब से)', rg_s3: 'पार्टी के हिसाब से सारांश', rg_s4: 'पेमेंट सारांश', rg_share: 'हिस्सा', rg_mode_none: 'दर्ज नहीं', rg_sr: 'क्र.',
-    rg_note_pending: 'जिन बिक्री पर "बाकी" लिखा है उनकी रकम अभी नहीं आई है और कुल में शामिल नहीं है।', rg_prepared: 'बनाने वाले', rg_checked: 'जाँचने वाले', rg_auth: 'अधिकृत हस्ताक्षर', rg_for_list: 'पैकिंग लिस्ट', rg_filter_party: 'सिर्फ़ यही पार्टी दिखाएँ',
+    rg_note_pending: 'जिन बिक्री पर "बाकी" लिखा है उनकी रकम अभी नहीं आई है और कुल में शामिल नहीं है।', rg_prepared: 'बनाने वाले', rg_checked: 'जाँचने वाले', rg_auth: 'अधिकृत हस्ताक्षर', rg_for_list: 'पैकिंग लिस्ट', rg_filter_party: 'सिर्फ़ यही पार्टी दिखाएँ', rg_job: 'जॉब वर्क', rg_jobs: 'जॉब वर्क ऑर्डर भी दिखाएँ', rg_order: 'ऑर्डर',
     tab_cons: 'खपत सामग्री', tab_purchases: 'खरीद', tab_expenses: 'खर्च', tab_profit: 'मुनाफ़ा', tab_users: 'यूज़र', tab_account: 'मेरा खाता', tab_more: 'और',
     signin: 'लॉग इन करें', login_id: 'लॉग इन आईडी', password: 'पासवर्ड', keep: 'इस डिवाइस पर लॉग इन रखें', signing: 'लॉग इन हो रहा है…',
     bad_login: 'आईडी या पासवर्ड गलत है।', off_login: 'यह लॉग इन बंद कर दिया गया है। मास्टर से पूछें।', net_err: 'सर्वर से जुड़ नहीं पाए। इंटरनेट देखकर फिर कोशिश करें।',
@@ -895,7 +896,8 @@ function buildModel(R) {
       return { id: u.id, username: u.username, full_name: u.full_name, active: u.active, monthly_salary: u.monthly_salary, earned, paid, balance: earned - paid, last_paid_on: pays.length ? pays[pays.length - 1] : null, can_edit: false };
     })).map(x => ({ ...x, earned: +x.earned, paid: +x.paid, balance: +x.balance }));
   const meId = ME && ME.id;
-  const register = A('sales_register').map(r => ({ ...r, kg: r.kg == null ? null : +r.kg, rate: r.rate == null ? null : +r.rate, amount: r.amount == null ? null : +r.amount }));
+  const register = [...A('sales_register').map(r => ({ ...r, kind: 'sale', kg: r.kg == null ? null : +r.kg, rate: r.rate == null ? null : +r.rate, amount: r.amount == null ? null : +r.amount })),
+    ...sales.filter(o => o.status !== 'cancelled' && o.val && o.val.rev).map(o => ({ id: o.id, kind: 'job', date: o.date, challan_no: o.id, party: o.party, packing_list: null, kg: o.kgKnown || null, rate: null, amount: o.val.rev, paid_mode: null, pay: o.paid_on ? 'paid' : 'unpaid', note: o.notes || null }))];
   return { register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
     attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
     myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
@@ -1414,7 +1416,7 @@ const rgRange = k => {
   if (k === 'fy') return [(+ym.slice(5, 7) >= 4 ? +ym.slice(0, 4) : +ym.slice(0, 4) - 1) + '-04-01', d];
   return ['', ''];
 };
-const rgMatch = S => r => (!S.from || r.date >= S.from) && (!S.to || r.date <= S.to) && (!S.party || r.party === S.party)
+const rgMatch = S => r => (S.jobs || r.kind !== 'job') && (!S.from || r.date >= S.from) && (!S.to || r.date <= S.to) && (!S.party || r.party === S.party)
   && (!lc(S.ft) || [r.date, dt(r.date), r.challan_no, r.party, r.paid_mode, r.note, r.amount, r.packing_list].join(' ').toLowerCase().includes(lc(S.ft)));
 const rgTotals = rows => {
   const priced = rows.filter(r => r.amount != null), kgd = priced.filter(r => r.kg);
@@ -1423,7 +1425,7 @@ const rgTotals = rows => {
 };
 const rgGroup = (rows, f) => { const m = {}; rows.forEach(r => (m[f(r)] = m[f(r)] || []).push(r)); return Object.entries(m).map(([k, v]) => ({ k, ...rgTotals(v) })).sort((a, b) => b.amount - a.amount || b.kg - a.kg); };
 const rgAmt = r => r.amount != null ? inr(r.amount) : `<span class="pill warn">${esc(t('rg_pending_s'))}</span>`;
-const rgMode = r => r.paid_mode || t('rg_mode_none');
+const rgMode = r => r.pay ? t(r.pay) : (r.paid_mode || t('rg_mode_none'));
 function reportHtml(rows, S) {
   const T = rgTotals(rows);
   const sorted = rows.slice().sort((a, b) => String(a.date).localeCompare(b.date) || (+a.challan_no || 0) - (+b.challan_no || 0));
@@ -1433,7 +1435,7 @@ function reportHtml(rows, S) {
   return `<header class="rh"><div class="rh-co">${esc(COMPANY)}</div><div class="rh-ad">${esc(COMPANY_ADDR)}</div><h1>${esc(t('rg_title'))}</h1>
     <dl class="rh-meta"><div><dt>${esc(t('rg_period'))}</dt><dd>${esc(period)}</dd></div><div><dt>${esc(t('rg_party_l'))}</dt><dd>${esc(S.party || t('rg_all_parties'))}</dd></div><div><dt>${esc(t('rg_printed'))}</dt><dd>${esc(dt(today()))}</dd></div></dl></header>
     <section><h2>${esc(t('rg_s1'))}</h2><table class="rt rt-sum"><thead><tr><th class="num">${esc(t('rg_sales'))}</th><th class="num">${esc(t('rg_kg'))}</th><th class="num">${esc(t('rg_total'))}</th><th class="num">${esc(t('rg_avg'))}</th><th class="num">${esc(t('rg_pending'))}</th></tr></thead><tbody><tr><td class="num">${n0(T.n)}</td><td class="num">${n2(T.kg)} kg</td><td class="num">${inr(T.amount)}</td><td class="num">${T.avg ? '₹' + n2(T.avg) + '/kg' : '–'}</td><td class="num">${n0(T.pending)}</td></tr></tbody></table></section>
-    <section><h2>${esc(t('rg_s2'))}</h2><table class="rt"><thead><tr><th>${esc(t('rg_sr'))}</th><th>${esc(t('date'))}</th><th>${esc(t('rg_challan'))}</th><th>${esc(t('rg_party'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('rg_rate'))}</th><th class="num">${esc(t('rg_amount'))}</th><th>${esc(t('rg_paid'))}</th></tr></thead><tbody>${sorted.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(dt(r.date))}</td><td>${esc(r.challan_no || r.id)}</td><td>${esc(r.party)}</td><td class="num">${r.kg != null ? n2(r.kg) : ''}</td><td class="num">${r.rate != null ? '₹' + n2(r.rate) : ''}</td><td class="num">${r.amount != null ? inr(r.amount) : esc(t('rg_pending_s'))}</td><td>${esc(rgMode(r))}</td></tr>`).join('')}</tbody><tfoot><tr><td colspan="4">${esc(t('rg_total'))} (${esc(t('rg_sales_n', { n: T.n }))})</td><td class="num">${n2(T.kg)}</td><td></td><td class="num">${inr(T.amount)}</td><td></td></tr></tfoot></table></section>
+    <section><h2>${esc(t('rg_s2'))}</h2><table class="rt"><thead><tr><th>${esc(t('rg_sr'))}</th><th>${esc(t('date'))}</th><th>${esc(t('rg_challan'))}</th><th>${esc(t('rg_party'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('rg_rate'))}</th><th class="num">${esc(t('rg_amount'))}</th><th>${esc(t('rg_paid'))}</th></tr></thead><tbody>${sorted.map((r, i) => `<tr><td>${i + 1}</td><td>${esc(dt(r.date))}</td><td>${esc(r.challan_no || r.id)}${r.kind === 'job' ? ' (' + esc(t('rg_job')) + ')' : ''}</td><td>${esc(r.party)}</td><td class="num">${r.kg != null ? n2(r.kg) : ''}</td><td class="num">${r.rate != null ? '₹' + n2(r.rate) : ''}</td><td class="num">${r.amount != null ? inr(r.amount) : esc(t('rg_pending_s'))}</td><td>${esc(rgMode(r))}</td></tr>`).join('')}</tbody><tfoot><tr><td colspan="4">${esc(t('rg_total'))} (${esc(t('rg_sales_n', { n: T.n }))})</td><td class="num">${n2(T.kg)}</td><td></td><td class="num">${inr(T.amount)}</td><td></td></tr></tfoot></table></section>
     <section><h2>${esc(t('rg_s3'))}</h2>${grp(rgGroup(rows, r => r.party), t('rg_party'))}</section>
     <section><h2>${esc(t('rg_s4'))}</h2>${grp(rgGroup(rows, rgMode), t('rg_paid'))}</section>
     ${T.pending ? `<p class="rt-note">* ${esc(t('rg_note_pending'))}</p>` : ''}
@@ -1447,13 +1449,14 @@ function printReport(rows, S) {
   window.addEventListener('afterprint', done); setTimeout(() => window.print(), 60);
 }
 VIEWS.register = () => {
-  const S = uiState('register', { from: '', to: '', party: '', ft: '', rng: 'all', tb: {} });
+  const S = uiState('register', { from: '', to: '', party: '', ft: '', rng: 'all', jobs: store.get('acta.rgjobs') !== '0', tb: {} });
   const parties = [...new Set(M.register.map(r => r.party))].sort((a, b) => a.localeCompare(b));
   const chips = [['month', 'rg_r_month'], ['last', 'rg_r_last'], ['fy', 'rg_r_fy'], ['all', 'rg_r_all']];
   view(`<div class="head-row"><div><h2>${esc(t('rg_h'))}</h2><p class="sub" style="margin:0">${esc(t('rg_sub'))}</p></div><span class="sp"></span><button class="bigbtn no-print" type="button" data-rg-print>${esc(t('rg_print'))}</button></div>
     <div class="bar rg-bar no-print"><label class="rg-l"><span>${esc(t('rg_from'))}</span><input class="filter" id="rgf" type="date" value="${esc(S.from)}"></label><label class="rg-l"><span>${esc(t('rg_to'))}</span><input class="filter" id="rgt2" type="date" value="${esc(S.to)}"></label>
       <label class="rg-l"><span>${esc(t('rg_party'))}</span><select class="filter" id="rgp" style="min-width:190px"><option value="">${esc(t('rg_all_parties'))}</option>${parties.map(p => `<option ${p === S.party ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select></label>
-      <label class="rg-l"><span>${esc(t('filter'))}</span><input class="filter" id="rgq" type="search" value="${esc(S.ft)}"></label></div>
+      <label class="rg-l"><span>${esc(t('filter'))}</span><input class="filter" id="rgq" type="search" value="${esc(S.ft)}"></label>
+      <label class="rg-chk"><input type="checkbox" id="rgj" ${S.jobs ? 'checked' : ''}> <span>${esc(t('rg_jobs'))}</span></label></div>
     <div class="chips no-print" style="margin-bottom:14px">${chips.map(([k, l]) => `<button class="chip" type="button" data-rg-r="${k}" aria-pressed="${S.rng === k}">${esc(t(l))}</button>`).join('')}</div>
     <div class="panel meta" id="rgm"></div>
     <div class="panel" id="rgt" style="margin-bottom:22px"></div>
@@ -1468,11 +1471,11 @@ VIEWS.register = () => {
   };
   const empty = `<div class="empty"><h3>${esc(t('rg_empty_h'))}</h3><p>${esc(t('rg_empty_p'))}</p></div>`;
   const tb = table($('#rgt'), { rows: M.register, id: r => r.id, sort: 'date', dir: -1, state: S.tb, filter: rgMatch(S), empty,
-    cols: [{ k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'challan_no', t: t('rg_challan'), sv: r => +r.challan_no || 0, h: r => `<b>${esc(r.challan_no || r.id)}</b>` }, { k: 'party', t: t('rg_party') },
+    cols: [{ k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'challan_no', t: t('rg_challan'), sv: r => String(r.challan_no || r.id).padStart(8, '0'), h: r => `<b>${esc(r.challan_no || r.id)}</b>${r.kind === 'job' ? ` <span class="pill grey">${esc(t('rg_job'))}</span>` : ''}` }, { k: 'party', t: t('rg_party') },
       { k: 'kg', t: t('kg'), num: 1, sv: r => r.kg || 0, h: r => r.kg != null ? n2(r.kg) : '' }, { k: 'rate', t: t('rg_rate'), num: 1, ph: 0, sv: r => r.rate || 0, h: r => r.rate != null ? '₹' + n2(r.rate) : '' },
-      { k: 'amount', t: t('rg_amount'), num: 1, sv: r => r.amount == null ? -1 : r.amount, h: rgAmt }, { k: 'paid_mode', t: t('rg_paid'), ph: 0, h: r => esc(r.paid_mode || '') }],
+      { k: 'amount', t: t('rg_amount'), num: 1, sv: r => r.amount == null ? -1 : r.amount, h: rgAmt }, { k: 'paid_mode', t: t('rg_paid'), ph: 0, h: r => esc(r.pay ? t(r.pay) : r.paid_mode || '') }],
     foot: (c, rows) => ({ date: t('rg_sales_n', { n: rows.length }), kg: n2(sum(rows, r => r.kg)), amount: inr(sum(rows, r => r.amount)) })[c.k],
-    detail: r => `<div class="pad">${r.note ? `<p class="note" style="margin:0 0 8px">${esc(r.note)}</p>` : ''}${r.packing_list && can('stock') ? `<button class="link" type="button" data-go="lists/${esc(r.packing_list)}">${esc(t('rg_for_list'))} ${esc(r.packing_list)}</button>` : ''}${!r.note && !(r.packing_list && can('stock')) ? '–' : ''}</div>` });
+    detail: r => `<div class="pad">${r.note ? `<p class="note" style="margin:0 0 8px">${esc(r.note)}</p>` : ''}${r.packing_list && can('stock') ? `<button class="link" type="button" data-go="lists/${esc(r.packing_list)}">${esc(t('rg_for_list'))} ${esc(r.packing_list)}</button>` : ''}${r.kind === 'job' && can('orders') ? `<button class="link" type="button" data-go="sales/${esc(r.id)}">${esc(t('rg_order'))} ${esc(r.id)}</button>` : ''}${!r.note && !(r.packing_list && can('stock')) && !(r.kind === 'job' && can('orders')) ? '–' : ''}</div>` });
   const redraw = () => { top(); tb.draw(); };
   const setRng = k => { const [a, b] = rgRange(k); S.from = a; S.to = b; S.rng = k; $('#rgf').value = a; $('#rgt2').value = b; document.querySelectorAll('#view [data-rg-r]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.rgR === k))); redraw(); };
   const custom = () => { S.rng = ''; document.querySelectorAll('#view [data-rg-r]').forEach(x => x.setAttribute('aria-pressed', 'false')); redraw(); };
@@ -1480,6 +1483,7 @@ VIEWS.register = () => {
   $('#rgt2').onchange = e => { S.to = e.target.value; custom(); };
   $('#rgp').onchange = e => { S.party = e.target.value; redraw(); };
   $('#rgq').oninput = e => { S.ft = e.target.value; redraw(); };
+  $('#rgj').onchange = e => { S.jobs = e.target.checked; store.set('acta.rgjobs', S.jobs ? '1' : '0'); redraw(); };
   document.querySelectorAll('#view [data-rg-r]').forEach(b => b.onclick = () => setRng(b.dataset.rgR));
   $('#rgpt').onclick = e => { const b = e.target.closest('[data-rg-party]'); if (b) { S.party = b.dataset.rgParty; $('#rgp').value = S.party; redraw(); } };
   document.querySelector('#view [data-rg-print]').onclick = () => printReport(cur(), S);
