@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-bhK/g5bubH0SDF0W1d+Gs0CKz5wBU3Oqbgv4sPK5OCM='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-70kq2eFOTFg2F3Teh36G9lAvpK8lAU8k9cB0+fvRsOE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -532,6 +532,12 @@ const I18N = {
     rg_by_party: 'Party-wise', rg_by_mode: 'Payment-wise', rg_title: 'Sales Register', rg_period: 'Period', rg_party_l: 'Party', rg_printed: 'Printed on', rg_all_dates: 'All dates',
     rg_s1: 'Summary', rg_s2: 'Sale details (challan-wise)', rg_s3: 'Party-wise summary', rg_s4: 'Payment summary', rg_share: 'Share', rg_mode_none: 'Not recorded', rg_sr: 'Sr.',
     rg_note_pending: 'Sales marked Pending have no amount yet and are not included in the totals.', rg_prepared: 'Prepared by', rg_checked: 'Checked by', rg_auth: 'Authorised signatory', rg_for_list: 'Packing list', rg_filter_party: 'Show only this party', rg_job: 'Job work', rg_jobs: 'Include job-work orders', rg_order: 'Order',
+    tab_cash: 'Cash & bank', tab_ledger: 'Party ledger', pm_cash: 'Cash & bank register and party ledgers',
+    cb_h: 'Cash & bank register', cb_sub: 'Every receipt and payment, account by account. Pick an account, dates or party, then print an A4 statement.', cb_account: 'Account', cb_all_acc: 'All accounts', cb_receipt: 'Receipt', cb_payment: 'Payment', cb_balance: 'Balance', cb_details: 'Details',
+    cb_entries: 'Entries', cb_daybook: 'Day book', cb_in: 'Receipts', cb_out: 'Payments', cb_net: 'Net', cb_closing: 'Closing', cb_opening: 'Opening', cb_total_bal: 'Total balance', cb_empty_h: 'No entries found', cb_empty_p: 'Tell Claude about a cash or bank receipt or payment and it will appear here.',
+    cb_title: 'Cash & Bank Statement', cb_s1: 'Account summary', cb_s2: 'Transactions', cb_s3: 'Day-wise summary', cb_entries_n: '{n} entries', cb_print: 'Print A4 statement',
+    lg_h: 'Party ledger', lg_sub: 'What each party was billed, what they paid and what is still due.', lg_all: 'All parties (summary)', lg_billed: 'Billed', lg_received: 'Received', lg_due: 'Balance due', lg_part: 'Particulars', lg_bf: 'Balance brought forward', lg_close: 'Closing balance',
+    lg_sale: 'Sale', lg_marked: 'Received (order marked paid)', lg_title: 'Party Ledger', lg_title_sum: 'Outstanding by Party', lg_s1: 'Summary', lg_s2: 'Statement', lg_empty_h: 'Nothing for this party', lg_paid_to: 'Paid to party', lg_bills: 'Bills', lg_print: 'Print A4 ledger',
     tab_cons: 'Consumables', tab_purchases: 'Purchases', tab_expenses: 'Expenses', tab_profit: 'Profit', tab_users: 'Users', tab_account: 'My account', tab_more: 'More',
     signin: 'Sign in', login_id: 'Login ID', password: 'Password', keep: 'Keep me signed in on this device', signing: 'Signing in…',
     bad_login: 'That ID or password is wrong.', off_login: 'This login has been switched off. Ask the master.', net_err: "Can't reach the server. Check the internet and try again.",
@@ -623,6 +629,12 @@ const I18N = {
     rg_by_party: 'पार्टी के हिसाब से', rg_by_mode: 'पेमेंट के हिसाब से', rg_title: 'बिक्री रजिस्टर', rg_period: 'अवधि', rg_party_l: 'पार्टी', rg_printed: 'प्रिंट की तारीख', rg_all_dates: 'सभी तारीख',
     rg_s1: 'सारांश', rg_s2: 'बिक्री का ब्योरा (चालान के हिसाब से)', rg_s3: 'पार्टी के हिसाब से सारांश', rg_s4: 'पेमेंट सारांश', rg_share: 'हिस्सा', rg_mode_none: 'दर्ज नहीं', rg_sr: 'क्र.',
     rg_note_pending: 'जिन बिक्री पर "बाकी" लिखा है उनकी रकम अभी नहीं आई है और कुल में शामिल नहीं है।', rg_prepared: 'बनाने वाले', rg_checked: 'जाँचने वाले', rg_auth: 'अधिकृत हस्ताक्षर', rg_for_list: 'पैकिंग लिस्ट', rg_filter_party: 'सिर्फ़ यही पार्टी दिखाएँ', rg_job: 'जॉब वर्क', rg_jobs: 'जॉब वर्क ऑर्डर भी दिखाएँ', rg_order: 'ऑर्डर',
+    tab_cash: 'कैश और बैंक', tab_ledger: 'पार्टी खाता', pm_cash: 'कैश-बैंक रजिस्टर और पार्टी खाता',
+    cb_h: 'कैश और बैंक रजिस्टर', cb_sub: 'हर आमद और भुगतान, खाते के हिसाब से। खाता, तारीख या पार्टी चुनें, फिर A4 स्टेटमेंट प्रिंट करें।', cb_account: 'खाता', cb_all_acc: 'सभी खाते', cb_receipt: 'आमद', cb_payment: 'भुगतान', cb_balance: 'बैलेंस', cb_details: 'ब्योरा',
+    cb_entries: 'एंट्री', cb_daybook: 'रोज़नामचा', cb_in: 'आमद', cb_out: 'भुगतान', cb_net: 'कुल', cb_closing: 'अंतिम बैलेंस', cb_opening: 'शुरुआती', cb_total_bal: 'कुल बैलेंस', cb_empty_h: 'कोई एंट्री नहीं मिली', cb_empty_p: 'कैश या बैंक की आमद या भुगतान Claude को बताएँ, यहाँ दिखेगा।',
+    cb_title: 'कैश और बैंक स्टेटमेंट', cb_s1: 'खातों का सारांश', cb_s2: 'लेन-देन', cb_s3: 'दिन के हिसाब से सारांश', cb_entries_n: '{n} एंट्री', cb_print: 'A4 स्टेटमेंट प्रिंट करें',
+    lg_h: 'पार्टी खाता', lg_sub: 'हर पार्टी का कितना बिल बना, कितना दिया और कितना बाकी है।', lg_all: 'सभी पार्टी (सारांश)', lg_billed: 'बिल', lg_received: 'मिला', lg_due: 'बाकी', lg_part: 'ब्योरा', lg_bf: 'पिछला बैलेंस', lg_close: 'अंतिम बैलेंस',
+    lg_sale: 'बिक्री', lg_marked: 'मिला (ऑर्डर पेड मार्क)', lg_title: 'पार्टी खाता', lg_title_sum: 'पार्टी के हिसाब से बाकी रकम', lg_s1: 'सारांश', lg_s2: 'खाता विवरण', lg_empty_h: 'इस पार्टी का कुछ नहीं', lg_paid_to: 'पार्टी को दिया', lg_bills: 'बिल', lg_print: 'A4 खाता प्रिंट करें',
     tab_cons: 'खपत सामग्री', tab_purchases: 'खरीद', tab_expenses: 'खर्च', tab_profit: 'मुनाफ़ा', tab_users: 'यूज़र', tab_account: 'मेरा खाता', tab_more: 'और',
     signin: 'लॉग इन करें', login_id: 'लॉग इन आईडी', password: 'पासवर्ड', keep: 'इस डिवाइस पर लॉग इन रखें', signing: 'लॉग इन हो रहा है…',
     bad_login: 'आईडी या पासवर्ड गलत है।', off_login: 'यह लॉग इन बंद कर दिया गया है। मास्टर से पूछें।', net_err: 'सर्वर से जुड़ नहीं पाए। इंटरनेट देखकर फिर कोशिश करें।',
@@ -725,9 +737,9 @@ const dueBadge = d => { if (!d) return ''; const n = daysTo(d); if (n < 0) retur
 let SB = null, ME = null, RAW = null, M = null, LOADED_AT = null;
 const isMaster = () => !ME || ME.role === 'master';          // offline copy = master view
 /* access: what each login may see and do (set by the master; enforced by the database) */
-const PERM_SEE = ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'profit'];
+const PERM_SEE = ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'profit', 'cash'];
 const PERM_DO = ['confirm_orders', 'move_work', 'dispatch', 'salary'];
-const PERM_NEEDS = { profit: ['stock', 'orders', 'rates', 'work', 'purchases', 'expenses', 'consumable_costs'], rates: ['orders'], confirm_orders: ['orders'], move_work: ['work'] };
+const PERM_NEEDS = { profit: ['stock', 'orders', 'rates', 'work', 'purchases', 'expenses', 'consumable_costs'], rates: ['orders'], cash: ['rates', 'orders'], confirm_orders: ['orders'], move_work: ['work'] };
 const PRESETS = {
   floor: ['stock', 'orders', 'work', 'consumables', 'confirm_orders', 'move_work'],
   sales: ['stock', 'orders', 'rates', 'work', 'confirm_orders'],
@@ -774,7 +786,7 @@ async function loadRaw() {
     ['packing_lists', can('stock')], ['bundles', can('stock')], ['bundle_notes', can('stock')], ['stock_adjustments', can('stock')],
     ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
-    ['sales_register', can('rates')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
+    ['sales_register', can('rates')], ['cash_accounts', can('cash')], ['cash_entries', can('cash')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
     ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')]].filter(x => x[1]).map(x => x[0]);
   const rows = await Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
   const R = Object.fromEntries(plan.map((n, i) => [n, rows[i]]));
@@ -897,8 +909,11 @@ function buildModel(R) {
     })).map(x => ({ ...x, earned: +x.earned, paid: +x.paid, balance: +x.balance }));
   const meId = ME && ME.id;
   const register = [...A('sales_register').map(r => ({ ...r, kind: 'sale', kg: r.kg == null ? null : +r.kg, rate: r.rate == null ? null : +r.rate, amount: r.amount == null ? null : +r.amount })),
-    ...sales.filter(o => o.status !== 'cancelled' && o.val && o.val.rev).map(o => ({ id: o.id, kind: 'job', date: o.date, challan_no: o.id, party: o.party, packing_list: null, kg: o.kgKnown || null, rate: null, amount: o.val.rev, paid_mode: null, pay: o.paid_on ? 'paid' : 'unpaid', note: o.notes || null }))];
-  return { register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
+    ...sales.filter(o => o.status !== 'cancelled' && o.val && o.val.rev).map(o => ({ id: o.id, kind: 'job', date: o.date, challan_no: o.id, party: o.party, packing_list: null, kg: o.kgKnown || null, rate: null, amount: o.val.rev, paid_mode: null, pay: o.paid_on ? 'paid' : 'unpaid', paid_on: o.paid_on || null, note: o.notes || null }))];
+  const cashAccounts = A('cash_accounts').slice().sort((a, b) => (a.sort || 0) - (b.sort || 0));
+  const cash = A('cash_entries').map(e => ({ ...e, amount: +e.amount })).sort((a, b) => String(a.date).localeCompare(b.date) || String(a.id).localeCompare(String(b.id), 'en', { numeric: true }));
+  const cbal = {}; cash.forEach(e => { cbal[e.account] = (cbal[e.account] || 0) + (e.direction === 'in' ? e.amount : -e.amount); e.bal = cbal[e.account]; });
+  return { cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
     attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
     myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
     stockKg: sum(profiles, p => p.kg), stockPcs: sum(profiles, p => p.pcs), stockVal: sum(profiles, p => p.value), inStock: profiles.filter(p => p.pcs > 0 || p.kg > 0.001) };
@@ -916,6 +931,7 @@ const ICONS = {
   salary: '<path d="M6 4h12M6 9h12M9 4h1a4.5 4.5 0 0 1 0 9H6l8 8"/>',
   mysales: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>',
   purchases: '<path d="M2 6h12v10H2zM14 9h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
+  bank: '<path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>',
   expenses: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
   profit: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
   team: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>',
@@ -927,6 +943,8 @@ const TABS = [
   { k: 'overview', label: 'tab_overview', mob: 'tab_home', icon: 'home' },
   { k: 'sales', label: 'tab_sales', icon: 'sales', need: () => can('orders'), ct: () => M.sales.filter(openSO).length },
   { k: 'register', label: 'tab_register', icon: 'expenses', need: () => can('rates'), ct: () => M.register.length },
+  { k: 'cash', label: 'tab_cash', icon: 'bank', need: () => can('cash'), ct: () => M.cash.length },
+  { k: 'ledger', label: 'tab_ledger', icon: 'lists', need: () => can('cash') },
   { k: 'work', label: 'tab_work', mob: 'tab_work_s', icon: 'work', need: () => can('work'), ct: () => M.work.filter(openWO).length },
   { k: 'stock', label: 'tab_stock', icon: 'stock', need: () => can('stock'), ct: () => M.inStock.length },
   { k: 'lists', label: 'tab_lists', icon: 'lists', need: () => can('stock'), ct: () => M.lists.length },
@@ -1441,10 +1459,11 @@ function reportHtml(rows, S) {
     ${T.pending ? `<p class="rt-note">* ${esc(t('rg_note_pending'))}</p>` : ''}
     <div class="rsign"><div>${esc(t('rg_prepared'))}</div><div>${esc(t('rg_checked'))}</div><div>${esc(t('rg_auth'))}</div></div>`;
 }
-function printReport(rows, S) {
+function printReport(rows, S) { printHtml(reportHtml(rows, S), t('rg_title')); }
+function printHtml(html, name) {
   const old = document.getElementById('report'); if (old) old.remove();
-  const box = document.createElement('div'); box.id = 'report'; box.innerHTML = reportHtml(rows, S); document.body.appendChild(box);
-  const title = document.title; document.title = `${t('rg_title')} ${today()}`; document.body.classList.add('rep');
+  const box = document.createElement('div'); box.id = 'report'; box.innerHTML = html; document.body.appendChild(box);
+  const title = document.title; document.title = `${name} ${today()}`; document.body.classList.add('rep');
   const done = () => { document.body.classList.remove('rep'); box.remove(); document.title = title; window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done); setTimeout(() => window.print(), 60);
 }
@@ -1488,6 +1507,145 @@ VIEWS.register = () => {
   $('#rgpt').onclick = e => { const b = e.target.closest('[data-rg-party]'); if (b) { S.party = b.dataset.rgParty; $('#rgp').value = S.party; redraw(); } };
   document.querySelector('#view [data-rg-print]').onclick = () => printReport(cur(), S);
   top();
+};
+/* cash & bank register + party ledger */
+const cashSigned = e => e.direction === 'in' ? e.amount : -e.amount;
+const cashSum = (S, f) => sum(M.cash.filter(e => (!S.acct || e.account === S.acct) && f(e)), cashSigned);
+const cashMatch = S => e => (!S.acct || e.account === S.acct) && (!S.from || e.date >= S.from) && (!S.to || e.date <= S.to)
+  && (!lc(S.ft) || [e.date, dt(e.date), e.account, e.party, e.category, e.note, e.ref, e.amount].join(' ').toLowerCase().includes(lc(S.ft)));
+const cashDetail = e => [e.category, e.note].filter(Boolean).join(' · ') + (e.ref ? ` (${e.ref})` : '');
+function cashDays(S, rows) {
+  const m = {}; rows.forEach(e => { const d = m[e.date] = m[e.date] || { date: e.date, in: 0, out: 0 }; if (e.direction === 'in') d.in += e.amount; else d.out += e.amount; });
+  return Object.values(m).map(d => ({ ...d, net: d.in - d.out, closing: cashSum(S, x => x.date <= d.date) })).sort((a, b) => a.date.localeCompare(b.date));
+}
+function cashAccRows(S, rows) {
+  const names = S.acct ? [S.acct] : M.cashAccounts.map(a => a.name);
+  return names.map(n => { const mine = rows.filter(e => e.account === n); const i = sum(mine.filter(e => e.direction === 'in'), e => e.amount), o = sum(mine.filter(e => e.direction === 'out'), e => e.amount);
+    const open = S.from ? sum(M.cash.filter(e => e.account === n && e.date < S.from), cashSigned) : 0; return { name: n, open, in: i, out: o, close: open + i - o }; });
+}
+function cashReportHtml(S) {
+  const rows = M.cash.filter(cashMatch(S));
+  const period = S.from || S.to ? `${S.from ? dt(S.from) : '…'} – ${S.to ? dt(S.to) : '…'}` : t('rg_all_dates');
+  const ar = cashAccRows(S, rows), tot = k => sum(ar, a => a[k]);
+  const head = `<header class="rh"><div class="rh-co">${esc(COMPANY)}</div><div class="rh-ad">${esc(COMPANY_ADDR)}</div><h1>${esc(t('cb_title'))}</h1>
+    <dl class="rh-meta"><div><dt>${esc(t('rg_period'))}</dt><dd>${esc(period)}</dd></div><div><dt>${esc(t('cb_account'))}</dt><dd>${esc(S.acct || t('cb_all_acc'))}</dd></div><div><dt>${esc(t('rg_printed'))}</dt><dd>${esc(dt(today()))}</dd></div></dl></header>`;
+  const days = cashDays(S, rows);
+  return head + `<section><h2>${esc(t('cb_s1'))}</h2><table class="rt"><thead><tr><th>${esc(t('cb_account'))}</th><th class="num">${esc(t('cb_opening'))}</th><th class="num">${esc(t('cb_in'))}</th><th class="num">${esc(t('cb_out'))}</th><th class="num">${esc(t('cb_closing'))}</th></tr></thead><tbody>${ar.map(a => `<tr><td>${esc(a.name)}</td><td class="num">${inr(a.open)}</td><td class="num">${inr(a.in)}</td><td class="num">${inr(a.out)}</td><td class="num">${inr(a.close)}</td></tr>`).join('')}</tbody><tfoot><tr><td>${esc(t('rg_total'))}</td><td class="num">${inr(tot('open'))}</td><td class="num">${inr(tot('in'))}</td><td class="num">${inr(tot('out'))}</td><td class="num">${inr(tot('close'))}</td></tr></tfoot></table></section>
+    <section><h2>${esc(t('cb_s2'))}</h2><table class="rt"><thead><tr><th>${esc(t('rg_sr'))}</th><th>${esc(t('date'))}</th><th>${esc(t('cb_account'))}</th><th>${esc(t('rg_party'))}</th><th>${esc(t('cb_details'))}</th><th class="num">${esc(t('cb_receipt'))}</th><th class="num">${esc(t('cb_payment'))}</th><th class="num">${esc(t('cb_balance'))}</th></tr></thead><tbody>${rows.map((e, i) => `<tr><td>${i + 1}</td><td>${esc(dt(e.date))}</td><td>${esc(e.account)}</td><td>${esc(e.party || '')}</td><td>${esc(cashDetail(e))}</td><td class="num">${e.direction === 'in' ? inr(e.amount) : ''}</td><td class="num">${e.direction === 'out' ? inr(e.amount) : ''}</td><td class="num">${inr(e.bal)}</td></tr>`).join('')}</tbody><tfoot><tr><td colspan="5">${esc(t('rg_total'))} (${esc(t('cb_entries_n', { n: rows.length }))})</td><td class="num">${inr(tot('in'))}</td><td class="num">${inr(tot('out'))}</td><td></td></tr></tfoot></table></section>
+    <section><h2>${esc(t('cb_s3'))}</h2><table class="rt"><thead><tr><th>${esc(t('date'))}</th><th class="num">${esc(t('cb_in'))}</th><th class="num">${esc(t('cb_out'))}</th><th class="num">${esc(t('cb_net'))}</th><th class="num">${esc(t('cb_closing'))}</th></tr></thead><tbody>${days.map(d => `<tr><td>${esc(dt(d.date))}</td><td class="num">${inr(d.in)}</td><td class="num">${inr(d.out)}</td><td class="num">${inr(d.net)}</td><td class="num">${inr(d.closing)}</td></tr>`).join('')}</tbody></table></section>
+    <div class="rsign"><div>${esc(t('rg_prepared'))}</div><div>${esc(t('rg_checked'))}</div><div>${esc(t('rg_auth'))}</div></div>`;
+}
+VIEWS.cash = () => {
+  const S = uiState('cash', { acct: '', from: '', to: '', ft: '', rng: 'all', mode: 'entries', tb: {}, tb2: {} });
+  const chips = [['month', 'rg_r_month'], ['last', 'rg_r_last'], ['fy', 'rg_r_fy'], ['all', 'rg_r_all']];
+  view(`<div class="head-row"><div><h2>${esc(t('cb_h'))}</h2><p class="sub" style="margin:0">${esc(t('cb_sub'))}</p></div><span class="sp"></span><button class="bigbtn no-print" type="button" data-cb-print>${esc(t('cb_print'))}</button></div>
+    <div class="panel meta" id="cbal"></div>
+    <div class="bar rg-bar no-print"><label class="rg-l"><span>${esc(t('cb_account'))}</span><select class="filter" id="cba" style="min-width:190px"><option value="">${esc(t('cb_all_acc'))}</option>${M.cashAccounts.map(a => `<option ${a.name === S.acct ? 'selected' : ''}>${esc(a.name)}</option>`).join('')}</select></label>
+      <label class="rg-l"><span>${esc(t('rg_from'))}</span><input class="filter" id="cbf" type="date" value="${esc(S.from)}"></label><label class="rg-l"><span>${esc(t('rg_to'))}</span><input class="filter" id="cbt2" type="date" value="${esc(S.to)}"></label>
+      <label class="rg-l"><span>${esc(t('filter'))}</span><input class="filter" id="cbq" type="search" value="${esc(S.ft)}"></label></div>
+    <div class="chips no-print" style="margin-bottom:14px">${chips.map(([k, l]) => `<button class="chip" type="button" data-cb-r="${k}" aria-pressed="${S.rng === k}">${esc(t(l))}</button>`).join('')}<span style="width:14px"></span><button class="chip" type="button" data-cb-m="entries" aria-pressed="${S.mode === 'entries'}">${esc(t('cb_entries'))}</button><button class="chip" type="button" data-cb-m="day" aria-pressed="${S.mode === 'day'}">${esc(t('cb_daybook'))}</button></div>
+    <div class="panel" id="cbt"></div>`);
+  const empty = `<div class="empty"><h3>${esc(t('cb_empty_h'))}</h3><p>${esc(t('cb_empty_p'))}</p></div>`;
+  const paint = () => {
+    const rows = M.cash.filter(cashMatch(S)), inn = sum(rows.filter(e => e.direction === 'in'), e => e.amount), out = sum(rows.filter(e => e.direction === 'out'), e => e.amount);
+    const accs = S.acct ? M.cashAccounts.filter(a => a.name === S.acct) : M.cashAccounts;
+    $('#cbal').innerHTML = accs.map(a => `<div><span>${esc(a.name)}</span><b>${inr(M.cbal[a.name] || 0)}</b></div>`).join('') + (accs.length > 1 ? `<div><span>${esc(t('cb_total_bal'))}</span><b>${inr(sum(accs, a => M.cbal[a.name] || 0))}</b></div>` : '');
+    document.querySelectorAll('#view [data-cb-m]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.cbM === S.mode)));
+    if (S.mode === 'day') {
+      table($('#cbt'), { rows: cashDays(S, rows), id: r => r.date, sort: 'date', dir: -1, state: S.tb2, empty,
+        cols: [{ k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'in', t: t('cb_in'), num: 1, h: r => inr(r.in) }, { k: 'out', t: t('cb_out'), num: 1, h: r => inr(r.out) }, { k: 'net', t: t('cb_net'), num: 1, ph: 0, h: r => inr(r.net) }, { k: 'closing', t: t('cb_closing'), num: 1, h: r => inr(r.closing) }],
+        foot: c => ({ date: t('cb_entries_n', { n: rows.length }), in: inr(inn), out: inr(out), net: inr(inn - out) })[c.k] });
+    } else {
+      table($('#cbt'), { rows, id: r => r.id, sort: 'date', dir: -1, state: S.tb, empty,
+        cols: [{ k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'account', t: t('cb_account') }, { k: 'party', t: t('rg_party'), h: r => esc(r.party || '') }, { k: 'details', t: t('cb_details'), ph: 0, sv: r => cashDetail(r), h: r => esc(cashDetail(r)) },
+          { k: 'in', t: t('cb_receipt'), num: 1, sv: r => r.direction === 'in' ? r.amount : 0, h: r => r.direction === 'in' ? inr(r.amount) : '' }, { k: 'out', t: t('cb_payment'), num: 1, sv: r => r.direction === 'out' ? r.amount : 0, h: r => r.direction === 'out' ? inr(r.amount) : '' },
+          { k: 'bal', t: t('cb_balance'), num: 1, ph: 0, h: r => inr(r.bal) }],
+        foot: c => ({ date: t('cb_entries_n', { n: rows.length }), in: inr(inn), out: inr(out) })[c.k] });
+    }
+  };
+  const setRng = k => { const [a, b] = rgRange(k); S.from = a; S.to = b; S.rng = k; $('#cbf').value = a; $('#cbt2').value = b; document.querySelectorAll('#view [data-cb-r]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.cbR === k))); paint(); };
+  const custom = () => { S.rng = ''; document.querySelectorAll('#view [data-cb-r]').forEach(x => x.setAttribute('aria-pressed', 'false')); paint(); };
+  $('#cba').onchange = e => { S.acct = e.target.value; paint(); };
+  $('#cbf').onchange = e => { S.from = e.target.value; custom(); };
+  $('#cbt2').onchange = e => { S.to = e.target.value; custom(); };
+  $('#cbq').oninput = e => { S.ft = e.target.value; paint(); };
+  document.querySelectorAll('#view [data-cb-r]').forEach(b => b.onclick = () => setRng(b.dataset.cbR));
+  document.querySelectorAll('#view [data-cb-m]').forEach(b => b.onclick = () => { S.mode = b.dataset.cbM; paint(); });
+  document.querySelector('#view [data-cb-print]').onclick = () => printHtml(cashReportHtml(S), t('cb_title'));
+  paint();
+};
+
+/* party ledger: bills (sales register) against receipts (cash & bank register) */
+function partyRows(party, jobs) {
+  const rows = [];
+  M.register.filter(r => r.party === party && r.amount != null && (jobs || r.kind !== 'job')).forEach(r => rows.push({ date: r.date, o: 0, what: r.kind === 'job' ? `${t('rg_job')} · ${r.id}` : `${t('lg_sale')} · ${t('rg_challan')} ${r.challan_no || r.id}`, dr: r.amount, cr: 0 }));
+  if (jobs) M.register.filter(r => r.party === party && r.kind === 'job' && r.paid_on).forEach(r => rows.push({ date: r.paid_on, o: 1, what: `${t('lg_marked')} · ${r.id}`, dr: 0, cr: r.amount }));
+  M.cash.filter(e => e.party === party).forEach(e => rows.push({ date: e.date, o: 1, what: (e.direction === 'in' ? '' : t('lg_paid_to') + ' · ') + [e.account, cashDetail(e)].filter(Boolean).join(' · '), dr: e.direction === 'out' ? e.amount : 0, cr: e.direction === 'in' ? e.amount : 0 }));
+  rows.sort((a, b) => a.date.localeCompare(b.date) || a.o - b.o);
+  let bal = 0; rows.forEach(r => { bal += r.dr - r.cr; r.bal = bal; });
+  return rows;
+}
+function ledgerParties(jobs) {
+  const names = [...new Set([...M.register.filter(r => r.amount != null && (jobs || r.kind !== 'job')).map(r => r.party), ...M.cash.map(e => e.party).filter(Boolean)])];
+  return names.map(n => { const rows = partyRows(n, jobs); return { name: n, n: rows.filter(r => r.dr).length, billed: sum(rows, r => r.dr), received: sum(rows, r => r.cr), due: rows.length ? rows[rows.length - 1].bal : 0 }; }).sort((a, b) => b.due - a.due || a.name.localeCompare(b.name));
+}
+function ledgerView(party, S) {
+  const all = partyRows(party, S.jobs);
+  const bf = S.from ? sum(all.filter(r => r.date < S.from), r => r.dr - r.cr) : 0;
+  const rows = all.filter(r => (!S.from || r.date >= S.from) && (!S.to || r.date <= S.to));
+  const billed = sum(rows, r => r.dr), recd = sum(rows, r => r.cr);
+  return { rows, bf, billed, recd, close: bf + billed - recd };
+}
+function ledgerReportHtml(S) {
+  const period = S.from || S.to ? `${S.from ? dt(S.from) : '…'} – ${S.to ? dt(S.to) : '…'}` : t('rg_all_dates');
+  const sign = `<div class="rsign"><div>${esc(t('rg_prepared'))}</div><div>${esc(t('rg_checked'))}</div><div>${esc(t('rg_auth'))}</div></div>`;
+  if (!S.party) {
+    const ps = ledgerParties(S.jobs);
+    return `<header class="rh"><div class="rh-co">${esc(COMPANY)}</div><div class="rh-ad">${esc(COMPANY_ADDR)}</div><h1>${esc(t('lg_title_sum'))}</h1><dl class="rh-meta"><div><dt>${esc(t('rg_printed'))}</dt><dd>${esc(dt(today()))}</dd></div></dl></header>
+      <section><h2>${esc(t('lg_s1'))}</h2><table class="rt"><thead><tr><th>${esc(t('rg_sr'))}</th><th>${esc(t('rg_party'))}</th><th class="num">${esc(t('lg_bills'))}</th><th class="num">${esc(t('lg_billed'))}</th><th class="num">${esc(t('lg_received'))}</th><th class="num">${esc(t('lg_due'))}</th></tr></thead><tbody>${ps.map((p, i) => `<tr><td>${i + 1}</td><td>${esc(p.name)}</td><td class="num">${n0(p.n)}</td><td class="num">${inr(p.billed)}</td><td class="num">${inr(p.received)}</td><td class="num">${inr(p.due)}</td></tr>`).join('')}</tbody><tfoot><tr><td colspan="2">${esc(t('rg_total'))}</td><td class="num">${n0(sum(ps, p => p.n))}</td><td class="num">${inr(sum(ps, p => p.billed))}</td><td class="num">${inr(sum(ps, p => p.received))}</td><td class="num">${inr(sum(ps, p => p.due))}</td></tr></tfoot></table></section>${sign}`;
+  }
+  const L = ledgerView(S.party, S);
+  return `<header class="rh"><div class="rh-co">${esc(COMPANY)}</div><div class="rh-ad">${esc(COMPANY_ADDR)}</div><h1>${esc(t('lg_title'))}</h1><dl class="rh-meta"><div><dt>${esc(t('rg_party_l'))}</dt><dd>${esc(S.party)}</dd></div><div><dt>${esc(t('rg_period'))}</dt><dd>${esc(period)}</dd></div><div><dt>${esc(t('rg_printed'))}</dt><dd>${esc(dt(today()))}</dd></div></dl></header>
+    <section><h2>${esc(t('lg_s1'))}</h2><table class="rt rt-sum"><thead><tr><th class="num">${esc(t('lg_bf'))}</th><th class="num">${esc(t('lg_billed'))}</th><th class="num">${esc(t('lg_received'))}</th><th class="num">${esc(t('lg_due'))}</th></tr></thead><tbody><tr><td class="num">${inr(L.bf)}</td><td class="num">${inr(L.billed)}</td><td class="num">${inr(L.recd)}</td><td class="num">${inr(L.close)}</td></tr></tbody></table></section>
+    <section><h2>${esc(t('lg_s2'))}</h2><table class="rt"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('lg_part'))}</th><th class="num">${esc(t('lg_billed'))}</th><th class="num">${esc(t('lg_received'))}</th><th class="num">${esc(t('cb_balance'))}</th></tr></thead><tbody>${S.from ? `<tr><td></td><td>${esc(t('lg_bf'))}</td><td></td><td></td><td class="num">${inr(L.bf)}</td></tr>` : ''}${L.rows.map(r => `<tr><td>${esc(dt(r.date))}</td><td>${esc(r.what)}</td><td class="num">${r.dr ? inr(r.dr) : ''}</td><td class="num">${r.cr ? inr(r.cr) : ''}</td><td class="num">${inr(r.bal)}</td></tr>`).join('')}</tbody><tfoot><tr><td colspan="2">${esc(t('lg_close'))}</td><td class="num">${inr(L.billed)}</td><td class="num">${inr(L.recd)}</td><td class="num">${inr(L.close)}</td></tr></tfoot></table></section>${sign}`;
+}
+VIEWS.ledger = () => {
+  const S = uiState('ledger', { party: '', from: '', to: '', rng: 'all', jobs: store.get('acta.rgjobs') !== '0', tb: {}, tb2: {} });
+  const chips = [['month', 'rg_r_month'], ['last', 'rg_r_last'], ['fy', 'rg_r_fy'], ['all', 'rg_r_all']];
+  const names = () => ledgerParties(S.jobs).map(p => p.name).sort((a, b) => a.localeCompare(b));
+  view(`<div class="head-row"><div><h2>${esc(t('lg_h'))}</h2><p class="sub" style="margin:0">${esc(t('lg_sub'))}</p></div><span class="sp"></span><button class="bigbtn no-print" type="button" data-lg-print>${esc(t('lg_print'))}</button></div>
+    <div class="bar rg-bar no-print"><label class="rg-l"><span>${esc(t('rg_party'))}</span><select class="filter" id="lgp" style="min-width:230px"></select></label>
+      <label class="rg-l"><span>${esc(t('rg_from'))}</span><input class="filter" id="lgf" type="date" value="${esc(S.from)}"></label><label class="rg-l"><span>${esc(t('rg_to'))}</span><input class="filter" id="lgt" type="date" value="${esc(S.to)}"></label>
+      <label class="rg-chk"><input type="checkbox" id="lgj" ${S.jobs ? 'checked' : ''}> <span>${esc(t('rg_jobs'))}</span></label></div>
+    <div class="chips no-print" style="margin-bottom:14px">${chips.map(([k, l]) => `<button class="chip" type="button" data-lg-r="${k}" aria-pressed="${S.rng === k}">${esc(t(l))}</button>`).join('')}</div>
+    <div class="panel meta" id="lgm"></div><div class="panel" id="lgt2"></div>`);
+  const empty = `<div class="empty"><h3>${esc(t('lg_empty_h'))}</h3></div>`;
+  const fillSel = () => { const ns = names(); if (S.party && !ns.includes(S.party)) S.party = ''; $('#lgp').innerHTML = `<option value="">${esc(t('lg_all'))}</option>` + ns.map(n => `<option ${n === S.party ? 'selected' : ''}>${esc(n)}</option>`).join(''); };
+  const paint = () => {
+    $('#lgm').style.display = S.party ? '' : 'none';
+    if (!S.party) {
+      const ps = ledgerParties(S.jobs);
+      table($('#lgt2'), { rows: ps, id: r => r.name, sort: 'due', dir: -1, state: S.tb2, empty,
+        cols: [{ k: 'name', t: t('rg_party'), h: r => `<button class="link" type="button" data-lg-party="${esc(r.name)}">${esc(r.name)}</button>` }, { k: 'n', t: t('lg_bills'), num: 1, ph: 0 }, { k: 'billed', t: t('lg_billed'), num: 1, h: r => inr(r.billed) }, { k: 'received', t: t('lg_received'), num: 1, h: r => inr(r.received) }, { k: 'due', t: t('lg_due'), num: 1, h: r => `<b>${inr(r.due)}</b>` }],
+        foot: c => ({ name: t('rg_total'), billed: inr(sum(ps, p => p.billed)), received: inr(sum(ps, p => p.received)), due: inr(sum(ps, p => p.due)) })[c.k] });
+      return;
+    }
+    const L = ledgerView(S.party, S);
+    $('#lgm').innerHTML = [[t('lg_bf'), inr(L.bf)], [t('lg_billed'), inr(L.billed)], [t('lg_received'), inr(L.recd)], [t('lg_due'), inr(L.close)]].map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('');
+    table($('#lgt2'), { rows: L.rows, sort: null, state: S.tb, empty, keepTable: false,
+      cols: [{ k: 'date', t: t('date'), nosort: 1, h: r => dt(r.date) }, { k: 'what', t: t('lg_part'), nosort: 1, h: r => esc(r.what) }, { k: 'dr', t: t('lg_billed'), num: 1, nosort: 1, h: r => r.dr ? inr(r.dr) : '' }, { k: 'cr', t: t('lg_received'), num: 1, nosort: 1, h: r => r.cr ? inr(r.cr) : '' }, { k: 'bal', t: t('cb_balance'), num: 1, nosort: 1, h: r => inr(r.bal) }],
+      foot: c => ({ date: t('lg_close'), dr: inr(L.billed), cr: inr(L.recd), bal: inr(L.close) })[c.k] });
+  };
+  const setRng = k => { const [a, b] = rgRange(k); S.from = a; S.to = b; S.rng = k; $('#lgf').value = a; $('#lgt').value = b; document.querySelectorAll('#view [data-lg-r]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.lgR === k))); paint(); };
+  const custom = () => { S.rng = ''; document.querySelectorAll('#view [data-lg-r]').forEach(x => x.setAttribute('aria-pressed', 'false')); paint(); };
+  $('#lgp').onchange = e => { S.party = e.target.value; paint(); };
+  $('#lgf').onchange = e => { S.from = e.target.value; custom(); };
+  $('#lgt').onchange = e => { S.to = e.target.value; custom(); };
+  $('#lgj').onchange = e => { S.jobs = e.target.checked; store.set('acta.rgjobs', S.jobs ? '1' : '0'); fillSel(); paint(); };
+  document.querySelectorAll('#view [data-lg-r]').forEach(b => b.onclick = () => setRng(b.dataset.lgR));
+  $('#lgt2').onclick = e => { const b = e.target.closest('[data-lg-party]'); if (b) { S.party = b.dataset.lgParty; $('#lgp').value = S.party; paint(); } };
+  document.querySelector('#view [data-lg-print]').onclick = () => printHtml(ledgerReportHtml(S), t(S.party ? 'lg_title' : 'lg_title_sum'));
+  fillSel(); paint();
 };
 VIEWS.work = (arg) => {
   const stages = ['active', 'pending', 'in_process', 'completed', 'ready', 'dispatched', 'all'];
