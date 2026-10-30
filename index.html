@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-HC1mku7Piq8BbIWZxB6+C/GfAEz0NvlRo5xrS16HhF0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-qjSMWJTg4dA0SyAZ5jI6v84Bi6irENIgywzfaE+evMI='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -606,7 +606,7 @@ const I18N = {
     set_status: 'Change status', save: 'Save', done_to: '{id} → {st}', undo: 'Undo', err: "That didn't work: {msg}",
     lede: '{kg} kg of aluminium in stock', lede_more: '{pcs} lengths across {n} profiles', lede_val: 'worth {val} at landed cost.',
     rack: 'Stock rack', rack_sub: 'kg on hand, by series', show_zero: 'Show profiles with no stock', none: 'none', lengths: 'lengths', new: 'new',
-    check_bundles: 'Check these bundles', nothing_check: 'Nothing to check.', latest_lot: 'Latest lot', received: 'Received', landed: 'Landed cost', per_kg: 'per kg', see_purchases: 'See purchases',
+    check_bundles: 'Check these bundles', settled: 'Settled', nothing_check: 'Nothing to check.', latest_lot: 'Latest lot', received: 'Received', landed: 'Landed cost', per_kg: 'per kg', see_purchases: 'See purchases',
     spent_in: 'Money spent in {m}', material_bought: 'Material purchased', consumables_bought: 'Consumables purchased', total: 'Total',
     todo: 'To do', to_confirm: 'Orders to confirm', wo_open: 'Work orders open', due_soon: 'Due in 3 days', low_cons: 'Low consumables', all_ok: 'Nothing pending.',
     overdue: 'overdue {n}d', due_today: 'due today', due_in: 'due in {n}d',
@@ -725,7 +725,7 @@ const I18N = {
     set_status: 'स्टेटस बदलें', save: 'सेव करें', done_to: '{id} → {st}', undo: 'वापस लें', err: 'नहीं हो पाया: {msg}',
     lede: '{kg} किलो एल्युमिनियम स्टॉक में', lede_more: '{n} प्रोफ़ाइल में {pcs} पीस', lede_val: 'लैंडेड कॉस्ट पर कीमत {val}।',
     rack: 'स्टॉक रैक', rack_sub: 'सीरीज़ के हिसाब से किलो', show_zero: 'बिना स्टॉक वाली प्रोफ़ाइल भी दिखाएँ', none: 'नहीं', lengths: 'पीस', new: 'नया',
-    check_bundles: 'इन बंडलों को जाँचें', nothing_check: 'जाँचने को कुछ नहीं।', latest_lot: 'आख़िरी लॉट', received: 'प्राप्त', landed: 'लैंडेड कॉस्ट', per_kg: 'प्रति किलो', see_purchases: 'खरीद देखें',
+    check_bundles: 'इन बंडलों को जाँचें', settled: 'निपटाया', nothing_check: 'जाँचने को कुछ नहीं।', latest_lot: 'आख़िरी लॉट', received: 'प्राप्त', landed: 'लैंडेड कॉस्ट', per_kg: 'प्रति किलो', see_purchases: 'खरीद देखें',
     spent_in: '{m} में खर्च', material_bought: 'माल की खरीद', consumables_bought: 'खपत सामग्री की खरीद', total: 'कुल',
     todo: 'करने के काम', to_confirm: 'कन्फ़र्म करने वाले ऑर्डर', wo_open: 'खुले वर्क ऑर्डर', due_soon: '3 दिन में डिलीवरी', low_cons: 'कम खपत सामग्री', all_ok: 'कुछ बाकी नहीं।',
     overdue: '{n} दिन लेट', due_today: 'आज डिलीवरी', due_in: '{n} दिन बाकी',
@@ -907,8 +907,9 @@ function buildModel(R) {
     const byP = {}; raw.forEach(b => (byP[b.profile] = byP[b.profile] || []).push(b.kg / (b.pcs || 1)));
     const typical = {}; Object.entries(byP).forEach(([k, v]) => typical[k] = median(v));
     const bundles = raw.map(b => { const avg = b.pcs ? b.kg / b.pcs : 0; const tp = typical[b.profile] || avg; const dev = tp ? (avg / tp - 1) * 100 : 0;
-      const nt = notes.find(n => n.packing_list === l.id && n.bundle === b.no);
-      return { ...b, list: l.id, direction: l.direction, party: l.party, date: l.received || l.date, avg, dev, flag: Math.abs(dev) >= 8, note: nt ? nt.text : '' }; });
+      const nt = notes.find(n => n.packing_list === l.id && n.bundle === b.no); const settled = !!(nt && nt.resolved), flag = Math.abs(dev) >= 8;
+      // check = still needs a look: an open note, or a weight off the others with no settled note
+      return { ...b, list: l.id, direction: l.direction, party: l.party, date: l.received || l.date, avg, dev, flag, note: nt ? nt.text : '', settled, check: (!!nt && !settled) || (flag && !settled) }; });
     return { ...l, bundles, pcs: sum(bundles, b => b.pcs), kg: sum(bundles, b => b.kg), lotObj: lotById[l.lot] };
   });
   // Lengths come in bare and go out wrapped in stretch film, and the film is sold as part of the weight.
@@ -1331,7 +1332,8 @@ VIEWS.overview = () => {
     S.push(`<section><h3>${esc(t('tab_mysales'))} · ${esc(monthName(month))}</h3>${s.tg ? `${goalBar(s.pct)}<dl class="kv" style="margin-top:10px"><dt>${esc(t('achieved'))}</dt><dd>${n2(s.kg)} / ${n0(s.target)} kg</dd><dt>${esc(t('earned'))}</dt><dd><b>${inr(s.earned)}</b></dd></dl>` : `<p class="muted">${esc(t('no_target'))}</p>`}<p style="margin:10px 0 0"><button class="link" data-go="mysales">${esc(t('my_sales_h'))}</button></p></section>`);
   }
   if (lowCons.length && (can('consumables') || can('consumable_costs'))) S.push(`<section><h3>${esc(t('low_cons'))}</h3>${lowCons.map(c => `<div class="flag" data-go="cons/${esc(c.id)}"><span class="b">${esc(t('low'))}</span><span class="t">${esc(c.name)} — ${nq(c.qty)} ${esc(c.unit)}</span></div>`).join('')}</section>`);
-  if (showStock) S.push(`<section><h3>${esc(t('check_bundles'))}</h3>${M.notes.length ? M.notes.map(n => `<div class="flag" data-go="lists/${esc(n.packing_list)}${n.bundle ? '/' + n.bundle : ''}"><span class="b">${n.bundle ? '#' + n.bundle : '!'}</span><span class="t">${esc(n.text)}</span></div>`).join('') : `<p class="muted">${esc(t('nothing_check'))}</p>`}</section>`);
+  const openNotes = M.notes.filter(n => !n.resolved), offOnly = M.bundles.filter(b => b.check && !b.note);
+  if (showStock) S.push(`<section><h3>${esc(t('check_bundles'))}</h3>${openNotes.length || offOnly.length ? openNotes.map(n => `<div class="flag" data-go="lists/${esc(n.packing_list)}${n.bundle ? '/' + n.bundle : ''}"><span class="b">${n.bundle ? '#' + n.bundle : '!'}</span><span class="t">${esc(n.text)}</span></div>`).join('') + offOnly.map(b => `<div class="flag" data-go="lists/${esc(b.list)}/${b.no}"><span class="b">#${b.no}</span><span class="t">${esc(b.profile)}: ${b.dev >= 0 ? '+' : ''}${b.dev.toFixed(1)}%</span></div>`).join('') : `<p class="muted">${esc(t('nothing_check'))}</p>`}</section>`);
   if (latest) S.push(`<section><h3>${esc(t('latest_lot'))}</h3><dl class="kv"><dt>${esc(latest.supplier)}</dt><dd>${dt(latest.received)}</dd><dt>${esc(t('received'))}</dt><dd>${n2(latest.kg)} kg</dd><dt>${esc(t('lengths_h'))}</dt><dd>${n0(latest.pcs)}</dd><dt>${esc(t('landed'))}</dt><dd>₹${n2(latest.rate)} ${esc(t('per_kg'))}</dd></dl>
     <p style="margin:10px 0 0"><button class="link" data-go="purchases">${esc(t('see_purchases'))}</button></p></section>`);
   if (can('purchases') || can('expenses') || can('consumable_costs')) S.push(`<section><h3>${esc(t('spent_in', { m: MONTH_FULL[LANG][+month.slice(5) - 1] }))}</h3>
@@ -1359,7 +1361,7 @@ function bundleTable(bundles, opts = {}) {
   return `<div class="tw"><table class="compact"><thead><tr>${opts.list ? `<th>${esc(t('list'))}</th><th>${esc(t('date'))}</th>` : ''}<th class="num">${esc(t('bundle'))}</th>${opts.profile ? `<th>${esc(t('profile'))}</th>` : ''}<th>${esc(t('sup_name'))}</th><th class="num">${esc(t('len_ft'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('kg_per_len'))}</th><th class="num">${esc(t('vs_typ'))}</th><th>${esc(t('check'))}</th></tr></thead>
     <tbody>${bundles.map(b => `<tr id="b-${esc(b.list)}-${b.no}" class="${opts.hl && +opts.hl === b.no ? 'hl' : ''}">${opts.list ? `<td><button class="link" data-go="lists/${esc(b.list)}/${b.no}">${esc(b.list)}</button> <span class="pill ${b.direction}">${esc(t(b.direction === 'in' ? 'in' : 'out'))}</span></td><td>${dt(b.date)}</td>` : ''}
       <td class="num">${b.no}</td>${opts.profile ? `<td>${esc(b.profile)}</td>` : ''}<td class="muted">${esc(b.supplier_name || '')}</td><td class="num">${b.len_ft || ''}</td><td class="num">${n0(b.pcs)}</td><td class="num">${n2(b.kg)}</td><td class="num">${n3(b.avg)}</td>
-      <td class="num ${b.flag ? 'dev-hi' : 'muted'}">${b.dev >= 0 ? '+' : ''}${b.dev.toFixed(1)}%</td><td>${b.note ? `<span class="pill warn">${esc(t('count_it'))}</span> <span class="muted">${esc(b.note)}</span>` : b.flag ? `<span class="pill warn">${esc(t('check'))}</span>` : ''}</td></tr>`).join('')}</tbody>
+      <td class="num ${b.check ? 'dev-hi' : 'muted'}">${b.dev >= 0 ? '+' : ''}${b.dev.toFixed(1)}%</td><td>${b.note ? `<span class="pill ${b.settled ? 'ok' : 'warn'}">${esc(t(b.settled ? 'settled' : 'count_it'))}</span> <span class="muted">${esc(b.note)}</span>` : b.check ? `<span class="pill warn">${esc(t('check'))}</span>` : ''}</td></tr>`).join('')}</tbody>
     <tfoot><tr>${opts.list ? '<td></td><td></td>' : ''}<td class="num">${bundles.length}</td>${opts.profile ? '<td></td>' : ''}<td></td><td></td><td class="num">${n0(sum(bundles, b => b.pcs))}</td><td class="num">${n2(sum(bundles, b => b.kg))}</td><td class="num">${n3(sum(bundles, b => b.kg) / (sum(bundles, b => b.pcs) || 1))}</td><td></td><td></td></tr></tfoot></table></div>`;
 }
 
@@ -1460,7 +1462,7 @@ VIEWS.lists = (arg) => {
         { k: 'b', t: t('bundles'), num: 1, sv: r => r.bundles.length, h: r => r.bundles.length }, { k: 'pcs', t: t('lengths'), num: 1, ph: 0, h: r => n0(r.pcs) }, { k: 'kg', t: t('kg'), num: 1, h: r => n2(r.kg) }, { k: 'lot', t: t('lot'), ph: 0, h: r => esc(r.lot || r.sales_order || (saleOf(r) || {}).id || '') }] });
     return;
   }
-  const secs = {}; l.bundles.forEach(b => { const s = secs[b.profile] = secs[b.profile] || { profile: b.profile, supplier: b.supplier_name, len: b.len_ft, n: 0, pcs: 0, kg: 0, flags: 0 }; s.n++; s.pcs += b.pcs; s.kg += b.kg; if (b.flag || b.note) s.flags++; });
+  const secs = {}; l.bundles.forEach(b => { const s = secs[b.profile] = secs[b.profile] || { profile: b.profile, supplier: b.supplier_name, len: b.len_ft, n: 0, pcs: 0, kg: 0, flags: 0 }; s.n++; s.pcs += b.pcs; s.kg += b.kg; if (b.check) s.flags++; });
   const rate = master && l.lotObj ? l.lotObj.rate : 0;
   view(`<div class="head-row"><div><p class="no-print" style="margin:0 0 6px"><button class="link" data-go="lists">${esc(t('all_lists'))}</button></p><h2>${esc(t(l.direction === 'in' ? 'rcv_from' : 'sent_to'))} ${esc(l.party)}</h2><p class="sub" style="margin:0">${esc(t('pl_no', { id: l.id, d: dt(l.date) }))}</p></div><span class="sp"></span><button class="btn no-print" type="button" data-print>${esc(t('print'))}</button></div>
     <div class="panel meta"><div><span>${esc(t(l.direction === 'in' ? 'rcv' : 'sent'))}</span><b>${dt(l.received || l.date)}</b></div><div><span>${esc(t('bundles'))}</span><b>${l.bundles.length}</b></div><div><span>${esc(t('lengths'))}</span><b>${n0(l.pcs)}</b></div><div><span>${esc(t('weight'))}</span><b>${n2(l.kg)} kg</b></div>
@@ -1791,7 +1793,7 @@ function dataChecks() {
       : t('ck_film_i', { l: x.list, p: x.profile, pct: x.pct.toFixed(1), n: n0(x.pcs), m: x.per ? n0(x.kg / (x.per * (1 + med / 100))) : '?', med: med.toFixed(1) }); }));
   const cw = M.work.filter(w => w.cancelled && w.stage !== 'dispatched');
   add('ck_open', M.work.filter(w => openWO(w) && !M.sales.some(o => o.id === w.sales_order) && w.sales_order).map(w => w.id));
-  const flagged = M.bundles.filter(b => b.note || b.flag);
+  const flagged = M.bundles.filter(b => b.check);
   return { items: out, flagged, cw };
 }
 VIEWS.checks = () => {
