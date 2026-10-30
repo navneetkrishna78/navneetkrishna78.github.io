@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-qjSMWJTg4dA0SyAZ5jI6v84Bi6irENIgywzfaE+evMI='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-wKW28RHJP7DTo2k6aAKWHikqP6hyDigRSLfBmqIY7Do='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -419,6 +419,22 @@ table.att th,table.att td{padding:7px 5px;font-size:var(--fs-cap)} table.att .su
 .rg-chk{display:flex;align-items:center;gap:8px;min-height:40px;font-size:var(--fs-sm);cursor:pointer}.rg-chk input{width:18px;height:18px}
 .rg-l{display:flex;flex-direction:column;gap:3px;font-size:var(--fs-cap);color:var(--steel)}
 #report{display:none}
+/* stock: flow bar and the to-order panel */
+.flow{display:flex;gap:2px;height:8px;width:100%;align-items:center}
+#tb td:has(.flow){width:120px;min-width:120px}
+.flow.wide{height:12px}
+.flow i{display:block;height:100%;border-radius:4px;min-width:3px}
+.fl-left,.sw.fl-left{background:#3A6EA5}
+.fl-out,.sw.fl-out{background:var(--rule)}
+.flow-leg{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 10px;font-size:var(--fs-cap);color:var(--steel)}
+.flow-leg span{display:inline-flex;align-items:center;gap:6px}
+.panel.ord{padding:16px 20px 10px;margin-bottom:18px;border-left:3px solid var(--warn)}
+.panel.ord h3{margin:0}
+.ro-form{margin-top:10px;max-width:none;grid-template-columns:160px 160px auto;align-items:end}
+.ro-form .row{grid-column:3;justify-self:start}
+@media(max-width:720px){.ro-form{grid-template-columns:1fr 1fr}.ro-form .row{grid-column:1/-1;flex-wrap:wrap}}
+.meta b small{font:inherit;font-size:var(--fs-sm);font-weight:400;color:var(--steel)}
+.meta > div > small{display:block;color:var(--faint);font-size:var(--fs-cap);margin-top:2px}
 /* profit charts */
 .pv-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 12px}
 .pv-bar label{font-size:var(--fs-sm);color:var(--steel)}
@@ -573,6 +589,16 @@ const I18N = {
     lg_h: 'Party ledger', lg_sub: 'What each party was billed, what they paid and what is still due.', lg_all: 'All parties (summary)', lg_billed: 'Billed', lg_received: 'Received', lg_due: 'Balance due', lg_part: 'Particulars', lg_bf: 'Balance brought forward', lg_close: 'Closing balance',
     lg_sale: 'Sale', lg_marked: 'Received (order marked paid)', lg_title: 'Party Ledger', lg_title_sum: 'Outstanding by Party', lg_s1: 'Summary', lg_s2: 'Statement', lg_empty_h: 'Nothing for this party', lg_paid_to: 'Paid to party', lg_bills: 'Bills', lg_print: 'Print A4 ledger',
     neg_pill: 'Below zero', neg_banner: '{n} profile(s) show stock below zero: {names}. A receipt or dispatch is probably recorded wrongly. Check the bundles.',
+    st_left: 'In stock', st_profiles: 'Profiles in stock', of_n: 'of {n}', st_to_order: 'To order', st_to_order_s: 'at or below the reorder level', st_all_ok: 'nothing below its level',
+    st_low: 'Low', st_out: 'Out of stock', st_ok: 'In stock', vm_table: 'Table', vm_rack: 'Rack', flow_t: '{left} in stock, {out} sent',
+    mv_h: 'In, out and what is left', mv_what: 'Packing list', mv_in: 'In', mv_out: 'Out', mv_bal: 'Balance', mv_adj: 'By hand', mv_now: 'Total', no_moves: 'Nothing received or sent yet.',
+    ro_h: 'Reordering', ro_level: 'Reorder at', ro_upto: 'Order up to', ro_pcs: '{n} lengths', ro_not_set: 'not set', ro_none: 'not set',
+    ro_rate: 'Going out at', ro_per_day: '{n} lengths a day, over the last {d} days', ro_no_use: 'nothing sent yet', ro_days_left: 'Days left', ro_days: '{n} days',
+    ro_suggest: 'At this rate about {n} lengths go out while a new lot is coming ({d} days), so that is a sensible reorder level.', ro_use: 'Use {n}',
+    ro_clear: 'Clear', ro_upto_low: 'Order up to must be at least the reorder level.',
+    ro_lead_btn: 'Lead time', ro_lead_h: 'How long a new lot takes', ro_lead_sub: 'Days from placing an order to having the material in the godown. This drives the suggested reorder levels.', ro_lead_days: 'Lead time',
+    ord_h: 'To order now', ord_title: 'Reorder List', ord_sub: 'At or below the reorder level. The quantity brings each one back up to its order-up-to level, allowing {d} days for delivery.', ord_qty: 'Order', ord_n: '{n} to order',
+    sv_h: 'Stock value', sv_sub: "What is in stock, at each profile's landed cost per kg. Quantities live in the Stock screen; this is the money side.", sv_none: 'Nothing in stock.',
     pv_show: 'Show', pv_all: 'All sales ({n})', pv_one: '{id}: challan {c}, {p}',
     pv_h: 'How the profit is made', pv_sub: 'Profit = what we make on the aluminium + the stretch film sold at the aluminium rate − anodising − what the film cost us.',
     pv_metal: 'Margin on the aluminium', pv_metal_s: '{kg} kg of aluminium sold at ₹{r}/kg, bought at ₹{c}/kg landed',
@@ -610,7 +636,7 @@ const I18N = {
     spent_in: 'Money spent in {m}', material_bought: 'Material purchased', consumables_bought: 'Consumables purchased', total: 'Total',
     todo: 'To do', to_confirm: 'Orders to confirm', wo_open: 'Work orders open', due_soon: 'Due in 3 days', low_cons: 'Low consumables', all_ok: 'Nothing pending.',
     overdue: 'overdue {n}d', due_today: 'due today', due_in: 'due in {n}d',
-    stock_h: 'Stock', stock_sub: 'Received minus sent. A sent length counts at its weight as bought; the stretch film on it is not aluminium. Click a profile to see its bundles.', stock_sub_m: "Received minus sent, valued at each lot's landed cost per kg. A sent length counts at its weight as bought; the stretch film on it is not aluminium. Click a profile to see its bundles.",
+    stock_h: 'Stock', stock_sub: 'What came in, what went out and what is left, in lengths and kg. A sent length counts at its weight as bought; the stretch film on it is not aluminium. Click a profile for its full in-and-out record.',
     filter: 'Filter…', all: 'All', only_stock: 'Only profiles in stock', profile: 'Profile', series: 'Series', kg: 'Kg', kg_per_len: 'Kg per length', range: 'Lightest – heaviest bundle', rs_kg: '₹ per kg', value: 'Value', last_rcv: 'Last received', profiles_n: '{n} profiles',
     bundles_of: '{name} — {n} bundles', no_bundles: 'No bundles received or sent yet.', no_match: 'Nothing matches.', no_match_h: 'Nothing matches', no_match_p: 'Clear the filter or pick another option.',
     lists_h: 'Packing lists', lists_sub: 'Received from suppliers and sent to customers.', list: 'List', party: 'Party', list_date: 'List date', rcv_sent: 'Received / sent', bundles: 'Bundles', lot: 'Lot',
@@ -692,6 +718,16 @@ const I18N = {
     lg_h: 'पार्टी खाता', lg_sub: 'हर पार्टी का कितना बिल बना, कितना दिया और कितना बाकी है।', lg_all: 'सभी पार्टी (सारांश)', lg_billed: 'बिल', lg_received: 'मिला', lg_due: 'बाकी', lg_part: 'ब्योरा', lg_bf: 'पिछला बैलेंस', lg_close: 'अंतिम बैलेंस',
     lg_sale: 'बिक्री', lg_marked: 'मिला (ऑर्डर पेड मार्क)', lg_title: 'पार्टी खाता', lg_title_sum: 'पार्टी के हिसाब से बाकी रकम', lg_s1: 'सारांश', lg_s2: 'खाता विवरण', lg_empty_h: 'इस पार्टी का कुछ नहीं', lg_paid_to: 'पार्टी को दिया', lg_bills: 'बिल', lg_print: 'A4 खाता प्रिंट करें',
     neg_pill: 'शून्य से कम', neg_banner: '{n} प्रोफ़ाइल का स्टॉक शून्य से कम दिख रहा है: {names}। शायद कोई आवक या डिस्पैच गलत दर्ज हुआ है। बंडल जाँचें।',
+    st_left: 'स्टॉक में', st_profiles: 'स्टॉक वाली प्रोफ़ाइल', of_n: '{n} में से', st_to_order: 'मँगाना है', st_to_order_s: 'रीऑर्डर लेवल पर या उससे नीचे', st_all_ok: 'कोई भी लेवल से नीचे नहीं',
+    st_low: 'कम', st_out: 'स्टॉक ख़त्म', st_ok: 'स्टॉक में', vm_table: 'टेबल', vm_rack: 'रैक', flow_t: '{left} स्टॉक में, {out} भेजा',
+    mv_h: 'आया, गया और बचा', mv_what: 'पैकिंग लिस्ट', mv_in: 'आया', mv_out: 'गया', mv_bal: 'बाक़ी', mv_adj: 'हाथ से', mv_now: 'कुल', no_moves: 'अभी कुछ न आया न गया।',
+    ro_h: 'दोबारा मँगाना', ro_level: 'इतने पर मँगाएँ', ro_upto: 'इतना कर लें', ro_pcs: '{n} पीस', ro_not_set: 'तय नहीं', ro_none: 'तय नहीं',
+    ro_rate: 'खपत', ro_per_day: 'रोज़ {n} पीस, पिछले {d} दिनों में', ro_no_use: 'अभी कुछ नहीं भेजा', ro_days_left: 'कितने दिन चलेगा', ro_days: '{n} दिन',
+    ro_suggest: 'इस रफ़्तार से नया लॉट आने तक ({d} दिन) लगभग {n} पीस निकल जाएँगे, तो यही ठीक रीऑर्डर लेवल है।', ro_use: '{n} लें',
+    ro_clear: 'हटाएँ', ro_upto_low: '"इतना कर लें" रीऑर्डर लेवल से कम नहीं हो सकता।',
+    ro_lead_btn: 'डिलीवरी का समय', ro_lead_h: 'नया लॉट आने में कितना समय', ro_lead_sub: 'ऑर्डर देने से माल गोदाम आने तक के दिन। सुझाए गए रीऑर्डर लेवल इसी से बनते हैं।', ro_lead_days: 'डिलीवरी का समय',
+    ord_h: 'अभी मँगाना है', ord_title: 'रीऑर्डर लिस्ट', ord_sub: 'रीऑर्डर लेवल पर या उससे नीचे। मात्रा हर एक को उसके "इतना कर लें" लेवल तक ले आती है, {d} दिन की डिलीवरी मानकर।', ord_qty: 'मँगाएँ', ord_n: '{n} मँगानी हैं',
+    sv_h: 'स्टॉक की कीमत', sv_sub: 'स्टॉक में जो है, हर प्रोफ़ाइल की लैंडेड कॉस्ट प्रति किलो पर। मात्रा स्टॉक स्क्रीन पर है; यह पैसे वाला हिसाब है।', sv_none: 'स्टॉक में कुछ नहीं।',
     pv_show: 'दिखाएँ', pv_all: 'सारी बिक्री ({n})', pv_one: '{id}: चालान {c}, {p}',
     pv_h: 'मुनाफ़ा कैसे बनता है', pv_sub: 'मुनाफ़ा = एल्युमिनियम पर कमाई + एल्युमिनियम के रेट पर बिकी स्ट्रेच फ़िल्म − एनोडाइज़िंग − फ़िल्म की लागत।',
     pv_metal: 'एल्युमिनियम पर मार्जिन', pv_metal_s: '{kg} किलो एल्युमिनियम ₹{r}/किलो पर बिका, लैंडेड ₹{c}/किलो पर ख़रीदा',
@@ -729,7 +765,7 @@ const I18N = {
     spent_in: '{m} में खर्च', material_bought: 'माल की खरीद', consumables_bought: 'खपत सामग्री की खरीद', total: 'कुल',
     todo: 'करने के काम', to_confirm: 'कन्फ़र्म करने वाले ऑर्डर', wo_open: 'खुले वर्क ऑर्डर', due_soon: '3 दिन में डिलीवरी', low_cons: 'कम खपत सामग्री', all_ok: 'कुछ बाकी नहीं।',
     overdue: '{n} दिन लेट', due_today: 'आज डिलीवरी', due_in: '{n} दिन बाकी',
-    stock_h: 'स्टॉक', stock_sub: 'आया माल घटा भेजा माल। भेजा पीस खरीद वाले वज़न पर गिना जाता है; उस पर लिपटी स्ट्रेच फ़िल्म एल्युमिनियम नहीं है। बंडल देखने के लिए प्रोफ़ाइल पर क्लिक करें।', stock_sub_m: 'आया माल घटा भेजा माल, हर लॉट की लैंडेड कॉस्ट प्रति किलो पर। भेजा पीस खरीद वाले वज़न पर गिना जाता है; उस पर लिपटी स्ट्रेच फ़िल्म एल्युमिनियम नहीं है। बंडल देखने के लिए प्रोफ़ाइल पर क्लिक करें।',
+    stock_h: 'स्टॉक', stock_sub: 'क्या आया, क्या गया और क्या बचा — पीस और किलो में। भेजा पीस खरीद वाले वज़न पर गिना जाता है; उस पर लिपटी स्ट्रेच फ़िल्म एल्युमिनियम नहीं है। पूरा आना-जाना देखने के लिए प्रोफ़ाइल पर क्लिक करें।',
     filter: 'छाँटें…', all: 'सभी', only_stock: 'सिर्फ़ स्टॉक वाली प्रोफ़ाइल', profile: 'प्रोफ़ाइल', series: 'सीरीज़', kg: 'किलो', kg_per_len: 'किलो प्रति पीस', range: 'सबसे हल्का – भारी बंडल', rs_kg: '₹ प्रति किलो', value: 'कीमत', last_rcv: 'आख़िरी बार आया', profiles_n: '{n} प्रोफ़ाइल',
     bundles_of: '{name} — {n} बंडल', no_bundles: 'अभी कोई बंडल आया या गया नहीं।', no_match: 'कुछ नहीं मिला।', no_match_h: 'कुछ नहीं मिला', no_match_p: 'फ़िल्टर हटाएँ या दूसरा विकल्प चुनें।',
     lists_h: 'पैकिंग लिस्ट', lists_sub: 'सप्लायर से आई और ग्राहकों को भेजी गई।', list: 'लिस्ट', party: 'पार्टी', list_date: 'लिस्ट की तारीख', rcv_sent: 'आया / भेजा', bundles: 'बंडल', lot: 'लॉट',
@@ -866,7 +902,7 @@ async function loadRaw() {
     ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
     ['sales_register', can('rates')], ['cash_accounts', can('cash')], ['cash_entries', can('cash')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
-    ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')], ['cost_rates', can('profit')]].filter(x => x[1]).map(x => x[0]);
+    ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')], ['cost_rates', can('profit')], ['app_settings', true]].filter(x => x[1]).map(x => x[0]);
   const rows = await Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
   const R = Object.fromEntries(plan.map((n, i) => [n, rows[i]]));
   R.app_users = users;
@@ -890,8 +926,8 @@ function buildModel(R) {
   const lineSort = (a, b) => (a.line_no || 0) - (b.line_no || 0);
   const bundlesBy = groupBy(A('bundles'), 'packing_list');
   const prof = {};
-  A('alu_profiles').slice().sort((a, b) => (a.sort ?? 999) - (b.sort ?? 999)).forEach((p, i) => prof[p.name] = { name: p.name, series: p.series || 'Other', aliases: p.aliases || [], isNew: !!p.is_new, reorder: p.reorder_pcs, soldAs: p.sold_as || 'anodised', order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, outPacked: 0, rcvKg: 0, rcvFt: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
-  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], soldAs: 'anodised', order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, outPacked: 0, rcvKg: 0, rcvFt: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
+  A('alu_profiles').slice().sort((a, b) => (a.sort ?? 999) - (b.sort ?? 999)).forEach((p, i) => prof[p.name] = { name: p.name, series: p.series || 'Other', aliases: p.aliases || [], isNew: !!p.is_new, reorder: p.reorder_pcs == null ? null : +p.reorder_pcs, reorderUpto: p.order_upto_pcs == null ? null : +p.order_upto_pcs, soldAs: p.sold_as || 'anodised', order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, outPacked: 0, adjPcs: 0, adjKg: 0, rcvKg: 0, rcvFt: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
+  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], soldAs: 'anodised', reorder: null, reorderUpto: null, order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, outPacked: 0, adjPcs: 0, adjKg: 0, rcvKg: 0, rcvFt: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
   const lotKg = {};
   A('packing_lists').filter(l => l.direction === 'in' && l.lot).forEach(l => lotKg[l.lot] = (lotKg[l.lot] || 0) + sum(bundlesBy[l.id] || [], b => b.kg));
   const lots = A('lots').map(l => {
@@ -926,11 +962,33 @@ function buildModel(R) {
       p.outPcs += b.pcs; p.outKg += b.alu; p.outPacked += b.kg;
     }
   }); if (l.direction !== 'in') { l.alu = sum(l.bundles, b => b.alu); l.film = l.kg - l.alu; } });
-  A('stock_adjustments').filter(a => !a.voided_at).forEach(a => { const p = ensure(a.profile); p.adj.push(a); p.inPcs += +a.pcs || 0; p.inKg += +a.kg || 0; });
-  const profiles = Object.values(prof).map(p => { const rate = p.rcvKg ? p.cost / p.rcvKg : 0; const pcs = p.inPcs - p.outPcs, kg = p.inKg - p.outKg;
+  A('stock_adjustments').filter(a => !a.voided_at).forEach(a => { const p = ensure(a.profile); p.adj.push(a); p.adjPcs += +a.pcs || 0; p.adjKg += +a.kg || 0; });
+  const profiles = Object.values(prof).map(p => { const rate = p.rcvKg ? p.cost / p.rcvKg : 0; const pcs = p.inPcs + p.adjPcs - p.outPcs, kg = p.inKg + p.adjKg - p.outKg;
     return { ...p, pcs, kg, rate: seeCost ? rate : 0, value: seeCost ? kg * rate : 0, avg: pcs > 0 ? kg / pcs : (p.inPcs ? p.inKg / p.inPcs : 0), lo: p.avgs.length ? Math.min(...p.avgs) : 0, hi: p.avgs.length ? Math.max(...p.avgs) : 0 }; })
     .sort((a, b) => a.order - b.order);
   const P = Object.fromEntries(profiles.map(p => [p.name, p]));
+  // what the app needs for reordering: a movement ledger per profile, how fast it goes out, and when to order
+  const setting = (k, dflt) => { const r = A('app_settings').find(x => x.key === k); return r == null ? dflt : +r.value; };
+  const leadDays = setting('reorder_lead_days', 21);
+  const inDates = lists.filter(l => l.direction === 'in').map(l => l.received || l.date).filter(Boolean).sort();
+  const firstIn = inDates[0] || today();
+  const obsDays = Math.max(1, Math.round((Date.parse(today()) - Date.parse(firstIn)) / 864e5));
+  profiles.forEach(p => {
+    const byList = {};
+    p.bundles.forEach(b => { const x = byList[b.list] = byList[b.list] || { list: b.list, dir: b.direction, party: b.party, date: b.date, pcs: 0, kg: 0 };
+      x.pcs += b.pcs; x.kg += (b.direction === 'in' ? b.kg : (b.alu != null ? b.alu : b.kg)); });
+    const mv = Object.values(byList).concat(p.adj.map(a => ({ list: null, dir: 'adj', party: a.reason || '', date: a.date, pcs: +a.pcs || 0, kg: +a.kg || 0 })));
+    mv.sort((a, b) => String(a.date).localeCompare(String(b.date)) || (a.dir === 'in' ? -1 : b.dir === 'in' ? 1 : 0));
+    let bp = 0, bk = 0;
+    mv.forEach(m => { const sg = m.dir === 'out' ? -1 : 1; bp += sg * m.pcs; bk += sg * m.kg; m.balPcs = bp; m.balKg = bk; });
+    p.moves = mv;
+    p.obsDays = obsDays; p.perDay = p.outPcs > 0 ? p.outPcs / obsDays : 0;
+    p.daysLeft = p.perDay > 0 && p.pcs > 0 ? p.pcs / p.perDay : null;
+    p.suggest = p.perDay > 0 ? Math.max(5, Math.ceil(p.perDay * leadDays / 5) * 5) : null;
+    p.low = p.reorder != null && p.pcs <= p.reorder;
+    p.toOrder = p.low ? Math.max(0, (p.reorderUpto != null ? p.reorderUpto : p.reorder * 2) - p.pcs) : 0;
+  });
+  const toOrder = profiles.filter(p => p.low && p.toOrder > 0).sort((a, b) => (a.daysLeft == null ? 1e9 : a.daysLeft) - (b.daysLeft == null ? 1e9 : b.daysLeft) || a.order - b.order);
   const seriesOrder = []; profiles.forEach(p => { if (!seriesOrder.includes(p.series)) seriesOrder.push(p.series); });
 
   // orders
@@ -1030,7 +1088,7 @@ function buildModel(R) {
   const cashAccounts = A('cash_accounts').slice().sort((a, b) => (a.sort || 0) - (b.sort || 0));
   const cash = A('cash_entries').map(e => ({ ...e, amount: +e.amount })).sort((a, b) => String(a.date).localeCompare(b.date) || String(a.id).localeCompare(String(b.id), 'en', { numeric: true }));
   const cbal = {}; cash.forEach(e => { cbal[e.account] = (cbal[e.account] || 0) + (e.direction === 'in' ? e.amount : -e.amount); e.bal = cbal[e.account]; });
-  return { costRates, costRate, cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
+  return { leadDays, toOrder, costRates, costRate, cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
     attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
     myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
     stockKg: sum(profiles, p => p.kg), stockPcs: sum(profiles, p => p.pcs), stockVal: sum(profiles, p => p.value), inStock: profiles.filter(p => p.pcs > 0 || p.kg > 0.001), negStock: profiles.filter(p => p.pcs < 0 || p.kg < -0.0005) };
@@ -1315,7 +1373,7 @@ VIEWS.overview = () => {
   const dueSoon = woOpen.filter(w => w.due && daysTo(w.due) <= 3).sort((a, b) => String(a.due).localeCompare(b.due));
   const lowCons = M.cons.filter(c => c.low);
   const lede = showStock
-    ? `${esc(t('lede', { kg: n2(M.stockKg) }))} <span class="soft">— ${esc(t('lede_more', { pcs: n0(M.stockPcs), n: M.inStock.length }))}${can('purchases') ? ', ' + esc(t('lede_val', { val: inr(M.stockVal) })) : '.'}</span>`
+    ? `${esc(t('lede', { kg: n2(M.stockKg) }))} <span class="soft">— ${esc(t('lede_more', { pcs: n0(M.stockPcs), n: M.inStock.length }))}.</span>`
     : esc(t('lede_hi', { name: uname(ME) }));
   const latest = can('purchases') ? [...M.lots].sort((a, b) => String(b.received || '').localeCompare(a.received || ''))[0] : null;
   const lotsM = can('purchases') ? M.lots.filter(l => (l.received || l.doc_date || '').slice(0, 7) === month) : [];
@@ -1422,33 +1480,142 @@ document.addEventListener('click', async e => {
   }
 });
 
+/* reorder: the master sets a level and an order-up-to for a profile */
+const roOk = () => ONLINE && isMaster();
+function roForm(p) {
+  return `<form class="form ro-form" data-ro="${esc(p.name)}">
+    <label>${esc(t('ro_level'))}<input type="number" name="r" min="0" step="1" inputmode="numeric" value="${p.reorder != null ? p.reorder : ''}" placeholder="${esc(t('ro_none'))}"></label>
+    <label>${esc(t('ro_upto'))}<input type="number" name="u" min="0" step="1" inputmode="numeric" value="${p.reorderUpto != null ? p.reorderUpto : ''}" placeholder="${esc(p.reorder != null ? n0(p.reorder * 2) : t('ro_none'))}"></label>
+    <span class="row"><button class="btn primary" type="submit">${esc(t('save'))}</button>${p.suggest ? `<button class="btn" type="button" data-ro-use="${p.suggest}">${esc(t('ro_use', { n: n0(p.suggest) }))}</button>` : ''}${p.reorder != null ? `<button class="btn" type="button" data-ro-clear>${esc(t('ro_clear'))}</button>` : ''}</span></form>`;
+}
+function roDetail(p) {
+  const facts = [[t('ro_level'), p.reorder != null ? t('ro_pcs', { n: n0(p.reorder) }) : `<span class="faint">${esc(t('ro_not_set'))}</span>`],
+    [t('ro_upto'), p.reorderUpto != null ? t('ro_pcs', { n: n0(p.reorderUpto) }) : (p.reorder != null ? `<span class="faint">${esc(t('ro_pcs', { n: n0(p.reorder * 2) }))}</span>` : '')],
+    [t('ro_rate'), p.perDay > 0 ? t('ro_per_day', { n: p.perDay.toFixed(1), d: n0(p.obsDays) }) : `<span class="faint">${esc(t('ro_no_use'))}</span>`],
+    [t('ro_days_left'), p.daysLeft != null ? t('ro_days', { n: n0(Math.floor(p.daysLeft)) }) : '']].filter(f => f[1]);
+  return `<h3 style="margin-top:18px">${esc(t('ro_h'))}</h3><dl class="kv" style="max-width:640px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
+    ${p.suggest ? `<p class="note" style="max-width:80ch">${esc(t('ro_suggest', { n: n0(p.suggest), d: n0(M.leadDays) }))}</p>` : ''}
+    ${roOk() ? roForm(p) : ''}`;
+}
+function moveTable(p) {
+  if (!p.moves.length) return `<p class="muted">${esc(t('no_moves'))}</p>`;
+  return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('mv_what'))}</th><th>${esc(t('party'))}</th><th class="num">${esc(t('mv_in'))}</th><th class="num">${esc(t('mv_out'))}</th><th class="num">${esc(t('mv_bal'))}</th><th class="num">${esc(t('kg'))}</th></tr></thead><tbody>
+    ${p.moves.map(m => `<tr><td class="nw">${dt(m.date)}</td><td>${m.list ? `<button class="link" type="button" data-go="lists/${esc(m.list)}">${esc(m.list)}</button>` : `<span class="pill">${esc(t('mv_adj'))}</span>`}</td><td>${esc(m.party || '')}</td>
+      <td class="num">${m.dir !== 'out' && m.pcs ? (m.dir === 'adj' && m.pcs > 0 ? '+' : '') + n0(m.pcs) : ''}</td><td class="num">${m.dir === 'out' ? n0(m.pcs) : m.dir === 'adj' && m.pcs < 0 ? n0(-m.pcs) : ''}</td>
+      <td class="num"><b>${n0(m.balPcs)}</b></td><td class="num">${n2(m.balKg)}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td colspan="3">${esc(t('mv_now'))}</td><td class="num">${n0(p.inPcs)}</td><td class="num">${n0(p.outPcs)}</td><td class="num"><b>${n0(p.pcs)}</b></td><td class="num"><b>${n2(p.kg)}</b></td></tr></tfoot></table></div>`;
+}
+const flowBar = p => {
+  const tot = Math.max(p.inPcs + Math.max(0, p.adjPcs), 1), left = Math.max(0, p.pcs), out = Math.max(0, p.outPcs);
+  return `<span class="flow" title="${esc(t('flow_t', { left: n0(left), out: n0(out) }))}">${out ? `<i class="fl-out" style="width:${(out / tot * 100).toFixed(1)}%"></i>` : ''}${left ? `<i class="fl-left" style="width:${(left / tot * 100).toFixed(1)}%"></i>` : ''}</span>`;
+};
+const stStatus = p => p.pcs <= 0 ? `<span class="pill warn">${esc(t('st_out'))}</span>` : p.low ? `<span class="pill warn">${esc(t('st_low'))}</span>` : p.reorder != null ? `<span class="pill ok">${esc(t('st_ok'))}</span>` : '';
+
 VIEWS.stock = (arg) => {
-  const master = can('purchases');
   const series = ['All', ...M.seriesOrder];
-  const S = uiState('stock', { sel: 'All', ft: '', only: store.get('acta.onlyStock') !== '0', tb: {} });
+  const S = uiState('stock', { sel: 'All', ft: '', only: store.get('acta.onlyStock') !== '0', mode: store.get('acta.stockView') || 'table', tb: {} });
   if (!series.includes(S.sel)) S.sel = 'All';
-  view(`<div class="head-row"><div><h2>${esc(t('stock_h'))}</h2><p class="sub" style="margin:0">${esc(t(master ? 'stock_sub_m' : 'stock_sub'))}</p></div>${adjOk() ? `<span class="sp"></span><button class="btn" type="button" data-adj-open="">${esc(t('adj_btn'))}</button>` : ''}</div>
+  const inPcs = sum(M.profiles, p => p.inPcs), outPcs = sum(M.profiles, p => p.outPcs);
+  const inKg = sum(M.profiles, p => p.inKg), outKg = sum(M.profiles, p => p.outKg);
+  view(`<div class="head-row"><div><h2>${esc(t('stock_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('stock_sub'))}</p></div>
+      ${roOk() ? `<span class="sp"></span><button class="btn" type="button" data-lead-open>${esc(t('ro_lead_btn'))}</button>` : ''}${adjOk() ? `${roOk() ? '' : '<span class="sp"></span>'}<button class="btn" type="button" data-adj-open="">${esc(t('adj_btn'))}</button>` : ''}</div>
     <div id="adjp"></div>
+    <div class="panel meta"><div><span>${esc(t('rcv'))}</span><b>${n0(inPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(inKg)} kg</small></div>
+      <div><span>${esc(t('sent'))}</span><b>${n0(outPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(outKg)} kg</small></div>
+      <div><span>${esc(t('st_left'))}</span><b>${n0(M.stockPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(M.stockKg)} kg</small></div>
+      <div><span>${esc(t('st_profiles'))}</span><b>${M.inStock.length} <small>${esc(t('of_n', { n: M.profiles.length }))}</small></b></div>
+      <div><span>${esc(t('st_to_order'))}</span><b class="${M.toOrder.length ? 'neg' : ''}">${M.toOrder.length}</b><small>${esc(M.toOrder.length ? t('st_to_order_s') : t('st_all_ok'))}</small></div></div>
     ${M.negStock.length ? `<p class="note" role="alert" style="border-left:3px solid var(--warn)">${esc(t('neg_banner', { n: M.negStock.length, names: M.negStock.map(p => p.name + ' (' + n0(p.pcs) + ' / ' + n2(p.kg) + ' kg)').join(', ') }))}</p>` : ''}
-    <div class="filters"><input class="filter" id="sf" type="search" placeholder="${esc(t('filter'))}" aria-label="${esc(t('filter'))}" value="${esc(S.ft)}"><div class="chips">${series.map(s => `<button class="chip" type="button" data-s="${esc(s)}" aria-pressed="${s === S.sel}">${esc(s === 'All' ? t('all') : s)}</button>`).join('')}</div>
-    <label class="toggle"><input type="checkbox" id="only" ${S.only ? 'checked' : ''}> ${esc(t('only_stock'))}</label></div>
-    <div class="panel" id="tb"></div>`);
-  const tb = table($('#tb'), {
-    rows: M.profiles, id: r => r.name, open: arg || null, state: S.tb,
-    filter: r => (S.sel === 'All' || r.series === S.sel) && (!S.only || r.kg > 0.001 || r.pcs !== 0 || r.kg < -0.0005 || r.name === arg) && (!lc(S.ft) || (r.name + ' ' + r.series + ' ' + r.aliases.join(' ')).toLowerCase().includes(lc(S.ft))),
+    ${M.toOrder.length ? `<section class="panel ord"><div class="head-row"><div><h3>${esc(t('ord_h'))}</h3><p class="sub" style="margin:0">${esc(t('ord_sub', { d: n0(M.leadDays) }))}</p></div><span class="sp"></span><button class="btn no-print" type="button" data-ord-print>${esc(t('print'))}</button></div>
+      <div class="tw"><table class="compact"><thead><tr><th>${esc(t('profile'))}</th><th>${esc(t('series'))}</th><th class="num">${esc(t('st_left'))}</th><th class="num">${esc(t('ro_level'))}</th><th class="num">${esc(t('ro_days_left'))}</th><th class="num">${esc(t('ord_qty'))}</th></tr></thead>
+      <tbody>${M.toOrder.map(p => `<tr data-go="stock/${esc(p.name)}" style="cursor:pointer"><td><b>${esc(p.name)}</b></td><td>${esc(p.series)}</td><td class="num">${n0(p.pcs)}${stStatus(p) ? ' ' + stStatus(p) : ''}</td><td class="num">${n0(p.reorder)}</td><td class="num">${p.daysLeft != null ? n0(Math.floor(p.daysLeft)) : '–'}</td><td class="num"><b>${n0(p.toOrder)}</b></td></tr>`).join('')}</tbody>
+      <tfoot><tr><td colspan="5">${esc(t('ord_n', { n: M.toOrder.length }))}</td><td class="num"><b>${n0(sum(M.toOrder, p => p.toOrder))}</b></td></tr></tfoot></table></div></section>` : ''}
+    <div class="filters"><input class="filter" id="sf" type="search" placeholder="${esc(t('filter'))}" aria-label="${esc(t('filter'))}" value="${esc(S.ft)}">
+      <div class="chips">${series.map(s => `<button class="chip" type="button" data-s="${esc(s)}" aria-pressed="${s === S.sel}">${esc(s === 'All' ? t('all') : s)}</button>`).join('')}</div>
+      <div class="chips">${['table', 'rack'].map(m => `<button class="chip" type="button" data-vm="${m}" aria-pressed="${m === S.mode}">${esc(t('vm_' + m))}</button>`).join('')}</div>
+      <label class="toggle"><input type="checkbox" id="only" ${S.only ? 'checked' : ''}> ${esc(t('only_stock'))}</label></div>
+    <p class="flow-leg"><span><i class="sw fl-left"></i>${esc(t('st_left'))}</span><span><i class="sw fl-out"></i>${esc(t('sent'))}</span></p>
+    <div id="tb" class="${S.mode === 'table' ? 'panel' : ''}"></div>`);
+  const match = r => (S.sel === 'All' || r.series === S.sel) && (!S.only || r.pcs !== 0 || r.kg < -0.0005 || r.name === arg) && (!lc(S.ft) || (r.name + ' ' + r.series + ' ' + r.aliases.join(' ')).toLowerCase().includes(lc(S.ft)));
+  let tb;
+  const drawRack = () => {
+    const ps = M.profiles.filter(match); const max = Math.max(1, ...ps.map(p => Math.max(p.inPcs, p.pcs)));
+    $('#tb').innerHTML = ps.length ? M.seriesOrder.map(s => { const g = ps.filter(p => p.series === s); if (!g.length) return '';
+      return `<section class="panel rack" style="margin-bottom:14px"><p class="series-h"><b>${esc(s)}</b><span>${n0(sum(g, p => p.pcs))} ${esc(t('lengths'))} · ${n2(sum(g, p => p.kg))} kg</span></p>
+      ${g.map(p => `<div class="bar-row" data-go="stock/${esc(p.name)}"><span class="nm">${esc(p.name)}${p.low ? ` <span class="pill warn">${esc(t('st_low'))}</span>` : ''}</span>
+        <span class="track">${p.inPcs ? `<span class="flow wide">${p.outPcs > 0 ? `<i class="fl-out" style="width:${(Math.max(0, p.outPcs) / max * 100).toFixed(1)}%"></i>` : ''}${p.pcs > 0 ? `<i class="fl-left" style="width:${(p.pcs / max * 100).toFixed(1)}%"></i>` : ''}</span>` : ''}</span>
+        <span class="v">${p.pcs ? n0(p.pcs) : `<span class="faint">${esc(t('none'))}</span>`}</span><span class="w">${p.kg ? n2(p.kg) + ' kg' : ''}</span></div>`).join('')}</section>`; }).join('')
+      : `<div class="panel"><div class="empty"><h3>${esc(t('no_match_h'))}</h3><p>${esc(t('no_match_p'))}</p></div></div>`;
+  };
+  const draw = () => { if (S.mode === 'rack') { $('#tb').className = ''; drawRack(); } else { $('#tb').className = 'panel'; if (tb) tb.draw(); } };
+  tb = table($('#tb'), {
+    rows: M.profiles, id: r => r.name, open: arg || null, state: S.tb, filter: match,
     cols: [{ k: 'name', t: t('profile'), h: r => `<b>${esc(r.name)}</b>${r.pcs < 0 || r.kg < -0.0005 ? ` <span class="pill warn">${esc(t('neg_pill'))}</span>` : ''}${r.isNew ? ` <span class="pill out">${esc(t('new'))}</span>` : ''}${r.aliases.length ? `<div class="faint tiny">${esc(t('sup_name'))}: ${esc(r.aliases.join(', '))}</div>` : ''}` },
-      { k: 'series', t: t('series'), ph: 0 }, { k: 'pcs', t: t('lengths'), num: 1, h: r => r.pcs ? n0(r.pcs) : '<span class="faint">0</span>' }, { k: 'kg', t: t('kg'), num: 1, h: r => r.kg ? n2(r.kg) : '<span class="faint">0</span>' },
-      { k: 'avg', t: t('kg_per_len'), num: 1, ph: 0, h: r => r.avg ? n3(r.avg) : '' }, { k: 'lo', t: t('range'), num: 1, ph: 0, h: r => r.avgs.length ? `${n3(r.lo)} – ${n3(r.hi)}` : '' },
-      { k: 'rate', t: t('rs_kg'), num: 1, ph: 0, hide: !master, h: r => r.rate ? n2(r.rate) : '' }, { k: 'value', t: t('value'), num: 1, hide: !master, h: r => r.value ? inr(r.value) : '' }, { k: 'last', t: t('last_rcv'), ph: 0, h: r => dt(r.last) }],
-    foot: (c, rows) => ({ name: t('profiles_n', { n: rows.length }), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), value: inr(sum(rows, r => r.value)) })[c.k],
-    detail: r => (r.bundles.length ? `<h3>${esc(t('bundles_of', { name: r.name, n: r.bundles.length }))}</h3>${bundleTable(r.bundles, { list: 1 })}` : `<p class="muted">${esc(t('no_bundles'))}</p>`) + adjDetail(r),
+      { k: 'series', t: t('series'), ph: 0 },
+      { k: 'inPcs', t: t('rcv'), num: 1, ph: 0, h: r => r.inPcs ? n0(r.inPcs) : '<span class="faint">0</span>' },
+      { k: 'outPcs', t: t('sent'), num: 1, ph: 0, h: r => r.outPcs ? n0(r.outPcs) : '<span class="faint">0</span>' },
+      { k: 'pcs', t: t('st_left'), num: 1, h: r => `<b>${r.pcs ? n0(r.pcs) : '<span class="faint">0</span>'}</b>` },
+      { k: 'flow', t: '', nosort: 1, ph: 0, h: r => r.inPcs ? flowBar(r) : '' },
+      { k: 'kg', t: t('kg'), num: 1, h: r => r.kg ? n2(r.kg) : '<span class="faint">0</span>' },
+      { k: 'avg', t: t('kg_per_len'), num: 1, ph: 0, h: r => r.avg ? n3(r.avg) : '' },
+      { k: 'daysLeft', t: t('ro_days_left'), num: 1, ph: 0, sv: r => r.daysLeft == null ? 1e9 : r.daysLeft, h: r => r.daysLeft == null ? '' : n0(Math.floor(r.daysLeft)) },
+      { k: 'reorder', t: t('ro_level'), num: 1, ph: 0, sv: r => r.reorder == null ? -1 : r.reorder, h: r => r.reorder != null ? n0(r.reorder) : r.suggest ? `<span class="faint" title="${esc(t('ro_suggest', { n: n0(r.suggest), d: n0(M.leadDays) }))}">${n0(r.suggest)}?</span>` : '' },
+      { k: 'status', t: t('status'), nosort: 1, h: stStatus },
+      { k: 'last', t: t('last_rcv'), ph: 0, h: r => dt(r.last) }],
+    foot: (c, rows) => ({ name: t('profiles_n', { n: rows.length }), inPcs: n0(sum(rows, r => r.inPcs)), outPcs: n0(sum(rows, r => r.outPcs)), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)) })[c.k],
+    detail: r => `<h3>${esc(t('mv_h'))}</h3>${moveTable(r)}${roDetail(r)}${r.bundles.length ? `<h3 style="margin-top:18px">${esc(t('bundles_of', { name: r.name, n: r.bundles.length }))}</h3>${bundleTable(r.bundles, { list: 1 })}` : ''}${adjDetail(r)}`,
     empty: `<div class="empty"><h3>${esc(t('no_match_h'))}</h3><p>${esc(t('no_match_p'))}</p></div>`
   });
-  document.querySelectorAll('#view [data-s]').forEach(b => b.onclick = () => { S.sel = b.dataset.s; document.querySelectorAll('#view [data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); tb.draw(); });
-  $('#only').onchange = e => { S.only = e.target.checked; store.set('acta.onlyStock', S.only ? '1' : '0'); tb.draw(); };
-  $('#sf').oninput = e => { S.ft = e.target.value; tb.draw(); };
-  if (arg && !RENDER.keep) setTimeout(() => { const tr = $('#tb .open'); if (tr) tr.scrollIntoView({ block: 'center' }); }, 30);
+  draw();
+  document.querySelectorAll('#view [data-s]').forEach(b => b.onclick = () => { S.sel = b.dataset.s; document.querySelectorAll('#view [data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+  document.querySelectorAll('#view [data-vm]').forEach(b => b.onclick = () => { S.mode = b.dataset.vm; store.set('acta.stockView', S.mode); document.querySelectorAll('#view [data-vm]').forEach(x => x.setAttribute('aria-pressed', x === b)); draw(); });
+  $('#only').onchange = e => { S.only = e.target.checked; store.set('acta.onlyStock', S.only ? '1' : '0'); draw(); };
+  $('#sf').oninput = e => { S.ft = e.target.value; draw(); };
+  if (arg && !RENDER.keep && S.mode === 'table') setTimeout(() => { const tr = $('#tb .open'); if (tr) tr.scrollIntoView({ block: 'center' }); }, 30);
 };
+function orderReport() {
+  const rows = M.toOrder.map((p, i) => `<tr><td>${i + 1}</td><td>${esc(p.name)}</td><td>${esc(p.series)}</td><td class="num">${n0(p.pcs)}</td><td class="num">${n0(p.reorder)}</td><td class="num">${p.daysLeft != null ? n0(Math.floor(p.daysLeft)) : '\u2013'}</td><td class="num">${n0(p.toOrder)}</td></tr>`).join('');
+  return `<header class="rh"><div class="rh-co">${esc(COMPANY)}</div><div class="rh-ad">${esc(COMPANY_ADDR)}</div><h1>${esc(t('ord_title'))}</h1>
+    <dl class="rh-meta"><div><dt>${esc(t('ro_lead_days'))}</dt><dd>${esc(t('ro_days', { n: n0(M.leadDays) }))}</dd></div><div><dt>${esc(t('ord_qty'))}</dt><dd>${n0(sum(M.toOrder, p => p.toOrder))} ${esc(t('lengths'))}</dd></div><div><dt>${esc(t('rg_printed'))}</dt><dd>${esc(dt(today()))}</dd></div></dl></header>
+    <section><h2>${esc(t('ord_h'))}</h2><p class="rt-note">${esc(t('ord_sub', { d: n0(M.leadDays) }))}</p>
+    <table class="rt"><thead><tr><th>${esc(t('rg_sr'))}</th><th>${esc(t('profile'))}</th><th>${esc(t('series'))}</th><th class="num">${esc(t('st_left'))}</th><th class="num">${esc(t('ro_level'))}</th><th class="num">${esc(t('ro_days_left'))}</th><th class="num">${esc(t('ord_qty'))}</th></tr></thead><tbody>${rows}</tbody>
+    <tfoot><tr><td colspan="6">${esc(t('ord_n', { n: M.toOrder.length }))}</td><td class="num">${n0(sum(M.toOrder, p => p.toOrder))}</td></tr></tfoot></table></section>
+    <div class="rsign"><div>${esc(t('rg_prepared'))}</div><div>${esc(t('rg_checked'))}</div><div>${esc(t('rg_auth'))}</div></div>`;
+}
+document.addEventListener('click', async e => {
+  if (e.target.closest('[data-ord-print]')) { printHtml(orderReport(), t('ord_h')); return; }
+  const use = e.target.closest('[data-ro-use]');
+  if (use) { const f = use.closest('form'); if (f) { f.elements.r.value = use.dataset.roUse; f.elements.r.focus(); } return; }
+  if (e.target.closest('[data-ro-clear]')) { const f = e.target.closest('form'); if (f) { f.elements.r.value = ''; f.elements.u.value = ''; f.requestSubmit(); } return; }
+  if (e.target.closest('[data-lead-open]')) {
+    const box = document.getElementById('adjp'); if (!box) return;
+    box.innerHTML = `<div class="panel" style="padding:16px 18px;margin-bottom:18px"><h3>${esc(t('ro_lead_h'))}</h3><p class="sub">${esc(t('ro_lead_sub'))}</p>
+      <form class="form" data-lead><label>${esc(t('ro_lead_days'))}<input type="number" name="d" min="1" max="365" step="1" inputmode="numeric" value="${M.leadDays}" required></label>
+      <span class="row"><button class="btn primary" type="submit">${esc(t('save'))}</button><button class="btn" type="button" data-adj-cancel>${esc(t('cancel'))}</button></span></form></div>`;
+    box.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+});
+document.addEventListener('submit', async e => {
+  const f = e.target;
+  if (f.matches('[data-ro]')) {
+    e.preventDefault(); const b = f.querySelector('button[type=submit]');
+    const r = f.elements.r.value.trim() === '' ? null : Math.round(+f.elements.r.value);
+    const u = f.elements.u.value.trim() === '' ? null : Math.round(+f.elements.u.value);
+    if (r != null && u != null && u < r) { toast(t('ro_upto_low'), 'err'); return; }
+    if (b) b.disabled = true;
+    try { await rpc('set_reorder', { p_profile: f.dataset.ro, p_reorder_pcs: r, p_order_upto_pcs: u }); }
+    catch (err) { if (b) b.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    history.replaceState(null, '', '#stock/' + f.dataset.ro); await reload(true); toast(t('saved'));
+    return;
+  }
+  if (f.matches('[data-lead]')) {
+    e.preventDefault(); const b = f.querySelector('button[type=submit]');
+    if (b) b.disabled = true;
+    try { await rpc('set_app_setting', { p_key: 'reorder_lead_days', p_value: Math.round(+f.elements.d.value) }); }
+    catch (err) { if (b) b.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    await reload(true); toast(t('saved'));
+  }
+});
 
 const saleOf = l => (M.register || []).find(x => x.packing_list === l.id);
 VIEWS.lists = (arg) => {
@@ -1858,12 +2025,22 @@ VIEWS.cons = (arg) => {
 /* master: purchases, expenses, profit */
 VIEWS.purchases = () => {
   view(`<div class="head-row"><div><h2>${esc(t('purch_h'))}</h2><p class="sub" style="margin:0">${esc(t('purch_sub'))}</p></div></div><div class="panel" id="lots" style="margin-bottom:30px"></div>
+    <div class="head-row"><div><h2>${esc(t('sv_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('sv_sub'))}</p></div></div><div class="panel" id="sv" style="margin-bottom:30px"></div>
     <div class="head-row"><div><h2>${esc(t('po_h'))}</h2><p class="sub" style="margin:0">${esc(t('po_sub'))}</p></div></div><div class="panel" id="pos"></div>`);
   table($('#lots'), { rows: M.lots, sort: 'received', dir: -1, state: uiState('purch_lots', {}), onRow: r => r.packing_list && go('lists/' + r.packing_list),
     cols: [{ k: 'id', t: t('lot'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'supplier', t: t('supplier') }, { k: 'received', t: t('received'), h: r => dt(r.received) }, { k: 'pcs', t: t('lengths'), num: 1, ph: 0, h: r => n0(r.pcs) }, { k: 'kg', t: t('kg'), num: 1, h: r => n2(r.kg) },
       { k: 'material_cost', t: t('material'), num: 1, ph: 0, h: r => inr(r.material_cost) }, { k: 'extra', t: t('transport_other'), num: 1, ph: 0, h: r => inr(r.extra) }, { k: 'total', t: t('total'), num: 1, h: r => inr(r.total) }, { k: 'rate', t: t('rs_kg'), num: 1, h: r => n2(r.rate) },
       { k: 'pl', t: t('list'), nosort: 1, ph: 0, h: r => r.packing_list ? `<button class="link" data-go="lists/${esc(r.packing_list)}">${esc(r.packing_list)}</button>` : '' }],
     foot: (c, rows) => ({ id: t('lots_n', { n: rows.length }), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), material_cost: inr(sum(rows, r => r.material_cost)), extra: inr(sum(rows, r => r.extra)), total: inr(sum(rows, r => r.total)) })[c.k] });
+  const sv = M.profiles.filter(p => p.kg > 0.001 || p.value);
+  table($('#sv'), { rows: sv, id: r => r.name, sort: 'value', dir: -1, state: uiState('stock_value', {}), onRow: r => go('stock/' + r.name),
+    cols: [{ k: 'name', t: t('profile'), h: r => `<b>${esc(r.name)}</b>` }, { k: 'series', t: t('series'), ph: 0 },
+      { k: 'pcs', t: t('st_left'), num: 1, ph: 0, h: r => n0(r.pcs) }, { k: 'kg', t: t('kg'), num: 1, h: r => n2(r.kg) },
+      { k: 'rate', t: t('rs_kg'), num: 1, h: r => r.rate ? n2(r.rate) : '' },
+      { k: 'perLen', t: t('rs_len'), num: 1, ph: 0, sv: r => r.avg * r.rate, h: r => r.rate && r.avg ? n0(r.avg * r.rate) : '' },
+      { k: 'value', t: t('value'), num: 1, h: r => r.value ? inr(r.value) : '' }],
+    foot: (c, rows) => ({ name: t('profiles_n', { n: rows.length }), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)), value: inr(sum(rows, r => r.value)) })[c.k],
+    empty: `<div class="empty"><h3>${esc(t('sv_none'))}</h3></div>` });
   table($('#pos'), { rows: M.pos, id: r => r.id, sort: 'date', dir: -1, state: uiState('purch_pos', {}),
     cols: [{ k: 'id', t: t('no'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'party', t: t('supplier') }, { k: 'items', t: t('items'), h: r => esc(r.lines.map(l => l.item).join(', ')) }, { k: 'due', t: t('due'), h: r => dt(r.due) }, { k: 'status', t: t('status'), h: r => esc(r.status) }],
     detail: r => `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('item'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('kg'))}</th><th>${esc(t('range'))}</th><th class="num">${esc(t('rate'))}</th></tr></thead><tbody>${r.lines.map(l => `<tr><td>${esc(l.item)}</td><td class="num">${l.pcs ? n0(l.pcs) : ''}</td><td class="num">${l.kg ? n2(l.kg) : ''}</td><td>${esc(l.weight_range || '')}</td><td class="num">${l.rate ? '₹' + n2(l.rate) : ''}</td></tr>`).join('')}</tbody></table></div>${r.notes ? `<p class="note">${esc(r.notes)}</p>` : ''}`,
