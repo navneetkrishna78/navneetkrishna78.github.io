@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-6TzL8FDx2J7SxTrvmJ/bo+QyXYxlZdDkBCccc3Z0bCk='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-TmTTPHWgHW2HXh8yn5p4uQVyN8cA46hBMN3Gd1Hy89c='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -540,8 +540,19 @@ const I18N = {
     lg_h: 'Party ledger', lg_sub: 'What each party was billed, what they paid and what is still due.', lg_all: 'All parties (summary)', lg_billed: 'Billed', lg_received: 'Received', lg_due: 'Balance due', lg_part: 'Particulars', lg_bf: 'Balance brought forward', lg_close: 'Closing balance',
     lg_sale: 'Sale', lg_marked: 'Received (order marked paid)', lg_title: 'Party Ledger', lg_title_sum: 'Outstanding by Party', lg_s1: 'Summary', lg_s2: 'Statement', lg_empty_h: 'Nothing for this party', lg_paid_to: 'Paid to party', lg_bills: 'Bills', lg_print: 'Print A4 ledger',
     neg_pill: 'Below zero', neg_banner: '{n} profile(s) show stock below zero: {names}. A receipt or dispatch is probably recorded wrongly. Check the bundles.',
+    pf_h: 'Profit', pf_sub: 'Each sale from our stock: its value minus the aluminium at landed cost, anodising and stretch film. Lengths are weighed bare when bought and wrapped in film when sold, so the extra weight is film, sold at the aluminium rate.',
+    pf_rates: 'Anodising ₹{a} per kg of aluminium. Stretch film ₹{f} per kg. All sales are counted as anodised until powder-coating costs are set.',
+    pf_sales_h: 'Sales from our stock', pf_jobs_h: 'Job-work orders', pf_jobs_sub: 'Order value minus material at landed cost, anodising on anodised lines, consumables used on its work orders, and expenses booked to it.',
+    pf_value: 'Sales value', pf_alu: 'Aluminium', pf_anod: 'Anodising', pf_film: 'Stretch film', pf_film_kg: 'Film sold as weight', pf_film_gain: 'Earned on film weight', pf_per_kg: 'Profit / kg', pf_challan: 'Challan',
+    pf_film_gain_t: '{kg} kg of film sold at ₹{r}/kg brings {earn}; the film cost {cost}. Net {gain}.', pf_bought: 'kg/length bought', pf_sold: 'kg/length sold', pf_alu_kg: 'Aluminium kg', pf_film_col: 'Film kg',
+    pf_how: 'Aluminium kg = lengths sold × weight per length as bought (average of every received bundle of that profile). Film = sold weight − aluminium kg.', pf_odd: 'Film weight outside 1–8%: check the length count or weight of this line.',
+    pf_none_h: 'No sales yet', pf_none_p: 'Profit appears here once a sale with its amount is in the Sales register.', pf_overheads: 'Expenses not tied to a sale or order ({m})',
+    f_no_amount: 'amount not known yet', f_no_list: 'no packing list linked', f_no_cost_rates: 'anodising or film rate not set',
+    film_in_list: 'Stretch film', ck_film: 'Film weight on every dispatch line is between 1% and 8% of the aluminium', ck_film_kg: 'Film in sent weight',
+    ck_film_lots: '{l} {p}: {pct}% film. This profile came in lots of different weight per length ({w}), so the average weight misleads here; the count may be right.',
+    ck_film_i: '{l} {p}: {pct}% film on {n} lengths. At the usual {med}% it would be about {m} lengths, so check the count.',
     tab_checks: 'Data checks', ck_h: 'Data checks', ck_sub: 'Are stock, packing lists, lots, sales and cash all matched? Anything that does not match is listed here.', ck_ok: 'All matched', ck_bad: 'Needs a look',
-    ck_stock: 'No profile has stock below zero', ck_lots: 'Every received packing list has a lot with its cost', ck_sales: 'Every dispatch has an entry in the Sales register', ck_kg: 'Sales register weight equals the packing list weight', ck_cash: 'Every sale marked paid has a matching receipt in the cash book', ck_open: 'Open work orders belong to live orders', ck_count: 'Bundles marked to count or check', ck_n: '{n} found', ck_list: 'Packing list', ck_tot: 'Stock total', ck_adj: 'Manual adjustments', ck_tot_t: 'Stock register total = received − dispatched (kg)',
+    ck_stock: 'No profile has stock below zero', ck_lots: 'Every received packing list has a lot with its cost', ck_sales: 'Every dispatch has an entry in the Sales register', ck_kg: 'Sales register weight equals the packing list weight', ck_cash: 'Every sale marked paid has a matching receipt in the cash book', ck_open: 'Open work orders belong to live orders', ck_count: 'Bundles marked to count or check', ck_n: '{n} found', ck_list: 'Packing list', ck_tot: 'Stock total', ck_adj: 'Manual adjustments', ck_tot_t: 'Stock register total = received − aluminium sent (kg)',
     tab_cons: 'Consumables', tab_purchases: 'Purchases', tab_expenses: 'Expenses', tab_profit: 'Profit', tab_users: 'Users', tab_account: 'My account', tab_more: 'More',
     signin: 'Sign in', login_id: 'Login ID', password: 'Password', keep: 'Keep me signed in on this device', signing: 'Signing in…',
     bad_login: 'That ID or password is wrong.', off_login: 'This login has been switched off. Ask the master.', net_err: "Can't reach the server. Check the internet and try again.",
@@ -558,7 +569,7 @@ const I18N = {
     spent_in: 'Money spent in {m}', material_bought: 'Material purchased', consumables_bought: 'Consumables purchased', total: 'Total',
     todo: 'To do', to_confirm: 'Orders to confirm', wo_open: 'Work orders open', due_soon: 'Due in 3 days', low_cons: 'Low consumables', all_ok: 'Nothing pending.',
     overdue: 'overdue {n}d', due_today: 'due today', due_in: 'due in {n}d',
-    stock_h: 'Stock', stock_sub: 'Received minus sent. Click a profile to see its bundles.', stock_sub_m: "Received minus sent, valued at each lot's landed cost per kg. Click a profile to see its bundles.",
+    stock_h: 'Stock', stock_sub: 'Received minus sent. A sent length counts at its weight as bought; the stretch film on it is not aluminium. Click a profile to see its bundles.', stock_sub_m: "Received minus sent, valued at each lot's landed cost per kg. A sent length counts at its weight as bought; the stretch film on it is not aluminium. Click a profile to see its bundles.",
     filter: 'Filter…', all: 'All', only_stock: 'Only profiles in stock', profile: 'Profile', series: 'Series', kg: 'Kg', kg_per_len: 'Kg per length', range: 'Lightest – heaviest bundle', rs_kg: '₹ per kg', value: 'Value', last_rcv: 'Last received', profiles_n: '{n} profiles',
     bundles_of: '{name} — {n} bundles', no_bundles: 'No bundles received or sent yet.', no_match: 'Nothing matches.', no_match_h: 'Nothing matches', no_match_p: 'Clear the filter or pick another option.',
     lists_h: 'Packing lists', lists_sub: 'Received from suppliers and sent to customers.', list: 'List', party: 'Party', list_date: 'List date', rcv_sent: 'Received / sent', bundles: 'Bundles', lot: 'Lot',
@@ -640,6 +651,17 @@ const I18N = {
     lg_h: 'पार्टी खाता', lg_sub: 'हर पार्टी का कितना बिल बना, कितना दिया और कितना बाकी है।', lg_all: 'सभी पार्टी (सारांश)', lg_billed: 'बिल', lg_received: 'मिला', lg_due: 'बाकी', lg_part: 'ब्योरा', lg_bf: 'पिछला बैलेंस', lg_close: 'अंतिम बैलेंस',
     lg_sale: 'बिक्री', lg_marked: 'मिला (ऑर्डर पेड मार्क)', lg_title: 'पार्टी खाता', lg_title_sum: 'पार्टी के हिसाब से बाकी रकम', lg_s1: 'सारांश', lg_s2: 'खाता विवरण', lg_empty_h: 'इस पार्टी का कुछ नहीं', lg_paid_to: 'पार्टी को दिया', lg_bills: 'बिल', lg_print: 'A4 खाता प्रिंट करें',
     neg_pill: 'शून्य से कम', neg_banner: '{n} प्रोफ़ाइल का स्टॉक शून्य से कम दिख रहा है: {names}। शायद कोई आवक या डिस्पैच गलत दर्ज हुआ है। बंडल जाँचें।',
+    pf_h: 'मुनाफ़ा', pf_sub: 'हमारे स्टॉक से हर बिक्री: उसकी कीमत में से लैंडेड कॉस्ट पर एल्युमिनियम, एनोडाइज़िंग और स्ट्रेच फ़िल्म घटाकर। खरीद पर पीस बिना पैकिंग तौले जाते हैं और बिक्री पर फ़िल्म में लिपटे, इसलिए बढ़ा वज़न फ़िल्म है, जो एल्युमिनियम के रेट पर बिकता है।',
+    pf_rates: 'एनोडाइज़िंग ₹{a} प्रति किलो एल्युमिनियम। स्ट्रेच फ़िल्म ₹{f} प्रति किलो। पाउडर कोटिंग की लागत तय होने तक सारी बिक्री एनोडाइज़्ड मानी गई है।',
+    pf_sales_h: 'हमारे स्टॉक से बिक्री', pf_jobs_h: 'जॉब-वर्क ऑर्डर', pf_jobs_sub: 'ऑर्डर की कीमत में से लैंडेड कॉस्ट पर माल, एनोडाइज़्ड लाइनों पर एनोडाइज़िंग, वर्क ऑर्डर में लगी खपत सामग्री, और उस पर डाले गए खर्च घटाकर।',
+    pf_value: 'बिक्री की कीमत', pf_alu: 'एल्युमिनियम', pf_anod: 'एनोडाइज़िंग', pf_film: 'स्ट्रेच फ़िल्म', pf_film_kg: 'वज़न में बिकी फ़िल्म', pf_film_gain: 'फ़िल्म के वज़न से कमाई', pf_per_kg: 'मुनाफ़ा / किलो', pf_challan: 'चालान',
+    pf_film_gain_t: '{kg} किलो फ़िल्म ₹{r}/किलो पर बिकी, कमाई {earn}; फ़िल्म की लागत {cost}। शुद्ध {gain}।', pf_bought: 'किलो/पीस खरीद', pf_sold: 'किलो/पीस बिक्री', pf_alu_kg: 'एल्युमिनियम किलो', pf_film_col: 'फ़िल्म किलो',
+    pf_how: 'एल्युमिनियम किलो = बिके पीस × खरीद के समय प्रति पीस वज़न (उस प्रोफ़ाइल के सभी आए बंडलों का औसत)। फ़िल्म = बिक्री का वज़न − एल्युमिनियम किलो।', pf_odd: 'फ़िल्म का वज़न 1–8% से बाहर: इस लाइन की पीस गिनती या वज़न जाँचें।',
+    pf_none_h: 'अभी कोई बिक्री नहीं', pf_none_p: 'बिक्री रजिस्टर में रकम के साथ बिक्री आते ही मुनाफ़ा यहाँ दिखेगा।', pf_overheads: 'किसी बिक्री या ऑर्डर से न जुड़े खर्च ({m})',
+    f_no_amount: 'रकम अभी पता नहीं', f_no_list: 'पैकिंग लिस्ट नहीं जुड़ी', f_no_cost_rates: 'एनोडाइज़िंग या फ़िल्म का रेट तय नहीं',
+    film_in_list: 'स्ट्रेच फ़िल्म', ck_film: 'हर डिस्पैच लाइन पर फ़िल्म का वज़न एल्युमिनियम का 1% से 8% है', ck_film_kg: 'भेजे वज़न में फ़िल्म',
+    ck_film_lots: '{l} {p}: {pct}% फ़िल्म। यह प्रोफ़ाइल अलग-अलग वज़न प्रति पीस वाले लॉट में आई ({w}), इसलिए औसत वज़न यहाँ सही तस्वीर नहीं देता; गिनती ठीक हो सकती है।',
+    ck_film_i: '{l} {p}: {n} पीस पर {pct}% फ़िल्म। आम {med}% पर यह लगभग {m} पीस होते, इसलिए गिनती जाँचें।',
     tab_checks: 'डेटा जाँच', ck_h: 'डेटा जाँच', ck_sub: 'क्या स्टॉक, पैकिंग लिस्ट, लॉट, बिक्री और कैश आपस में मिलते हैं? जो नहीं मिलता वह यहाँ दिखेगा।', ck_ok: 'सब मिलता है', ck_bad: 'देखना ज़रूरी',
     ck_stock: 'किसी प्रोफ़ाइल का स्टॉक शून्य से कम नहीं', ck_lots: 'हर आई पैकिंग लिस्ट का लॉट और कीमत है', ck_sales: 'हर डिस्पैच की बिक्री रजिस्टर में एंट्री है', ck_kg: 'बिक्री रजिस्टर का वज़न पैकिंग लिस्ट के बराबर है', ck_cash: 'पेमेंट वाली हर बिक्री की कैश बुक में आमद है', ck_open: 'खुले वर्क ऑर्डर चालू ऑर्डर के हैं', ck_count: 'गिनने या जाँचने के लिए चिह्नित बंडल', ck_n: '{n} मिले', ck_list: 'पैकिंग लिस्ट', ck_tot: 'स्टॉक कुल', ck_adj: 'हाथ से सुधार', ck_tot_t: 'स्टॉक रजिस्टर कुल = आया − गया (किलो)',
     tab_cons: 'खपत सामग्री', tab_purchases: 'खरीद', tab_expenses: 'खर्च', tab_profit: 'मुनाफ़ा', tab_users: 'यूज़र', tab_account: 'मेरा खाता', tab_more: 'और',
@@ -658,7 +680,7 @@ const I18N = {
     spent_in: '{m} में खर्च', material_bought: 'माल की खरीद', consumables_bought: 'खपत सामग्री की खरीद', total: 'कुल',
     todo: 'करने के काम', to_confirm: 'कन्फ़र्म करने वाले ऑर्डर', wo_open: 'खुले वर्क ऑर्डर', due_soon: '3 दिन में डिलीवरी', low_cons: 'कम खपत सामग्री', all_ok: 'कुछ बाकी नहीं।',
     overdue: '{n} दिन लेट', due_today: 'आज डिलीवरी', due_in: '{n} दिन बाकी',
-    stock_h: 'स्टॉक', stock_sub: 'आया माल घटा भेजा माल। बंडल देखने के लिए प्रोफ़ाइल पर क्लिक करें।', stock_sub_m: 'आया माल घटा भेजा माल, हर लॉट की लैंडेड कॉस्ट प्रति किलो पर। बंडल देखने के लिए प्रोफ़ाइल पर क्लिक करें।',
+    stock_h: 'स्टॉक', stock_sub: 'आया माल घटा भेजा माल। भेजा पीस खरीद वाले वज़न पर गिना जाता है; उस पर लिपटी स्ट्रेच फ़िल्म एल्युमिनियम नहीं है। बंडल देखने के लिए प्रोफ़ाइल पर क्लिक करें।', stock_sub_m: 'आया माल घटा भेजा माल, हर लॉट की लैंडेड कॉस्ट प्रति किलो पर। भेजा पीस खरीद वाले वज़न पर गिना जाता है; उस पर लिपटी स्ट्रेच फ़िल्म एल्युमिनियम नहीं है। बंडल देखने के लिए प्रोफ़ाइल पर क्लिक करें।',
     filter: 'छाँटें…', all: 'सभी', only_stock: 'सिर्फ़ स्टॉक वाली प्रोफ़ाइल', profile: 'प्रोफ़ाइल', series: 'सीरीज़', kg: 'किलो', kg_per_len: 'किलो प्रति पीस', range: 'सबसे हल्का – भारी बंडल', rs_kg: '₹ प्रति किलो', value: 'कीमत', last_rcv: 'आख़िरी बार आया', profiles_n: '{n} प्रोफ़ाइल',
     bundles_of: '{name} — {n} बंडल', no_bundles: 'अभी कोई बंडल आया या गया नहीं।', no_match: 'कुछ नहीं मिला।', no_match_h: 'कुछ नहीं मिला', no_match_p: 'फ़िल्टर हटाएँ या दूसरा विकल्प चुनें।',
     lists_h: 'पैकिंग लिस्ट', lists_sub: 'सप्लायर से आई और ग्राहकों को भेजी गई।', list: 'लिस्ट', party: 'पार्टी', list_date: 'लिस्ट की तारीख', rcv_sent: 'आया / भेजा', bundles: 'बंडल', lot: 'लॉट',
@@ -744,6 +766,7 @@ const dueBadge = d => { if (!d) return ''; const n = daysTo(d); if (n < 0) retur
 let SB = null, ME = null, RAW = null, M = null, LOADED_AT = null;
 const isMaster = () => !ME || ME.role === 'master';          // offline copy = master view
 /* access: what each login may see and do (set by the master; enforced by the database) */
+const FILM_LO = 1, FILM_HI = 8;  // film weight (% of aluminium weight) outside this band → check the length count
 const PERM_SEE = ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'profit', 'cash'];
 const PERM_DO = ['confirm_orders', 'move_work', 'dispatch', 'salary'];
 const PERM_NEEDS = { profit: ['stock', 'orders', 'rates', 'work', 'purchases', 'expenses', 'consumable_costs'], rates: ['orders'], cash: ['rates', 'orders'], confirm_orders: ['orders'], move_work: ['work'] };
@@ -794,7 +817,7 @@ async function loadRaw() {
     ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
     ['sales_register', can('rates')], ['cash_accounts', can('cash')], ['cash_entries', can('cash')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
-    ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')]].filter(x => x[1]).map(x => x[0]);
+    ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')], ['cost_rates', can('profit')]].filter(x => x[1]).map(x => x[0]);
   const rows = await Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
   const R = Object.fromEntries(plan.map((n, i) => [n, rows[i]]));
   R.app_users = users;
@@ -818,8 +841,8 @@ function buildModel(R) {
   const lineSort = (a, b) => (a.line_no || 0) - (b.line_no || 0);
   const bundlesBy = groupBy(A('bundles'), 'packing_list');
   const prof = {};
-  A('alu_profiles').slice().sort((a, b) => (a.sort ?? 999) - (b.sort ?? 999)).forEach((p, i) => prof[p.name] = { name: p.name, series: p.series || 'Other', aliases: p.aliases || [], isNew: !!p.is_new, reorder: p.reorder_pcs, order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
-  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
+  A('alu_profiles').slice().sort((a, b) => (a.sort ?? 999) - (b.sort ?? 999)).forEach((p, i) => prof[p.name] = { name: p.name, series: p.series || 'Other', aliases: p.aliases || [], isNew: !!p.is_new, reorder: p.reorder_pcs, order: i, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, outPacked: 0, rcvKg: 0, rcvFt: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
+  const ensure = name => prof[name] || (prof[name] = { name, series: 'Other', aliases: [], order: 999, inPcs: 0, inKg: 0, outPcs: 0, outKg: 0, outPacked: 0, rcvKg: 0, rcvFt: 0, cost: 0, avgs: [], last: '', bundles: [], adj: [] });
   const lotKg = {};
   A('packing_lists').filter(l => l.direction === 'in' && l.lot).forEach(l => lotKg[l.lot] = (lotKg[l.lot] || 0) + sum(bundlesBy[l.id] || [], b => b.kg));
   const lots = A('lots').map(l => {
@@ -839,13 +862,21 @@ function buildModel(R) {
       return { ...b, list: l.id, direction: l.direction, party: l.party, date: l.received || l.date, avg, dev, flag: Math.abs(dev) >= 8, note: nt ? nt.text : '' }; });
     return { ...l, bundles, pcs: sum(bundles, b => b.pcs), kg: sum(bundles, b => b.kg), lotObj: lotById[l.lot] };
   });
-  lists.forEach(l => l.bundles.forEach(b => {
+  // Lengths come in bare and go out wrapped in stretch film, and the film is sold as part of the weight.
+  // So a sent length counts in stock at its weight as bought (kg per foot over every received bundle of
+  // that profile); the rest of the sent weight is film (b.film).
+  lists.forEach(l => { if (l.direction === 'in') l.bundles.forEach(b => { const p = ensure(b.profile); p.rcvKg += b.kg; p.rcvFt += b.pcs * b.len_ft; }); });
+  lists.forEach(l => { l.bundles.forEach(b => {
     const p = ensure(b.profile); p.bundles.push(b);
     if (l.direction === 'in') { p.inPcs += b.pcs; p.inKg += b.kg; p.cost += b.kg * (l.lotObj ? l.lotObj.rate : 0); p.avgs.push(b.avg); if ((l.received || l.date) > p.last) p.last = l.received || l.date; }
-    else { p.outPcs += b.pcs; p.outKg += b.kg; }
-  }));
+    else {
+      const kgft = p.rcvFt ? p.rcvKg / p.rcvFt : 0;
+      b.alu = kgft && b.pcs && b.len_ft ? b.pcs * b.len_ft * kgft : b.kg; b.film = b.kg - b.alu; b.filmPct = b.alu ? b.film / b.alu * 100 : 0; b.boughtPer = kgft * b.len_ft;
+      p.outPcs += b.pcs; p.outKg += b.alu; p.outPacked += b.kg;
+    }
+  }); if (l.direction !== 'in') { l.alu = sum(l.bundles, b => b.alu); l.film = l.kg - l.alu; } });
   A('stock_adjustments').filter(a => !a.voided_at).forEach(a => { const p = ensure(a.profile); p.adj.push(a); p.inPcs += +a.pcs || 0; p.inKg += +a.kg || 0; });
-  const profiles = Object.values(prof).map(p => { const rate = p.inKg ? p.cost / p.inKg : 0; const pcs = p.inPcs - p.outPcs, kg = p.inKg - p.outKg;
+  const profiles = Object.values(prof).map(p => { const rate = p.rcvKg ? p.cost / p.rcvKg : 0; const pcs = p.inPcs - p.outPcs, kg = p.inKg - p.outKg;
     return { ...p, pcs, kg, rate: seeCost ? rate : 0, value: seeCost ? kg * rate : 0, avg: pcs > 0 ? kg / pcs : (p.inPcs ? p.inKg / p.inPcs : 0), lo: p.avgs.length ? Math.min(...p.avgs) : 0, hi: p.avgs.length ? Math.max(...p.avgs) : 0 }; })
     .sort((a, b) => a.order - b.order);
   const P = Object.fromEntries(profiles.map(p => [p.name, p]));
@@ -873,10 +904,13 @@ function buildModel(R) {
   });
   const consById = Object.fromEntries(cons.map(c => [c.id, c]));
   const expenses = A('expenses').map(e => ({ ...e, amount: +e.amount }));
+  // process cost rates (anodising, stretch film), each effective from a date
+  const costRates = A('cost_rates').map(r => ({ ...r, rate: +r.rate })).sort((a, b) => String(a.from_date).localeCompare(String(b.from_date)));
+  const costRate = (key, date) => { const rs = costRates.filter(r => r.key === key); if (!rs.length) return null; const d = String(date || today()); let v = rs[0]; rs.forEach(r => { if (String(r.from_date) <= d) v = r; }); return v.rate; };
 
   // order value (needs rates) and profit (needs the cost figures)
   sales.forEach(s => {
-    const flags = new Set(); let rev = 0, mat = 0; const hasRate = s.lines.some(l => l.rate != null);
+    const flags = new Set(); let rev = 0, mat = 0, anod = 0; const hasRate = s.lines.some(l => l.rate != null);
     const lines = s.lines.map(l => {
       const p = P[l.profile]; const per = p && p.inPcs ? p.inKg / p.inPcs : 0;
       let kg = l.kg != null ? +l.kg : null, est = false;
@@ -886,7 +920,10 @@ function buildModel(R) {
       const matRate = s.material_by === 'party' ? 0 : (p && p.rate) || 0;
       if (s.material_by !== 'party' && !matRate) flags.add('f_no_mat_rate');
       const material = (kg || 0) * matRate; rev += revenue; mat += material;
-      return { ...l, kgCalc: kg, est, revenue, matRate, material };
+      const isAnod = /anod/i.test(l.finish || ''); const ar = isAnod ? costRate('anodising_per_kg', s.date) : 0;
+      if (isAnod && ar == null) flags.add('f_no_cost_rates');
+      const anodCost = (kg || 0) * (ar || 0); anod += anodCost;
+      return { ...l, kgCalc: kg, est, revenue, matRate, material, anodCost };
     });
     s.kgKnown = sum(s.lines.filter(l => l.kg != null), l => +l.kg); s.noKg = s.lines.filter(l => l.kg == null).length;
     if (hasRate) s.val = { rev, flags: [...flags].filter(f => f !== 'f_no_mat_rate'), complete: !flags.has('f_no_kg') };
@@ -896,9 +933,9 @@ function buildModel(R) {
     if (!used.length) flags.add('f_no_cons');
     const exps = expenses.filter(e => e.sales_order === s.id || woIds.has(e.work_order));
     const consCost = sum(used, x => x.cost), expCost = sum(exps, e => e.amount);
-    const profit = rev - mat - consCost - expCost;
-    const complete = !flags.has('f_no_kg') && !flags.has('f_no_mat_rate');
-    s.pnl = { lines, rev, mat, used, consCost, exps, expCost, cost: mat + consCost + expCost, profit, margin: rev ? profit / rev * 100 : null, flags: [...flags], complete };
+    const profit = rev - mat - anod - consCost - expCost;
+    const complete = !flags.has('f_no_kg') && !flags.has('f_no_mat_rate') && !flags.has('f_no_cost_rates');
+    s.pnl = { lines, rev, mat, anod, used, consCost, exps, expCost, cost: mat + anod + consCost + expCost, profit, margin: rev ? profit / rev * 100 : null, flags: [...flags], complete };
   });
   const pos = A('purchase_orders').map(o => ({ ...o, lines: A('purchase_order_lines').filter(l => l.purchase_order === o.id) }));
   const users = A('app_users');
@@ -918,10 +955,30 @@ function buildModel(R) {
   work.forEach(w => { const so = sales.find(x => x.id === w.sales_order); w.cancelled = !!so && so.status === 'cancelled'; });
   const register = [...A('sales_register').map(r => ({ ...r, kind: 'sale', kg: r.kg == null ? null : +r.kg, rate: r.rate == null ? null : +r.rate, amount: r.amount == null ? null : +r.amount })),
     ...sales.filter(o => o.status !== 'cancelled' && o.val && o.val.rev).map(o => ({ id: o.id, kind: 'job', date: o.date, challan_no: o.id, party: o.party, packing_list: null, kg: o.kgKnown || null, rate: null, amount: o.val.rev, paid_mode: null, pay: o.paid_on ? 'paid' : 'unpaid', paid_on: o.paid_on || null, note: o.notes || null }))];
+  // profit per sale from our stock: value − aluminium at landed cost − anodising − stretch film
+  if (can('profit')) register.filter(r => r.kind === 'sale').forEach(r => {
+    const l = lists.find(x => x.id === r.packing_list); const flags = [];
+    const anod = costRate('anodising_per_kg', r.date), filmR = costRate('stretch_film_per_kg', r.date);
+    if (!l) flags.push('f_no_list'); if (r.amount == null) flags.push('f_no_amount'); if (anod == null || filmR == null) flags.push('f_no_cost_rates');
+    const kgSold = l ? l.kg : (r.kg || 0); const sRate = r.amount != null && (r.kg || kgSold) ? r.amount / (r.kg || kgSold) : null;
+    const by = {}; (l ? l.bundles : []).forEach(b => { const x = by[b.profile] = by[b.profile] || { profile: b.profile, pcs: 0, kg: 0, alu: 0 }; x.pcs += b.pcs; x.kg += b.kg; x.alu += b.alu; });
+    const lines = Object.values(by).map(x => {
+      const p = P[x.profile]; const landed = (p && p.rate) || 0; if (!landed) flags.push('f_no_mat_rate');
+      const film = x.kg - x.alu, filmPct = x.alu ? film / x.alu * 100 : 0;
+      const revenue = sRate != null ? x.kg * sRate : 0, aluCost = x.alu * landed, anodCost = x.alu * (anod || 0), filmCost = film * (filmR || 0);
+      return { ...x, film, filmPct, landed, boughtPc: x.pcs ? x.alu / x.pcs : 0, soldPc: x.pcs ? x.kg / x.pcs : 0, revenue, aluCost, anodCost, filmCost, profit: revenue - aluCost - anodCost - filmCost, odd: filmPct < FILM_LO || filmPct > FILM_HI };
+    }).sort((a, b) => b.kg - a.kg);
+    const T = k => sum(lines, x => x[k]);
+    const rev = r.amount != null ? r.amount : 0, alu = T('alu'), film = T('film'), aluCost = T('aluCost'), anodCost = T('anodCost'), filmCost = T('filmCost');
+    const profit = rev - aluCost - anodCost - filmCost;
+    r.pnl = { lines, rev, kg: kgSold, alu, film, filmPct: alu ? film / alu * 100 : 0, aluCost, anodCost, filmCost, cost: aluCost + anodCost + filmCost, profit,
+      margin: rev ? profit / rev * 100 : null, perKg: kgSold ? profit / kgSold : null, sRate, anod, filmR,
+      filmEarn: sRate != null ? film * sRate : 0, filmGain: sRate != null ? film * (sRate - (filmR || 0)) : 0, flags: [...new Set(flags)], complete: !flags.length };
+  });
   const cashAccounts = A('cash_accounts').slice().sort((a, b) => (a.sort || 0) - (b.sort || 0));
   const cash = A('cash_entries').map(e => ({ ...e, amount: +e.amount })).sort((a, b) => String(a.date).localeCompare(b.date) || String(a.id).localeCompare(String(b.id), 'en', { numeric: true }));
   const cbal = {}; cash.forEach(e => { cbal[e.account] = (cbal[e.account] || 0) + (e.direction === 'in' ? e.amount : -e.amount); e.bal = cbal[e.account]; });
-  return { cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
+  return { costRates, costRate, cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
     attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
     myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
     stockKg: sum(profiles, p => p.kg), stockPcs: sum(profiles, p => p.pcs), stockVal: sum(profiles, p => p.value), inStock: profiles.filter(p => p.pcs > 0 || p.kg > 0.001), negStock: profiles.filter(p => p.pcs < 0 || p.kg < -0.0005) };
@@ -1356,6 +1413,7 @@ VIEWS.lists = (arg) => {
   const rate = master && l.lotObj ? l.lotObj.rate : 0;
   view(`<div class="head-row"><div><p class="no-print" style="margin:0 0 6px"><button class="link" data-go="lists">${esc(t('all_lists'))}</button></p><h2>${esc(t(l.direction === 'in' ? 'rcv_from' : 'sent_to'))} ${esc(l.party)}</h2><p class="sub" style="margin:0">${esc(t('pl_no', { id: l.id, d: dt(l.date) }))}</p></div><span class="sp"></span><button class="btn no-print" type="button" data-print>${esc(t('print'))}</button></div>
     <div class="panel meta"><div><span>${esc(t(l.direction === 'in' ? 'rcv' : 'sent'))}</span><b>${dt(l.received || l.date)}</b></div><div><span>${esc(t('bundles'))}</span><b>${l.bundles.length}</b></div><div><span>${esc(t('lengths'))}</span><b>${n0(l.pcs)}</b></div><div><span>${esc(t('weight'))}</span><b>${n2(l.kg)} kg</b></div>
+      ${l.direction === 'out' && l.alu != null ? `<div><span>${esc(t('film_in_list'))}</span><b>${n2(l.film)} kg <span class="faint">(${l.alu ? (l.film / l.alu * 100).toFixed(1) : '0'}%)</span></b></div>` : ''}
       ${(() => { const sl = l.direction === 'out' ? saleOf(l) : null; return sl ? `<div><span>${esc(t('rg_h'))}</span><b><button class="link" type="button" data-go="register">${esc(sl.id)} · ${esc(t('rg_challan'))} ${esc(sl.challan_no || '')}</button></b></div><div><span>${esc(t('rg_amount'))}</span><b>${sl.amount != null ? inr(sl.amount) : esc(t('rg_pending_s'))}</b></div>` : ''; })()}
       ${master && l.lotObj ? `<div><span>${esc(t('lot'))}</span><b>${esc(l.lot)}</b></div><div><span>${esc(t('lot_cost'))}</span><b>${inr(l.lotObj.total)}</b></div><div><span>${esc(t('landed'))}</span><b>₹${n2(rate)}/kg</b></div><div><span>${esc(t('profiles'))}</span><b>${Object.keys(secs).length}</b></div>` : ''}</div>
     ${l.note ? `<p class="note">${esc(l.note)}</p>` : ''}
@@ -1671,6 +1729,15 @@ function dataChecks() {
     add('ck_kg', M.register.filter(r => r.kind === 'sale' && r.packing_list).flatMap(r => { const l = M.lists.find(x => x.id === r.packing_list); return !l ? [`${r.id}: ${r.packing_list}?`] : r.kg != null && Math.abs(r.kg - l.kg) > 0.005 ? [`${r.id}: ${n2(r.kg)} vs ${l.id} ${n2(l.kg)} kg`] : []; }));
   }
   if (can('cash')) add('ck_cash', M.register.filter(r => r.kind === 'sale' && r.amount != null && r.paid_mode).flatMap(r => { const got = sum(M.cash.filter(e => e.ref === r.id && e.direction === 'in'), e => e.amount); return Math.abs(got - r.amount) > 0.5 ? [`${r.id} (${r.party}): ${inr(got)} / ${inr(r.amount)}`] : []; }));
+  const outB = M.bundles.filter(b => b.direction === 'out' && b.alu != null);
+  const byLine = {}; outB.forEach(b => { const x = byLine[b.list + '|' + b.profile] = byLine[b.list + '|' + b.profile] || { list: b.list, profile: b.profile, pcs: 0, kg: 0, alu: 0, per: b.boughtPer }; x.pcs += b.pcs; x.kg += b.kg; x.alu += b.alu; });
+  const lines = Object.values(byLine).map(x => ({ ...x, pct: x.alu ? (x.kg / x.alu - 1) * 100 : 0 }));
+  const med = median(lines.map(x => x.pct)) || 0;
+  // weight per length of a profile in each received list: when lots differ a lot, the average misleads
+  const lotW = {}; M.lists.filter(l => l.direction === 'in').forEach(l => { const g = {}; l.bundles.forEach(b => { const x = g[b.profile] = g[b.profile] || { kg: 0, pcs: 0 }; x.kg += b.kg; x.pcs += b.pcs; }); Object.entries(g).forEach(([k, x]) => x.pcs && (lotW[k] = lotW[k] || []).push({ list: l.id, per: x.kg / x.pcs })); });
+  add('ck_film', lines.filter(x => x.pct < FILM_LO || x.pct > FILM_HI).map(x => { const w = lotW[x.profile] || []; const lo = Math.min(...w.map(v => v.per)), hi = Math.max(...w.map(v => v.per));
+    return w.length > 1 && hi / lo > 1.05 ? t('ck_film_lots', { l: x.list, p: x.profile, pct: x.pct.toFixed(1), w: w.map(v => `${v.list} ${n3(v.per)} kg`).join(', ') })
+      : t('ck_film_i', { l: x.list, p: x.profile, pct: x.pct.toFixed(1), n: n0(x.pcs), m: x.per ? n0(x.kg / (x.per * (1 + med / 100))) : '?', med: med.toFixed(1) }); }));
   const cw = M.work.filter(w => w.cancelled && w.stage !== 'dispatched');
   add('ck_open', M.work.filter(w => openWO(w) && !M.sales.some(o => o.id === w.sales_order) && w.sales_order).map(w => w.id));
   const flagged = M.bundles.filter(b => b.note || b.flag);
@@ -1679,9 +1746,10 @@ function dataChecks() {
 VIEWS.checks = () => {
   if (!isMaster()) return VIEWS.overview();
   const C = dataChecks();
-  const inKg = sum(M.lists.filter(l => l.direction === 'in'), l => l.kg), outKg = sum(M.lists.filter(l => l.direction === 'out'), l => l.kg), adj = M.stockKg - (inKg - outKg);
+  const outs = M.lists.filter(l => l.direction === 'out');
+  const inKg = sum(M.lists.filter(l => l.direction === 'in'), l => l.kg), outKg = sum(outs, l => l.kg), film = sum(outs, l => l.film || 0), adj = M.stockKg - (inKg - (outKg - film));
   view(`<div class="head-row"><div><h2>${esc(t('ck_h'))}</h2><p class="sub" style="margin:0">${esc(t('ck_sub'))}</p></div></div>
-    <div class="panel meta"><div><span>${esc(t('rcv'))}</span><b>${n2(inKg)} kg</b></div><div><span>${esc(t('sent'))}</span><b>${n2(outKg)} kg</b></div><div><span>${esc(t('ck_tot'))}</span><b>${n2(M.stockKg)} kg</b></div><div><span>${esc(t('ck_adj'))}</span><b>${n2(adj)} kg</b></div></div>
+    <div class="panel meta"><div><span>${esc(t('rcv'))}</span><b>${n2(inKg)} kg</b></div><div><span>${esc(t('sent'))}</span><b>${n2(outKg)} kg</b></div><div><span>${esc(t('ck_film_kg'))}</span><b>${n2(film)} kg</b></div><div><span>${esc(t('ck_tot'))}</span><b>${n2(M.stockKg)} kg</b></div><div><span>${esc(t('ck_adj'))}</span><b>${n2(adj)} kg</b></div></div>
     <div class="panel" style="padding:6px 20px">${C.items.map(i => `<div class="ck"><div class="ck-t"><span class="pill ${i.bad.length ? 'warn' : 'ok'}">${esc(t(i.bad.length ? 'ck_bad' : 'ck_ok'))}</span> <b>${esc(t(i.k))}</b></div>${i.bad.length ? `<ul class="ck-l">${i.bad.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}</div>`).join('')}
       <div class="ck"><div class="ck-t"><span class="pill ${C.flagged.length ? 'out' : 'ok'}">${esc(t('ck_n', { n: C.flagged.length }))}</span> <b>${esc(t('ck_count'))}</b></div>${C.flagged.length ? `<ul class="ck-l">${C.flagged.map(b => `<li><button class="link" type="button" data-go="lists/${esc(b.list)}/${b.no}">${esc(b.list)} #${b.no}</button> ${esc(b.profile)} — ${esc(b.note || (b.dev >= 0 ? '+' : '') + b.dev.toFixed(1) + '%')}</li>`).join('')}</ul>` : ''}</div></div>`);
 };
@@ -1772,27 +1840,67 @@ VIEWS.expenses = (arg) => {
   $('#ec').onchange = e => { S.cf = e.target.value; tb.draw(); };
   $('#em').onchange = e => { S.mf = e.target.value; tb.draw(); };
 };
+function saleProfitDetail(r) {
+  const p = r.pnl;
+  const cls = v => v >= 0 ? 'pos' : 'neg';
+  return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('profile'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('pf_bought'))}</th><th class="num">${esc(t('pf_sold'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('pf_alu_kg'))}</th><th class="num">${esc(t('pf_film_col'))}</th><th class="num">${esc(t('rs_kg'))}</th><th class="num">${esc(t('profit'))}</th></tr></thead>
+    <tbody>${p.lines.map(x => `<tr><td>${esc(x.profile)}${x.odd ? ` <span class="pill warn">${esc(t('check'))}</span>` : ''}</td><td class="num">${n0(x.pcs)}</td><td class="num">${n3(x.boughtPc)}</td><td class="num">${n3(x.soldPc)}</td><td class="num">${n2(x.kg)}</td><td class="num">${n2(x.alu)}</td><td class="num">${n2(x.film)} <span class="faint">${x.filmPct.toFixed(1)}%</span></td><td class="num">${x.landed ? n2(x.landed) : '–'}</td><td class="num">${p.complete ? `<span class="${cls(x.profit)}">${inr(x.profit)}</span>` : '–'}</td></tr>`).join('')}</tbody></table></div>
+    <div class="grid2" style="margin-top:14px"><div><p class="note" style="margin-top:0">${esc(t('pf_how'))}</p>${p.lines.some(x => x.odd) ? `<p class="note">${esc(t('pf_odd'))}</p>` : ''}
+      ${p.sRate != null ? `<p class="note">${esc(t('pf_film_gain_t', { kg: n2(p.film), r: n2(p.sRate), earn: inr(p.filmEarn), cost: inr(p.filmCost), gain: inr(p.filmGain) }))}</p>` : ''}</div>
+    <div><dl class="kv"><dt>${esc(t('pf_value'))}${p.sRate != null ? ` <span class="faint">${n2(p.kg)} kg × ₹${n2(p.sRate)}</span>` : ''}</dt><dd>${r.amount != null ? inr(p.rev) : '–'}</dd>
+      <dt>− ${esc(t('pf_alu'))} <span class="faint">${n2(p.alu)} kg</span></dt><dd>${inr(p.aluCost)}</dd>
+      <dt>− ${esc(t('pf_anod'))} <span class="faint">${n2(p.alu)} kg × ₹${n2(p.anod || 0)}</span></dt><dd>${inr(p.anodCost)}</dd>
+      <dt>− ${esc(t('pf_film'))} <span class="faint">${n2(p.film)} kg × ₹${n2(p.filmR || 0)}</span></dt><dd>${inr(p.filmCost)}</dd>
+      <dt class="tot">${esc(t('profit'))}</dt><dd class="tot ${p.complete ? cls(p.profit) : 'faint'}">${inr(p.profit)} ${p.complete && p.margin != null ? '(' + p.margin.toFixed(1) + '%)' : '(' + esc(t('incomplete')) + ')'}</dd></dl>
+      ${p.flags.length ? `<p class="note" style="margin-top:12px">${p.flags.map(f => esc(t(f))).join('<br>')}</p>` : ''}</div></div>`;
+}
 VIEWS.profit = () => {
   const month = today().slice(0, 7);
-  const live = M.sales.filter(s => s.status !== 'cancelled');
-  const done = live.filter(s => s.pnl.complete), notYet = live.filter(s => !s.pnl.complete);
+  const sales = M.register.filter(r => r.kind === 'sale' && r.pnl);
+  const done = sales.filter(r => r.pnl.complete), notYet = sales.filter(r => !r.pnl.complete);
+  const jobs = M.sales.filter(s => s.status !== 'cancelled' && s.pnl);
+  const jNot = jobs.filter(s => !s.pnl.complete);
   const overheads = M.expenses.filter(e => !e.lot && !e.sales_order && !e.work_order && (e.date || '').startsWith(month));
-  const pc = v => v == null ? '' : `<span class="${v >= 0 ? 'pos' : 'neg'}">${v.toFixed(1)}%</span>`;
-  const tot = sum(done, s => s.pnl.profit);
-  view(`<div class="head-row"><div><h2>${esc(t('profit_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('profit_sub'))}</p></div></div>
-    <div class="panel meta"><div><span>${esc(t('order_value'))}</span><b>${inr(sum(done, s => s.pnl.rev))}</b></div><div><span>${esc(t('direct_costs'))}</span><b>${inr(sum(done, s => s.pnl.cost))}</b></div><div><span>${esc(t('profit'))}</span><b class="${tot >= 0 ? 'pos' : 'neg'}">${inr(tot)}</b></div><div><span>${esc(t('overheads', { m: MONTH_FULL[LANG][+month.slice(5) - 1] }))}</span><b>${inr(sum(overheads, e => e.amount))}</b></div></div>
+  const cls = v => v >= 0 ? 'pos' : 'neg';
+  const pc = v => v == null ? '' : `<span class="${cls(v)}">${v.toFixed(1)}%</span>`;
+  const S = k => sum(done, r => r.pnl[k]);
+  const rev = S('rev'), tot = S('profit'), film = S('film'), alu = S('alu');
+  const anodNow = M.costRate('anodising_per_kg', today()), filmNow = M.costRate('stretch_film_per_kg', today());
+  view(`<div class="head-row"><div><h2>${esc(t('pf_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('pf_sub'))}</p></div></div>
+    <p class="note">${esc(anodNow != null && filmNow != null ? t('pf_rates', { a: n2(anodNow), f: n2(filmNow) }) : t('f_no_cost_rates'))}</p>
+    <div class="panel meta"><div><span>${esc(t('pf_value'))}</span><b>${inr(rev)}</b></div><div><span>${esc(t('pf_alu'))}</span><b>${inr(S('aluCost'))}</b></div><div><span>${esc(t('pf_anod'))}</span><b>${inr(S('anodCost'))}</b></div><div><span>${esc(t('pf_film'))}</span><b>${inr(S('filmCost'))}</b></div>
+      <div><span>${esc(t('profit'))}</span><b class="${cls(tot)}">${inr(tot)}${rev ? ` <span class="faint">(${(tot / rev * 100).toFixed(1)}%)</span>` : ''}</b></div>
+      <div><span>${esc(t('pf_film_kg'))}</span><b>${n2(film)} kg <span class="faint">(${alu ? (film / alu * 100).toFixed(1) : '0.0'}%)</span></b></div><div><span>${esc(t('pf_film_gain'))}</span><b>${inr(S('filmGain'))}</b></div>
+      <div><span>${esc(t('pf_overheads', { m: MONTH_FULL[LANG][+month.slice(5) - 1] }))}</span><b>${inr(sum(overheads, e => e.amount))}</b></div></div>
     ${notYet.length ? `<p class="note">${esc(t('left_out', { ids: notYet.map(s => s.id).join(', ') }))}</p>` : ''}
-    <div class="panel" id="pt"></div>`);
-  table($('#pt'), { rows: live, id: r => r.id, sort: 'date', dir: -1, state: uiState('profit', {}),
+    <h3>${esc(t('pf_sales_h'))}</h3><div class="panel" id="ps" style="margin-bottom:26px"></div>
+    ${jobs.length ? `<h3>${esc(t('pf_jobs_h'))}</h3><p class="sub" style="margin:0 0 10px;max-width:80ch">${esc(t('pf_jobs_sub'))}</p>${jNot.length ? `<p class="note">${esc(t('left_out', { ids: jNot.map(s => s.id).join(', ') }))}</p>` : ''}<div class="panel" id="pt"></div>` : ''}`);
+  const okRows = rows => rows.filter(r => r.pnl.complete);
+  table($('#ps'), { rows: sales, id: r => r.id, sort: 'date', dir: -1, state: uiState('profit_s', {}),
+    cols: [{ k: 'id', t: t('no'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'challan_no', t: t('pf_challan'), ph: 0 }, { k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'party', t: t('party') },
+      { k: 'kg', t: t('kg'), num: 1, ph: 0, sv: r => r.pnl.kg, h: r => n2(r.pnl.kg) },
+      { k: 'film', t: t('pf_film_col'), num: 1, ph: 0, sv: r => r.pnl.film, h: r => `${n2(r.pnl.film)} <span class="faint">${r.pnl.filmPct.toFixed(1)}%</span>` },
+      { k: 'rev', t: t('pf_value'), num: 1, sv: r => r.pnl.rev, h: r => r.amount != null ? inr(r.pnl.rev) : '–' },
+      { k: 'alu', t: t('pf_alu'), num: 1, ph: 0, sv: r => r.pnl.aluCost, h: r => inr(r.pnl.aluCost) },
+      { k: 'profit', t: t('profit'), num: 1, sv: r => r.pnl.complete ? r.pnl.profit : -1e15, h: r => r.pnl.complete ? `<b class="${cls(r.pnl.profit)}">${inr(r.pnl.profit)}</b>` : `<span class="pill warn">${esc(t('incomplete'))}</span>` },
+      { k: 'perkg', t: t('pf_per_kg'), num: 1, ph: 0, sv: r => r.pnl.complete && r.pnl.perKg != null ? r.pnl.perKg : -1e9, h: r => r.pnl.complete && r.pnl.perKg != null ? '₹' + n2(r.pnl.perKg) : '' },
+      { k: 'margin', t: t('margin'), num: 1, sv: r => r.pnl.complete && r.pnl.margin != null ? r.pnl.margin : -999, h: r => r.pnl.complete ? pc(r.pnl.margin) : '' }],
+    foot: (c, rows) => ({ id: t('entries_n', { n: rows.length }), kg: n2(sum(rows, r => r.pnl.kg)), film: n2(sum(rows, r => r.pnl.film)), rev: inr(sum(okRows(rows), r => r.pnl.rev)), alu: inr(sum(okRows(rows), r => r.pnl.aluCost)),
+      profit: inr(sum(okRows(rows), r => r.pnl.profit)) })[c.k],
+    detail: saleProfitDetail,
+    empty: `<div class="empty"><h3>${esc(t('pf_none_h'))}</h3><p>${esc(t('pf_none_p'))}</p></div>` });
+  if (!jobs.length) return;
+  table($('#pt'), { rows: jobs, id: r => r.id, sort: 'date', dir: -1, state: uiState('profit', {}),
     cols: [{ k: 'id', t: t('no'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'party', t: t('customer') }, { k: 'status', t: t('status'), ph: 0, h: r => stPill(r.status) },
       { k: 'rev', t: t('revenue'), num: 1, sv: r => r.pnl.rev, h: r => inr(r.pnl.rev) }, { k: 'mat', t: t('mat_cost'), num: 1, ph: 0, sv: r => r.pnl.mat, h: r => inr(r.pnl.mat) },
+      { k: 'anod', t: t('pf_anod'), num: 1, ph: 0, sv: r => r.pnl.anod, h: r => inr(r.pnl.anod) },
       { k: 'cons', t: t('consumables'), num: 1, ph: 0, sv: r => r.pnl.consCost, h: r => inr(r.pnl.consCost) }, { k: 'exp', t: t('expenses'), num: 1, ph: 0, sv: r => r.pnl.expCost, h: r => inr(r.pnl.expCost) },
-      { k: 'profit', t: t('profit'), num: 1, sv: r => r.pnl.complete ? r.pnl.profit : -1e15, h: r => r.pnl.complete ? `<b class="${r.pnl.profit >= 0 ? 'pos' : 'neg'}">${inr(r.pnl.profit)}</b>` : `<span class="pill warn">${esc(t('incomplete'))}</span>` },
+      { k: 'profit', t: t('profit'), num: 1, sv: r => r.pnl.complete ? r.pnl.profit : -1e15, h: r => r.pnl.complete ? `<b class="${cls(r.pnl.profit)}">${inr(r.pnl.profit)}</b>` : `<span class="pill warn">${esc(t('incomplete'))}</span>` },
       { k: 'margin', t: t('margin'), num: 1, sv: r => r.pnl.complete && r.pnl.margin != null ? r.pnl.margin : -999, h: r => r.pnl.complete ? pc(r.pnl.margin) : '' }],
-    detail: s => { const p = s.pnl; return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('profile'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('rate'))}</th><th class="num">${esc(t('revenue'))}</th><th class="num">${esc(t('rs_kg'))}</th><th class="num">${esc(t('mat_cost'))}</th></tr></thead><tbody>${p.lines.map(l => `<tr><td>${esc(l.profile)}</td><td class="num">${n0(l.pcs)}</td><td class="num">${l.kgCalc != null ? n2(l.kgCalc) + (l.est ? ` <span class="faint">${esc(t('est'))}</span>` : '') : '–'}</td><td class="num">${l.rate != null ? '₹' + n2(l.rate) + '/' + esc(l.rate_unit === 'pc' ? 'pc' : 'kg') : ''}</td><td class="num">${l.kgCalc != null || l.rate_unit === 'pc' ? inr(l.revenue) : '–'}</td><td class="num">${l.matRate ? n2(l.matRate) : '–'}</td><td class="num">${l.kgCalc != null && l.matRate ? inr(l.material) : '–'}</td></tr>`).join('')}</tbody></table></div>
+    detail: s => { const p = s.pnl; return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('profile'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('rate'))}</th><th class="num">${esc(t('revenue'))}</th><th class="num">${esc(t('rs_kg'))}</th><th class="num">${esc(t('mat_cost'))}</th><th class="num">${esc(t('pf_anod'))}</th></tr></thead><tbody>${p.lines.map(l => `<tr><td>${esc(l.profile)}</td><td class="num">${n0(l.pcs)}</td><td class="num">${l.kgCalc != null ? n2(l.kgCalc) + (l.est ? ` <span class="faint">${esc(t('est'))}</span>` : '') : '–'}</td><td class="num">${l.rate != null ? '₹' + n2(l.rate) + '/' + esc(l.rate_unit === 'pc' ? 'pc' : 'kg') : ''}</td><td class="num">${l.kgCalc != null || l.rate_unit === 'pc' ? inr(l.revenue) : '–'}</td><td class="num">${l.matRate ? n2(l.matRate) : '–'}</td><td class="num">${l.kgCalc != null && l.matRate ? inr(l.material) : '–'}</td><td class="num">${l.anodCost ? inr(l.anodCost) : '–'}</td></tr>`).join('')}</tbody></table></div>
       <div class="grid2" style="margin-top:14px"><div><h3>${esc(t('consumables'))}</h3>${p.used.length ? `<div class="tw"><table class="compact"><tbody>${p.used.map(x => `<tr><td>${dt(x.date)}</td><td>${esc(x.item ? x.item.name : x.consumable)}</td><td class="num">${nq(x.qty)} ${esc(x.item ? x.item.unit : '')}</td><td class="num">${inr(x.cost)}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('no_tx'))}</p>`}
         <h3 style="margin-top:12px">${esc(t('expenses'))}</h3>${p.exps.length ? `<div class="tw"><table class="compact"><tbody>${p.exps.map(e => `<tr><td>${dt(e.date)}</td><td>${esc(e.category)}</td><td>${esc(e.description || '')}</td><td class="num">${inr(e.amount)}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('no_tx'))}</p>`}</div>
-      <div><dl class="kv"><dt>${esc(t('revenue'))}</dt><dd>${inr(p.rev)}</dd><dt>− ${esc(t('mat_cost'))}</dt><dd>${inr(p.mat)}</dd><dt>− ${esc(t('consumables'))}</dt><dd>${inr(p.consCost)}</dd><dt>− ${esc(t('expenses'))}</dt><dd>${inr(p.expCost)}</dd><dt class="tot">${esc(t('profit'))}</dt><dd class="tot ${p.complete ? (p.profit >= 0 ? 'pos' : 'neg') : 'faint'}">${inr(p.profit)} ${p.complete && p.margin != null ? '(' + p.margin.toFixed(1) + '%)' : '(' + esc(t('incomplete')) + ')'}</dd></dl>
+      <div><dl class="kv"><dt>${esc(t('revenue'))}</dt><dd>${inr(p.rev)}</dd><dt>− ${esc(t('mat_cost'))}</dt><dd>${inr(p.mat)}</dd><dt>− ${esc(t('pf_anod'))}</dt><dd>${inr(p.anod)}</dd><dt>− ${esc(t('consumables'))}</dt><dd>${inr(p.consCost)}</dd><dt>− ${esc(t('expenses'))}</dt><dd>${inr(p.expCost)}</dd><dt class="tot">${esc(t('profit'))}</dt><dd class="tot ${p.complete ? cls(p.profit) : 'faint'}">${inr(p.profit)} ${p.complete && p.margin != null ? '(' + p.margin.toFixed(1) + '%)' : '(' + esc(t('incomplete')) + ')'}</dd></dl>
         ${p.flags.length ? `<p class="note" style="margin-top:12px">${p.flags.map(f => esc(t(f))).join('<br>')}</p>` : ''}</div></div>`; } });
 };
 
