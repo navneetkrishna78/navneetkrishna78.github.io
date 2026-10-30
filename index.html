@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-qDqeMJNvTIpQYOqeclb9ipAiSA2/lUuMHFJ9qe10CH0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-HC1mku7Piq8BbIWZxB6+C/GfAEz0NvlRo5xrS16HhF0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -419,6 +419,39 @@ table.att th,table.att td{padding:7px 5px;font-size:var(--fs-cap)} table.att .su
 .rg-chk{display:flex;align-items:center;gap:8px;min-height:40px;font-size:var(--fs-sm);cursor:pointer}.rg-chk input{width:18px;height:18px}
 .rg-l{display:flex;flex-direction:column;gap:3px;font-size:var(--fs-cap);color:var(--steel)}
 #report{display:none}
+/* profit charts */
+.pv-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:4px 0 12px}
+.pv-bar label{font-size:var(--fs-sm);color:var(--steel)}
+.pv-bar select{min-width:260px;max-width:100%}
+.panel.pv{padding:18px 20px 16px;margin-bottom:18px}
+.panel.pv h3{margin:0 0 2px}
+.panel.pv .sub{margin:0 0 16px;max-width:80ch}
+.br{display:grid;gap:12px}
+.br-row{display:grid;grid-template-columns:minmax(180px,34%) 1fr 116px;gap:16px;align-items:center}
+.br-l b{display:block;font-weight:600;font-size:var(--fs-body)}
+.br-l small,.pb-v small{display:block;color:var(--faint);font-size:var(--fs-cap);line-height:1.35}
+.br-t,.pb-t{position:relative;height:22px}
+.br-z,.pb-z{position:absolute;top:0;bottom:0;width:1px;background:var(--rule)}
+.br-b{position:absolute;top:2px;height:18px;border-radius:4px}
+.br-b.gain,.sw.gain{background:#3A6EA5}.br-b.cost,.sw.cost{background:#C2652F}.br-b.tot,.sw.tot{background:var(--ink)}
+.br-v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums;font-size:var(--fs-md)}
+.br-tot{padding-top:12px;border-top:1px solid var(--rule2)}
+.br-tot .br-v{font-size:var(--fs-h3)}
+.pv-leg{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:var(--fs-sm);color:var(--steel)}
+.pv-leg span{display:inline-flex;align-items:center;gap:7px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px}
+.pb{display:grid;gap:6px}
+.pb-row{display:grid;grid-template-columns:minmax(200px,36%) 1fr 170px;gap:16px;align-items:center;padding:3px 0}
+.pb-l{font-size:var(--fs-sm)}
+.pb-t{height:16px}
+.pb-b{position:absolute;top:3px;height:10px;border-radius:0 4px 4px 0;background:var(--ink)}
+.pb-b.neg{background:#C2652F;border-radius:4px 0 0 4px}
+.pb-v{text-align:right;font-size:var(--fs-sm);font-variant-numeric:tabular-nums}
+@media (max-width:720px){
+  .br-row,.pb-row{grid-template-columns:1fr auto;gap:4px 12px}
+  .br-l,.pb-l{grid-column:1/-1}
+  .pv-bar select{min-width:0;flex:1}
+}
 @page{size:A4;margin:12mm 12mm 14mm}
 @media print{
   body.rep>*:not(#report){display:none!important}
@@ -540,6 +573,13 @@ const I18N = {
     lg_h: 'Party ledger', lg_sub: 'What each party was billed, what they paid and what is still due.', lg_all: 'All parties (summary)', lg_billed: 'Billed', lg_received: 'Received', lg_due: 'Balance due', lg_part: 'Particulars', lg_bf: 'Balance brought forward', lg_close: 'Closing balance',
     lg_sale: 'Sale', lg_marked: 'Received (order marked paid)', lg_title: 'Party Ledger', lg_title_sum: 'Outstanding by Party', lg_s1: 'Summary', lg_s2: 'Statement', lg_empty_h: 'Nothing for this party', lg_paid_to: 'Paid to party', lg_bills: 'Bills', lg_print: 'Print A4 ledger',
     neg_pill: 'Below zero', neg_banner: '{n} profile(s) show stock below zero: {names}. A receipt or dispatch is probably recorded wrongly. Check the bundles.',
+    pv_show: 'Show', pv_all: 'All sales ({n})', pv_one: '{id}: challan {c}, {p}',
+    pv_h: 'How the profit is made', pv_sub: 'Profit = what we make on the aluminium + the stretch film sold at the aluminium rate − anodising − what the film cost us.',
+    pv_metal: 'Margin on the aluminium', pv_metal_s: '{kg} kg of aluminium sold at ₹{r}/kg, bought at ₹{c}/kg landed',
+    pv_film_sold: 'Film sold as aluminium weight', pv_film_sold_s: '{kg} kg of stretch film at ₹{r}/kg',
+    pv_anod_s: '{kg} kg anodised at ₹{r}/kg', pv_film_cost: 'Stretch film cost', pv_film_cost_s: '{kg} kg of film at ₹{r}/kg',
+    pv_profit_s: '{m}% of {rev} sales, ₹{k} on every kg sold', pv_leg_gain: 'Adds to profit', pv_leg_cost: 'Cost',
+    pv_pb_h: 'Profit per kg by profile', pv_pb_sub: 'Highest first: profit on each profile after aluminium, anodising and film, for every kg sold.', pv_on: '{p} on {kg} kg',
     pf_h: 'Profit', pf_sub: 'Each sale from our stock: its value minus the aluminium at landed cost, anodising and stretch film. Lengths are weighed bare when bought and wrapped in film when sold, so the extra weight is film, sold at the aluminium rate.',
     pf_rates: 'Anodising ₹{a} per kg of aluminium. Stretch film ₹{f} per kg. Everything else is counted as anodised until powder-coating costs are set.',
     pf_bare: 'Sold bare, with no anodising and no film, unless the challan says anodised: {list}.', fin_mill: 'Bare',
@@ -652,6 +692,13 @@ const I18N = {
     lg_h: 'पार्टी खाता', lg_sub: 'हर पार्टी का कितना बिल बना, कितना दिया और कितना बाकी है।', lg_all: 'सभी पार्टी (सारांश)', lg_billed: 'बिल', lg_received: 'मिला', lg_due: 'बाकी', lg_part: 'ब्योरा', lg_bf: 'पिछला बैलेंस', lg_close: 'अंतिम बैलेंस',
     lg_sale: 'बिक्री', lg_marked: 'मिला (ऑर्डर पेड मार्क)', lg_title: 'पार्टी खाता', lg_title_sum: 'पार्टी के हिसाब से बाकी रकम', lg_s1: 'सारांश', lg_s2: 'खाता विवरण', lg_empty_h: 'इस पार्टी का कुछ नहीं', lg_paid_to: 'पार्टी को दिया', lg_bills: 'बिल', lg_print: 'A4 खाता प्रिंट करें',
     neg_pill: 'शून्य से कम', neg_banner: '{n} प्रोफ़ाइल का स्टॉक शून्य से कम दिख रहा है: {names}। शायद कोई आवक या डिस्पैच गलत दर्ज हुआ है। बंडल जाँचें।',
+    pv_show: 'दिखाएँ', pv_all: 'सारी बिक्री ({n})', pv_one: '{id}: चालान {c}, {p}',
+    pv_h: 'मुनाफ़ा कैसे बनता है', pv_sub: 'मुनाफ़ा = एल्युमिनियम पर कमाई + एल्युमिनियम के रेट पर बिकी स्ट्रेच फ़िल्म − एनोडाइज़िंग − फ़िल्म की लागत।',
+    pv_metal: 'एल्युमिनियम पर मार्जिन', pv_metal_s: '{kg} किलो एल्युमिनियम ₹{r}/किलो पर बिका, लैंडेड ₹{c}/किलो पर ख़रीदा',
+    pv_film_sold: 'एल्युमिनियम के वज़न में बिकी फ़िल्म', pv_film_sold_s: '{kg} किलो स्ट्रेच फ़िल्म ₹{r}/किलो पर',
+    pv_anod_s: '{kg} किलो एनोडाइज़्ड ₹{r}/किलो पर', pv_film_cost: 'स्ट्रेच फ़िल्म की लागत', pv_film_cost_s: '{kg} किलो फ़िल्म ₹{r}/किलो पर',
+    pv_profit_s: '{rev} बिक्री का {m}%, हर बिके किलो पर ₹{k}', pv_leg_gain: 'मुनाफ़ा बढ़ाता है', pv_leg_cost: 'लागत',
+    pv_pb_h: 'हर प्रोफ़ाइल का प्रति किलो मुनाफ़ा', pv_pb_sub: 'सबसे ज़्यादा पहले: एल्युमिनियम, एनोडाइज़िंग और फ़िल्म के बाद हर बिके किलो पर मुनाफ़ा।', pv_on: '{kg} किलो पर {p}',
     pf_h: 'मुनाफ़ा', pf_sub: 'हमारे स्टॉक से हर बिक्री: उसकी कीमत में से लैंडेड कॉस्ट पर एल्युमिनियम, एनोडाइज़िंग और स्ट्रेच फ़िल्म घटाकर। खरीद पर पीस बिना पैकिंग तौले जाते हैं और बिक्री पर फ़िल्म में लिपटे, इसलिए बढ़ा वज़न फ़िल्म है, जो एल्युमिनियम के रेट पर बिकता है।',
     pf_rates: 'एनोडाइज़िंग ₹{a} प्रति किलो एल्युमिनियम। स्ट्रेच फ़िल्म ₹{f} प्रति किलो। पाउडर कोटिंग की लागत तय होने तक बाक़ी सब एनोडाइज़्ड माना गया है।',
     pf_bare: 'बिना एनोडाइज़िंग और बिना फ़िल्म के बिकते हैं, जब तक चालान में एनोडाइज़्ड न लिखा हो: {list}।', fin_mill: 'बिना फ़िनिश',
@@ -1844,6 +1891,45 @@ VIEWS.expenses = (arg) => {
   $('#ec').onchange = e => { S.cf = e.target.value; tb.draw(); };
   $('#em').onchange = e => { S.mf = e.target.value; tb.draw(); };
 };
+/* profit charts: the bridge (how the profit is made) and profit per kg by profile */
+const PV_GAIN = '#3A6EA5', PV_COST = '#C2652F';  // validated pair (lightness, chroma, CVD, contrast on white); profit = ink
+function profitParts(rows) {
+  const P = rows.map(r => r.pnl), S = f => sum(P, f);
+  const rev = S(p => p.rev), kg = S(p => p.kg), alu = S(p => p.alu), film = S(p => p.film), anodKg = S(p => p.anodKg);
+  const filmSold = S(p => p.filmEarn), anod = S(p => p.anodCost), filmCost = S(p => p.filmCost), aluCost = S(p => p.aluCost), profit = S(p => p.profit);
+  // profit = margin on the aluminium + film sold at the aluminium rate − anodising − film cost (the margin closes the sum exactly)
+  return { rev, kg, alu, film, anodKg, filmSold, anod, filmCost, aluCost, profit, metal: profit - filmSold + anod + filmCost,
+    rate: kg ? rev / kg : 0, landed: alu ? aluCost / alu : 0, anodR: anodKg ? anod / anodKg : 0, filmR: film ? filmCost / film : 0 };
+}
+const pvSigned = v => (v < 0 ? '−' : '+') + inr(Math.abs(v));
+function bridgeHtml(x) {
+  const steps = [
+    { k: 'pv_metal', s: t('pv_metal_s', { kg: n2(x.alu), r: n2(x.rate), c: n2(x.landed) }), v: x.metal },
+    { k: 'pv_film_sold', s: t('pv_film_sold_s', { kg: n2(x.film), r: n2(x.rate) }), v: x.filmSold },
+    { k: 'pf_anod', s: t('pv_anod_s', { kg: n2(x.anodKg), r: n2(x.anodR) }), v: -x.anod },
+    { k: 'pv_film_cost', s: t('pv_film_cost_s', { kg: n2(x.film), r: n2(x.filmR) }), v: -x.filmCost }];
+  let run = 0; const pos = [0];
+  steps.forEach(st => { st.a = run; run += st.v; st.b = run; pos.push(run); });
+  const lo = Math.min(0, ...pos), hi = Math.max(0, ...pos), span = (hi - lo) || 1, X = v => ((v - lo) / span * 100).toFixed(2);
+  const bar = (a, b, cls) => `<i class="br-b ${cls}" style="left:${X(Math.min(a, b))}%;width:${Math.max(0.5, Math.abs(b - a) / span * 100).toFixed(2)}%"></i>`;
+  const zero = `<i class="br-z" style="left:${X(0)}%"></i>`;
+  const row = (name, sub, a, b, cls, val, extra) => `<div class="br-row${extra || ''}" role="listitem" title="${esc(name + ': ' + val)}"><span class="br-l"><b>${esc(name)}</b><small>${esc(sub)}</small></span><span class="br-t">${zero}${bar(a, b, cls)}</span><span class="br-v">${esc(val)}</span></div>`;
+  const m = x.rev ? (x.profit / x.rev * 100).toFixed(1) : '0.0';
+  return `<div class="br" role="list" aria-label="${esc(t('pv_h'))}">${steps.map(st => row(t(st.k), st.s, st.a, st.b, st.v >= 0 ? 'gain' : 'cost', pvSigned(st.v))).join('')}
+    ${row(t('profit'), t('pv_profit_s', { m, rev: inr(x.rev), k: n2(x.kg ? x.profit / x.kg : 0) }), 0, x.profit, 'tot', (x.profit < 0 ? '−' : '') + inr(Math.abs(x.profit)), ' br-tot')}</div>
+    <div class="pv-leg"><span><i class="sw gain"></i>${esc(t('pv_leg_gain'))}</span><span><i class="sw cost"></i>${esc(t('pv_leg_cost'))}</span><span><i class="sw tot"></i>${esc(t('profit'))}</span></div>`;
+}
+function profileBarsHtml(rows) {
+  const g = {};
+  rows.forEach(r => r.pnl.lines.forEach(l => { const k = l.profile + '|' + l.fin; const x = g[k] = g[k] || { profile: l.profile, fin: l.fin, kg: 0, profit: 0, odd: false }; x.kg += l.kg; x.profit += l.profit; x.odd = x.odd || l.odd; }));
+  const L = Object.values(g).map(x => ({ ...x, per: x.kg ? x.profit / x.kg : 0 })).sort((a, b) => b.per - a.per);
+  if (!L.length) return '';
+  const lo = Math.min(0, ...L.map(x => x.per)), hi = Math.max(0, ...L.map(x => x.per)), span = (hi - lo) || 1, X = v => ((v - lo) / span * 100).toFixed(2);
+  return `<div class="pb" role="list" aria-label="${esc(t('pv_pb_h'))}">${L.map(x => { const val = (x.per < 0 ? '−' : '') + '₹' + n2(Math.abs(x.per)); return `<div class="pb-row" role="listitem" title="${esc(x.profile + ': ' + val + '/kg, ' + t('pv_on', { p: inr(x.profit), kg: n2(x.kg) }))}">
+      <span class="pb-l">${esc(x.profile)}${x.fin === 'mill' ? ` <span class="pill">${esc(t('fin_mill'))}</span>` : ''}${x.odd ? ` <span class="pill warn">${esc(t('check'))}</span>` : ''}</span>
+      <span class="pb-t"><i class="pb-z" style="left:${X(0)}%"></i><i class="pb-b${x.per < 0 ? ' neg' : ''}" style="left:${X(Math.min(0, x.per))}%;width:${Math.max(0.5, Math.abs(x.per) / span * 100).toFixed(2)}%"></i></span>
+      <span class="pb-v"><b>${esc(val)}</b>/kg<small>${esc(t('pv_on', { p: inr(x.profit), kg: n2(x.kg) }))}</small></span></div>`; }).join('')}</div>`;
+}
 function saleProfitDetail(r) {
   const p = r.pnl;
   const cls = v => v >= 0 ? 'pos' : 'neg';
@@ -1877,8 +1963,18 @@ VIEWS.profit = () => {
       <div><span>${esc(t('pf_film_kg'))}</span><b>${n2(film)} kg <span class="faint">(${alu ? (film / alu * 100).toFixed(1) : '0.0'}%)</span></b></div><div><span>${esc(t('pf_film_gain'))}</span><b>${inr(S('filmGain'))}</b></div>
       <div><span>${esc(t('pf_overheads', { m: MONTH_FULL[LANG][+month.slice(5) - 1] }))}</span><b>${inr(sum(overheads, e => e.amount))}</b></div></div>
     ${notYet.length ? `<p class="note">${esc(t('left_out', { ids: notYet.map(s => s.id).join(', ') }))}</p>` : ''}
+    ${done.length ? `<div class="pv-bar"><label for="pvs">${esc(t('pv_show'))}</label><select class="filter" id="pvs"><option value="all">${esc(t('pv_all', { n: done.length }))}</option>${done.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).map(r => `<option value="${esc(r.id)}">${esc(t('pv_one', { id: r.id, c: r.challan_no || '', p: r.party || '' }))}</option>`).join('')}</select></div>
+      <div class="panel pv"><h3>${esc(t('pv_h'))}</h3><p class="sub">${esc(t('pv_sub'))}</p><div id="pvb"></div></div>
+      <div class="panel pv"><h3>${esc(t('pv_pb_h'))}</h3><p class="sub">${esc(t('pv_pb_sub'))}</p><div id="pvp"></div></div>` : ''}
     <h3>${esc(t('pf_sales_h'))}</h3><div class="panel" id="ps" style="margin-bottom:26px"></div>
     ${jobs.length ? `<h3>${esc(t('pf_jobs_h'))}</h3><p class="sub" style="margin:0 0 10px;max-width:80ch">${esc(t('pf_jobs_sub'))}</p>${jNot.length ? `<p class="note">${esc(t('left_out', { ids: jNot.map(s => s.id).join(', ') }))}</p>` : ''}<div class="panel" id="pt"></div>` : ''}`);
+  if (done.length) {
+    const VS = uiState('profit_viz', { scope: 'all' });
+    if (VS.scope !== 'all' && !done.some(r => r.id === VS.scope)) VS.scope = 'all';
+    const drawViz = () => { const rows = VS.scope === 'all' ? done : done.filter(r => r.id === VS.scope); $('#pvb').innerHTML = bridgeHtml(profitParts(rows)); $('#pvp').innerHTML = profileBarsHtml(rows); };
+    $('#pvs').value = VS.scope; drawViz();
+    $('#pvs').onchange = e => { VS.scope = e.target.value; drawViz(); };
+  }
   const okRows = rows => rows.filter(r => r.pnl.complete);
   table($('#ps'), { rows: sales, id: r => r.id, sort: 'date', dir: -1, state: uiState('profit_s', {}),
     cols: [{ k: 'id', t: t('no'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'challan_no', t: t('pf_challan'), ph: 0 }, { k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'party', t: t('party') },
