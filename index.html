@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-/KiZBnyPn9CTPqidTgBfQBZdx1JaYfzThkMEMDSPmDk='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-LPDkY16Y+1YSZAb7pRqCBW3QHHK0rmjSYksGyB0KbV0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -231,6 +231,9 @@ mark{background:#F6DFB8;color:inherit;border-radius:2px;padding:0 1px}
 .hist{list-style:none;margin:0;padding:0;font-size:var(--fs-cap);color:var(--steel)}
 .hist li{padding:5px 0;border-top:1px solid var(--rule2)}
 .hist li:first-child{border-top:0}
+.qt-a{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.qt-url{width:100%;max-width:560px;min-width:0;margin:0 0 10px;font-size:var(--fs-sm);color:var(--steel)}
+.qt-tot dd{font-variant-numeric:tabular-nums}
 
 /* ---------- cards (orders and work orders on phones) ---------- */
 .cards{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
@@ -785,6 +788,18 @@ const I18N = {
     pm_shop_stock: 'Shop stock', pm_shop_bills: 'Bills & sale amounts', pm_shop_parties: 'Udhaar & supplier dues', pm_shop_jobs: 'Fabrication jobs', pm_shop_costs: 'Purchases & cost rates', pm_shop_profit: 'Profit',
     pm_shop_sell: 'Make bills', pm_shop_collect: 'Receive udhaar payments', pm_shop_buy: 'Record purchases, add items', pm_shop_job_edit: 'Add and update jobs',
     ps_counter: 'Counter', ps_fitter: 'Fitter', ps_manager: 'Shop manager', k_shop: 'Shop', works_at: 'Works at', s_staff_of: 'Staff of {f}',
+    /* quotations */
+    tab_quotes: 'Quotations', qt_h: 'Quotations', qt_sub: 'Quotes given to customers. Each one has its own private link: send it on WhatsApp and the customer sees only that quotation, without a login.',
+    qt_all_n: 'Quotations', qt_open_n: 'Waiting for a reply', qt_val_open: 'Value waiting (with GST)', qt_accepted_n: 'Accepted', qt_no: 'Quotation no.', qt_finish: 'Finish', qt_length: 'Length',
+    qt_total: 'Total with GST', qt_taxable: 'Taxable value', qt_kg: 'Approx. kg', qt_line: 'Item', qt_lengths: 'Lengths', qt_kgpl: 'Kg / length', qt_rate: 'Rate', qt_amount: 'Amount', qt_sec_total: 'Total',
+    qt_round: 'Round off', qt_valid: 'Valid until', qt_made_by: 'Made by', qt_status_l: 'Status', qt_order: 'Order', g_quotes: 'Quotations',
+    qs_all: 'All', qs_draft: 'Draft', qs_sent: 'Sent', qs_accepted: 'Accepted', qs_declined: 'Declined', qs_cancelled: 'Cancelled',
+    qt_link: 'Customer link', qt_copy: 'Copy link', qt_wa: 'Send on WhatsApp', qt_open: 'Open customer copy', qt_copied: 'Link to {no} copied — paste it in WhatsApp or SMS.', qt_copy_hand: 'Copy the link from the box above.',
+    qt_link_note: 'Anyone with this link sees this quotation and nothing else. Mark it cancelled to switch the link off.', qt_link_off: 'The customer link is switched off while the quotation is a draft or cancelled.',
+    qt_offline_link: 'The customer link is in the online app (nkbapex.in).', qt_internal: 'Internal note — not on the customer copy',
+    qt_to_order: 'Accepted: tell Claude, and the quotation becomes an order with its work order.', qt_saved: '{no} marked {st}.',
+    qt_empty_h: 'No quotations yet', qt_empty_p: "Send Claude the customer's slip and the rates; the quotation appears here with its customer link.",
+    qt_wa_text: 'Dear {party}, please see our quotation {no} here: {url} — Acta International Industries',
   },
   hi: {
     app: 'स्टॉक और ऑर्डर', search: 'प्रोफ़ाइल, बंडल नंबर, पार्टी या ऑर्डर खोजें…',
@@ -961,6 +976,18 @@ const I18N = {
     pm_shop_stock: 'दुकान का स्टॉक', pm_shop_bills: 'बिल और बिक्री रकम', pm_shop_parties: 'उधार और सप्लायर का बकाया', pm_shop_jobs: 'फ़ैब्रिकेशन काम', pm_shop_costs: 'ख़रीद और लागत रेट', pm_shop_profit: 'मुनाफ़ा',
     pm_shop_sell: 'बिल बनाना', pm_shop_collect: 'उधार का पैसा लेना', pm_shop_buy: 'ख़रीद दर्ज करना, आइटम जोड़ना', pm_shop_job_edit: 'काम जोड़ना और बदलना',
     ps_counter: 'काउंटर', ps_fitter: 'फ़िटर', ps_manager: 'दुकान मैनेजर', k_shop: 'दुकान', works_at: 'कहाँ काम करते हैं', s_staff_of: '{f} का स्टाफ़',
+    /* कोटेशन */
+    tab_quotes: 'कोटेशन', qt_h: 'कोटेशन', qt_sub: 'ग्राहकों को दिए गए कोटेशन। हर कोटेशन का अपना निजी लिंक है: WhatsApp पर भेजें, ग्राहक बिना लॉग इन के सिर्फ़ वही कोटेशन देखेगा।',
+    qt_all_n: 'कोटेशन', qt_open_n: 'जवाब का इंतज़ार', qt_val_open: 'इंतज़ार वाली रकम (GST सहित)', qt_accepted_n: 'मंज़ूर', qt_no: 'कोटेशन नं.', qt_finish: 'फ़िनिश', qt_length: 'लंबाई',
+    qt_total: 'GST सहित कुल', qt_taxable: 'टैक्स योग्य रकम', qt_kg: 'लगभग kg', qt_line: 'आइटम', qt_lengths: 'लंबाई (नग)', qt_kgpl: 'kg / लंबाई', qt_rate: 'रेट', qt_amount: 'रकम', qt_sec_total: 'कुल',
+    qt_round: 'राउंड ऑफ़', qt_valid: 'कब तक मान्य', qt_made_by: 'बनाया', qt_status_l: 'स्थिति', qt_order: 'ऑर्डर', g_quotes: 'कोटेशन',
+    qs_all: 'सभी', qs_draft: 'ड्राफ़्ट', qs_sent: 'भेजा गया', qs_accepted: 'मंज़ूर', qs_declined: 'मना', qs_cancelled: 'रद्द',
+    qt_link: 'ग्राहक का लिंक', qt_copy: 'लिंक कॉपी करें', qt_wa: 'WhatsApp पर भेजें', qt_open: 'ग्राहक वाली कॉपी खोलें', qt_copied: '{no} का लिंक कॉपी हो गया — WhatsApp या SMS में चिपकाएँ।', qt_copy_hand: 'ऊपर वाले बॉक्स से लिंक कॉपी करें।',
+    qt_link_note: 'यह लिंक जिसके पास है वह सिर्फ़ यही कोटेशन देख सकता है, और कुछ नहीं। लिंक बंद करना हो तो कोटेशन को रद्द करें।', qt_link_off: 'ड्राफ़्ट या रद्द कोटेशन का ग्राहक लिंक बंद रहता है।',
+    qt_offline_link: 'ग्राहक का लिंक ऑनलाइन ऐप (nkbapex.in) में मिलेगा।', qt_internal: 'अंदरूनी नोट — ग्राहक की कॉपी पर नहीं',
+    qt_to_order: 'मंज़ूर: Claude को बताएँ, कोटेशन से ऑर्डर और वर्क ऑर्डर बन जाएगा।', qt_saved: '{no}: {st}',
+    qt_empty_h: 'अभी कोई कोटेशन नहीं', qt_empty_p: 'ग्राहक की पर्ची और रेट Claude को भेजें; कोटेशन ग्राहक के लिंक के साथ यहाँ आ जाएगा।',
+    qt_wa_text: 'नमस्ते {party} जी, हमारा कोटेशन {no} यहाँ देखें: {url} — Acta International Industries',
   }
 };
 let LANG = store.get('acta.lang') === 'hi' ? 'hi' : 'en';
@@ -1036,7 +1063,8 @@ async function loadRaw() {
     ['sales_register', can('rates')], ['cash_accounts', can('cash')], ['cash_entries', can('cash')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
     ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')], ['cost_rates', can('profit')], ['app_settings', true],
     ['shop_items', seesShop()], ['shop_parties', seesShop()], ['shop_bills', can('shop_bills')], ['shop_bill_lines', can('shop_bills')], ['shop_purchases', can('shop_costs')], ['shop_purchase_lines', can('shop_costs')],
-    ['shop_payments', can('shop_parties')], ['shop_jobs', can('shop_jobs')], ['shop_job_materials', can('shop_jobs')], ['shop_adjustments', can('shop_stock')]].filter(x => x[1]).map(x => x[0]);
+    ['shop_payments', can('shop_parties')], ['shop_jobs', can('shop_jobs')], ['shop_job_materials', can('shop_jobs')], ['shop_adjustments', can('shop_stock')],
+    ['quotations', can('rates')], ['quotation_lines', can('rates')]].filter(x => x[1]).map(x => x[0]);
   const rows = await Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
   const R = Object.fromEntries(plan.map((n, i) => [n, rows[i]]));
   R.app_users = users;
@@ -1225,7 +1253,7 @@ function buildModel(R) {
   const cash = A('cash_entries').map(e => ({ ...e, amount: +e.amount })).sort((a, b) => String(a.date).localeCompare(b.date) || String(a.id).localeCompare(String(b.id), 'en', { numeric: true }));
   const cbal = {}; cash.forEach(e => { cbal[e.account] = (cbal[e.account] || 0) + (e.direction === 'in' ? e.amount : -e.amount); e.bal = cbal[e.account]; });
   const shop = buildShop(R);
-  return { shop, leadDays, toOrder, costRates, costRate, cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
+  return { shop, quotes: buildQuotes(R), leadDays, toOrder, costRates, costRate, cashAccounts, cash, cbal, register, salEntries, salPeople, profiles, P, lots, lotById, lists, seriesOrder, bundles: lists.flatMap(l => l.bundles), notes, sales, work, cons, consById, txs, expenses, pos, users, userById,
     attendance, targets, salesRows, activity: A('activity_log'), history: A('status_history'),
     myTargets: meId ? targets.filter(x => x.employee === meId) : [], myAttToday: meId ? attendance.find(a => a.user_id === meId && a.day === today()) : null,
     stockKg: sum(profiles, p => p.kg), stockPcs: sum(profiles, p => p.pcs), stockVal: sum(profiles, p => p.value), inStock: profiles.filter(p => p.pcs > 0 || p.kg > 0.001), negStock: profiles.filter(p => p.pcs < 0 || p.kg < -0.0005) };
@@ -1251,13 +1279,15 @@ const ICONS = {
   account: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
   more: '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
   ledger: '<path d="M6 3h11a2 2 0 0 1 2 2v16H8a2 2 0 0 1-2-2z"/><path d="M6 17a2 2 0 0 1 2-2h11M10 7h5M10 11h5"/>',
-  window: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 3v18M4 12h16"/>'
+  window: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 3v18M4 12h16"/>',
+  quote: '<path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5M9 12.5h7M9 16.5h4.5"/>'
 };
 const ico = k => `<svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k] || ''}</svg>`;
 const TABS = [
   { k: 'overview', label: 'tab_overview', mob: 'tab_home', icon: 'home' },
   { k: 'sales', label: 'tab_sales', icon: 'sales', need: () => can('orders'), ct: () => M.sales.filter(openSO).length },
   { k: 'register', label: 'tab_register', icon: 'expenses', need: () => can('rates'), ct: () => M.register.length },
+  { k: 'quotes', label: 'tab_quotes', icon: 'quote', need: () => can('rates'), ct: () => M.quotes.filter(q => q.status === 'sent').length },
   { k: 'cash', label: 'tab_cash', icon: 'bank', need: () => can('cash'), ct: () => M.cash.length },
   { k: 'ledger', label: 'tab_ledger', icon: 'lists', need: () => can('cash') },
   { k: 'work', label: 'tab_work', mob: 'tab_work_s', icon: 'work', need: () => can('work'), ct: () => M.work.filter(openWO).length },
@@ -1949,6 +1979,89 @@ VIEWS.register = () => {
   document.querySelector('#view [data-rg-print]').onclick = () => printReport(cur(), S);
   top();
 };
+/* quotations (05-11-2026): every quote given to a customer, with its private customer link.
+   The customer opens nkbapex.in/q/#<share_token> and sees only that quotation (quote_public()). */
+const QT_ST = ['sent', 'accepted', 'declined', 'cancelled', 'draft'];
+const qtPill = s => `<span class="pill ${s === 'sent' ? 'warn' : s === 'accepted' ? 'ok' : s === 'declined' ? 'out' : 'grey'}">${esc(t('qs_' + s))}</span>`;
+const qtLive = q => !['draft', 'cancelled'].includes(q.status);
+const qtUrl = q => q.share_token && /^https?:$/.test(location.protocol) ? location.origin + '/q/#' + q.share_token : '';
+const qtRate = v => Number.isInteger(+v) ? n0(v) : n2(v);
+// Same sums as quote_doc() in supabase/quotes.sql, in whole paise so the app and the customer copy agree.
+function buildQuotes(R) {
+  const byQ = groupBy(R.quotation_lines || [], 'quotation');
+  const paise = v => Math.round(+v * 100);
+  return (R.quotations || []).map(q => {
+    const ls = (byQ[q.id] || []).slice().sort((a, b) => a.line_no - b.line_no).map(l => ({ ...l, lengths: l.lengths == null ? null : +l.lengths, kg_per_len: l.kg_per_len == null ? null : +l.kg_per_len,
+      pcs: l.pcs == null ? null : +l.pcs, rate: +l.rate, amount: +l.amount, kg: l.unit === 'kg' ? +l.lengths * +l.kg_per_len : null }));
+    const g = +q.gst_rate || 0, taxP = ls.reduce((s, l) => s + paise(l.amount), 0);
+    const halfP = q.gst_split ? Math.round(taxP * g / 200) : 0, igstP = q.gst_split ? 0 : Math.round(taxP * g / 100);
+    const grossP = taxP + 2 * halfP + igstP, totP = Math.round(grossP / 100) * 100;
+    const sections = (q.sections || []).map(s => { const x = ls.filter(l => l.section === s.key);
+      return { ...s, lines: x, lengths: sum(x.filter(l => l.unit === 'kg'), l => l.lengths), pcs: sum(x.filter(l => l.unit === 'pc'), l => l.pcs), kg: sum(x, l => l.kg || 0), amount: sum(x, l => paise(l.amount)) / 100 }; })
+      .filter(s => s.lines.length);
+    return { ...q, lines: ls, sections, kg: sum(ls, l => l.kg || 0), lengths: sum(ls.filter(l => l.unit === 'kg'), l => l.lengths), pcs: sum(ls.filter(l => l.unit === 'pc'), l => l.pcs),
+      taxable: taxP / 100, cgst: halfP / 100, sgst: halfP / 100, igst: igstP / 100, round_off: (totP - grossP) / 100, total: totP / 100 };
+  }).sort((a, b) => String(b.date).localeCompare(String(a.date)) || (+String(b.id).slice(3) - +String(a.id).slice(3)));
+}
+const qtQty = s => [s.lengths ? `${n0(s.lengths)} ${t('lengths')}` : '', s.pcs ? `${n0(s.pcs)} ${t('pcs')}` : ''].filter(Boolean).join(' + ');
+function quoteDetail(q) {
+  const half = String(+(q.gst_rate / 2).toFixed(2)), url = qtUrl(q);
+  const secs = q.sections.map(s => `<h3 style="margin:4px 0 6px">${esc(s.key)}. ${esc(s.title)}${s.note ? ` <span class="faint" style="font-weight:400">· ${esc(s.note)}</span>` : ''}</h3>
+    <div class="tw" style="margin-bottom:14px"><table class="compact"><thead><tr><th>#</th><th>${esc(t('qt_line'))}</th><th class="num">${esc(t('qt_lengths'))}</th><th class="num">${esc(t('qt_kgpl'))}</th><th class="num">${esc(t('qt_kg'))}</th><th class="num">${esc(t('qt_rate'))}</th><th class="num">${esc(t('qt_amount'))}</th></tr></thead>
+    <tbody>${s.lines.map(l => `<tr><td class="faint">${esc(l.line_no)}</td><td>${esc(l.description)}${l.profile && l.profile !== l.description ? `<div class="faint tiny">${esc(l.profile)}</div>` : ''}</td>${l.unit === 'kg'
+      ? `<td class="num">${n0(l.lengths)}</td><td class="num">${n3(l.kg_per_len)}</td><td class="num">${n3(l.kg)}</td>` : `<td class="num">${n0(l.pcs)} ${esc(t('pcs'))}</td><td class="num faint">—</td><td class="num faint">—</td>`}
+      <td class="num">₹${qtRate(l.rate)} / ${esc(l.unit)}</td><td class="num">₹${n2(l.amount)}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td></td><td>${esc(t('qt_sec_total'))}</td><td class="num">${esc(qtQty(s))}</td><td></td><td class="num">${s.kg ? n3(s.kg) : ''}</td><td></td><td class="num">₹${n2(s.amount)}</td></tr></tfoot></table></div>`).join('');
+  const tot = [[t('qt_taxable'), '₹' + n2(q.taxable)],
+    ...(+q.gst_rate ? (q.gst_split ? [[`CGST ${half}%`, '₹' + n2(q.cgst)], [`SGST ${half}%`, '₹' + n2(q.sgst)]] : [[`IGST ${+q.gst_rate}%`, '₹' + n2(q.igst)]]) : []),
+    q.round_off ? [t('qt_round'), (q.round_off < 0 ? '−' : '+') + '₹' + n2(Math.abs(q.round_off))] : null, [t('qt_total'), `<b>₹${n2(q.total)}</b>`]].filter(Boolean);
+  const facts = [[t('qt_no'), esc(q.number)], [t('customer'), esc([q.party, q.party_place, q.party_phone].filter(Boolean).join(', '))], [t('date'), dt(q.date)], q.valid_until ? [t('qt_valid'), dt(q.valid_until)] : null,
+    q.finish ? [t('qt_finish'), esc(q.finish)] : null, q.length_note ? [t('qt_length'), esc(q.length_note)] : null, [t('qt_status_l'), qtPill(q.status)],
+    q.sales_order ? [t('qt_order'), `<button class="link" type="button" data-go="sales/${esc(q.sales_order)}">${esc(q.sales_order)}</button>`] : null,
+    q.created_by_name ? [t('qt_made_by'), esc(q.created_by_name)] : null].filter(Boolean);
+  const share = !ONLINE ? `<p class="faint tiny" style="margin:0 0 12px">${esc(t('qt_offline_link'))}</p>`
+    : !qtLive(q) ? `<p class="note">${esc(t('qt_link_off'))}</p>`
+    : url ? `<p class="faint tiny" style="margin:0 0 4px">${esc(t('qt_link'))}</p><input class="filter qt-url no-print" type="text" readonly value="${esc(url)}" aria-label="${esc(t('qt_link'))}" data-qt-url="${esc(q.id)}">
+      <div class="acts no-print"><button class="bigbtn" type="button" data-qt-copy="${esc(q.id)}">${esc(t('qt_copy'))}</button><a class="bigbtn ghost qt-a" href="${esc('https://wa.me/' + (String(q.party_phone || '').replace(/\D/g, '').replace(/^(\d{10})$/, '91$1')) + '?text=' + encodeURIComponent(t('qt_wa_text', { party: q.party, no: q.number, url })))}" target="_blank" rel="noopener noreferrer">${esc(t('qt_wa'))}</a><a class="bigbtn ghost qt-a" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(t('qt_open'))}</a></div>
+      <p class="faint tiny" style="margin:-6px 0 12px">${esc(t('qt_link_note'))}</p>` : '';
+  const status = ONLINE && isMaster() ? `<div class="acts no-print"><label class="sr" for="qts-${esc(q.id)}">${esc(t('qt_status_l'))}</label><select class="filter" id="qts-${esc(q.id)}" data-qt-sel="${esc(q.id)}" style="min-width:170px">${QT_ST.map(s => `<option value="${s}" ${s === q.status ? 'selected' : ''}>${esc(t('qs_' + s))}</option>`).join('')}</select><button class="btn" type="button" data-qt-save="${esc(q.id)}">${esc(t('save'))}</button></div>` : '';
+  return `<div class="grid2 wide"><div>${share}<dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl></div>
+    <div><dl class="kv qt-tot" style="margin:0 0 12px">${tot.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>${status}
+    ${q.status === 'accepted' && !q.sales_order ? `<p class="note">${esc(t('qt_to_order'))}</p>` : ''}
+    ${q.note ? `<p class="faint tiny" style="margin:0 0 4px">${esc(t('qt_internal'))}</p><p class="note">${esc(q.note)}</p>` : ''}</div></div>${secs}`;
+}
+VIEWS.quotes = (arg) => {
+  const S = uiState('quotes', { st: 'all', ft: '', tb: {} });
+  const Q = M.quotes, waiting = Q.filter(q => q.status === 'sent');
+  const pick = arg && Q.find(q => q.id === arg); if (pick && S.st !== 'all' && pick.status !== S.st) S.st = 'all';
+  view(`<div class="head-row"><div><h2>${esc(t('qt_h'))}</h2><p class="sub" style="margin:0">${esc(t('qt_sub'))}</p></div></div>
+    <div class="panel meta">${[[t('qt_all_n'), n0(Q.length)], [t('qt_open_n'), n0(waiting.length)], [t('qt_val_open'), inr(sum(waiting, q => q.total))], [t('qt_accepted_n'), n0(Q.filter(q => q.status === 'accepted').length)]]
+      .map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>
+    <div class="filters no-print"><input class="filter" id="qtf" type="search" placeholder="${esc(t('filter'))}" aria-label="${esc(t('filter'))}" value="${esc(S.ft)}"><div class="chips">${['all', ...QT_ST].map(s => `<button class="chip" type="button" data-qt-st="${s}" aria-pressed="${S.st === s}">${esc(t(s === 'all' ? 'qs_all' : 'qs_' + s))}</button>`).join('')}</div></div>
+    <div class="panel" id="qtl"></div>`);
+  const filter = q => (S.st === 'all' || q.status === S.st) && (!lc(S.ft) || [q.id, q.number, q.party, q.party_place, q.finish, q.note, ...q.lines.map(l => l.description + ' ' + (l.profile || ''))].join(' ').toLowerCase().includes(lc(S.ft)));
+  const empty = `<div class="empty"><h3>${esc(t('qt_empty_h'))}</h3><p>${esc(t('qt_empty_p'))}</p></div>`;
+  const ctl = table($('#qtl'), { rows: Q, id: q => q.id, sort: 'date', dir: -1, open: pick ? pick.id : null, state: S.tb, filter, empty,
+    cols: [{ k: 'number', t: t('qt_no'), sv: q => +String(q.id).slice(3), h: q => `<b>${esc(q.number)}</b>` }, { k: 'date', t: t('date'), h: q => dt(q.date) },
+      { k: 'party', t: t('customer'), h: q => esc(q.party) + (q.party_place ? `<div class="faint tiny">${esc(q.party_place)}</div>` : '') }, { k: 'finish', t: t('qt_finish'), ph: 0 },
+      { k: 'kg', t: t('qt_kg'), num: 1, ph: 0, h: q => q.kg ? n2(q.kg) : '' }, { k: 'total', t: t('qt_total'), num: 1, h: q => '₹' + n2(q.total) }, { k: 'status', t: t('status'), h: q => qtPill(q.status) }],
+    detail: quoteDetail });
+  document.querySelectorAll('#view [data-qt-st]').forEach(b => b.onclick = () => { S.st = b.dataset.qtSt; document.querySelectorAll('#view [data-qt-st]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); ctl.draw(); });
+  $('#qtf').oninput = e => { S.ft = e.target.value; ctl.draw(); };
+  if (pick && !RENDER.keep) setTimeout(() => { const el = document.querySelector(`#qtl [data-id="${CSS.escape(pick.id)}"]`); if (el) el.scrollIntoView({ block: 'center' }); }, 30);
+};
+document.addEventListener('click', async e => {
+  const c = e.target.closest('[data-qt-copy]');
+  if (c) { const q = M.quotes.find(x => x.id === c.dataset.qtCopy); const url = q && qtUrl(q); if (!url) return;
+    try { await navigator.clipboard.writeText(url); c.textContent = t('copied'); toast(t('qt_copied', { no: q.number })); }
+    catch (_) { const inp = document.querySelector(`[data-qt-url="${CSS.escape(q.id)}"]`); if (inp) { inp.focus(); inp.select(); } toast(t('qt_copy_hand')); }
+    return; }
+  const s = e.target.closest('[data-qt-save]');
+  if (s) { const id = s.dataset.qtSave, sel = document.querySelector(`[data-qt-sel="${CSS.escape(id)}"]`), q = M.quotes.find(x => x.id === id); if (!sel || !q || sel.value === q.status) return;
+    s.disabled = true;
+    try { await rpc('set_quote_status', { p_id: id, p_status: sel.value }); } catch (err) { s.disabled = false; toast(t('err', { msg: err.message || err }), 'err'); return; }
+    history.replaceState(null, '', '#quotes/' + id); await reload(true); toast(t('qt_saved', { no: q.number, st: t('qs_' + sel.value) })); }
+});
 /* cash & bank register + party ledger */
 const cashSigned = e => e.direction === 'in' ? e.amount : -e.amount;
 const cashSum = (S, f) => sum(M.cash.filter(e => (!S.acct || e.account === S.acct) && f(e)), cashSigned);
@@ -3480,7 +3593,9 @@ function renderSearch(text) {
     ['g_cons', M.cons.filter(c => hit(`${c.name} ${c.category} ${t('c_' + c.category)} ${c.shade || ''}`)).map(c => ({ t: c.name, d: t('c_' + c.category), r: `${nq(c.qty)} ${c.unit}`, go: 'cons/' + c.id }))],
     ...[
       ['g_lots', M.lots.filter(l => hit(`${l.id} ${l.supplier} ${l.received} ${dt(l.received)} ${l.material_cost} ${n0(l.material_cost)}`)).map(l => ({ t: `${l.id} — ${l.supplier}`, d: `${dt(l.received)}, ₹${n2(l.rate)} / kg`, r: inr(l.total), go: 'purchases' }))],
-      ['g_exp', M.expenses.filter(e => hit(`${e.category} ${e.description} ${e.party || ''} ${e.amount} ${n0(e.amount)} ${dt(e.date)} ${e.sales_order || ''} ${e.work_order || ''}`)).map(e => ({ t: e.description || e.category, d: `${e.category}, ${dt(e.date)}`, r: inr(e.amount), go: 'expenses/' + e.id }))]].filter(g => g[0] === 'g_lots' ? can('purchases') : can('expenses'))
+      ['g_exp', M.expenses.filter(e => hit(`${e.category} ${e.description} ${e.party || ''} ${e.amount} ${n0(e.amount)} ${dt(e.date)} ${e.sales_order || ''} ${e.work_order || ''}`)).map(e => ({ t: e.description || e.category, d: `${e.category}, ${dt(e.date)}`, r: inr(e.amount), go: 'expenses/' + e.id }))],
+      ['g_quotes', M.quotes.filter(q => hit(`${q.id} ${q.number} ${q.party} ${q.party_place || ''} ${q.finish || ''} ${t('qs_' + q.status)} ${q.lines.map(l => l.description).join(' ')}`)).map(q => ({ t: `${q.number} — ${q.party}`, d: `${t('qs_' + q.status)} · ${dt(q.date)}${q.finish ? ' · ' + q.finish : ''}`, r: '₹' + n2(q.total), go: 'quotes/' + q.id }))]]
+      .filter(g => g[0] === 'g_lots' ? can('purchases') : g[0] === 'g_quotes' ? can('rates') : can('expenses'))
   ].filter(g => g[1].length);
   const total = sum(groups, g => g[1].length);
   $('#view').innerHTML = `<div class="head-row"><div><h2>${esc(total ? (total === 1 ? t('result1', { q: text }) : t('results', { n: total, q: text })) : t('nothing_for', { q: text }))}</h2><p class="sub" style="margin:0">${esc(total ? t('res_hint') : t('res_try'))}</p></div></div>
