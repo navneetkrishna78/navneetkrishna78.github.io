@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-LPDkY16Y+1YSZAb7pRqCBW3QHHK0rmjSYksGyB0KbV0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-URHDU2SkapOMMf0wBP/ZhIO6yo+UiKjU3qYe9DQpar0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -648,8 +648,10 @@ const I18N = {
     pv_profit_s: '{m}% of {rev} sales, ₹{k} on every kg sold', pv_leg_gain: 'Adds to profit', pv_leg_cost: 'Cost',
     pv_pb_h: 'Profit per kg by profile', pv_pb_sub: 'Highest first: profit on each profile after aluminium, anodising and film, for every kg sold.', pv_on: '{p} on {kg} kg',
     pf_h: 'Profit', pf_sub: 'Each sale from our stock: its value minus the aluminium at landed cost, anodising and stretch film. Lengths are weighed bare when bought and wrapped in film when sold, so the extra weight is film, sold at the aluminium rate.',
-    pf_rates: 'Anodising ₹{a} per kg of aluminium. Stretch film ₹{f} per kg. Everything else is counted as anodised until powder-coating costs are set.',
+    pf_rates: 'Anodising ₹{a} per kg of aluminium. Stretch film ₹{f} per kg. A sent bundle marked powder-coated (with its shade) is costed at the powder-coating rate instead of anodising.',
     pf_bare: 'Sold bare, with no anodising and no film, unless the challan says anodised: {list}.', fin_mill: 'Bare',
+    fin_powder: 'Powder', pf_powder: 'Powder coating', pv_powder_s: '{kg} kg powder-coated at ₹{r}/kg', pf_powder_rate: 'Powder coating ₹{r} per kg of aluminium.',
+    pf_powder_none: 'Powder-coating cost is not set yet, so powder-coated sales are left out of the profit.', f_no_powder_rate: 'powder-coating cost per kg not set yet',
     pf_sales_h: 'Sales from our stock', pf_jobs_h: 'Job-work orders', pf_jobs_sub: 'Order value minus material at landed cost, anodising on anodised lines, consumables used on its work orders, and expenses booked to it.',
     pf_value: 'Sales value', pf_alu: 'Aluminium', pf_anod: 'Anodising', pf_film: 'Stretch film', pf_film_kg: 'Film sold as weight', pf_film_gain: 'Earned on film weight', pf_per_kg: 'Profit / kg', pf_challan: 'Challan',
     pf_film_gain_t: '{kg} kg of film sold at ₹{r}/kg brings {earn}; the film cost {cost}. Net {gain}.', pf_bought: 'kg/length bought', pf_sold: 'kg/length sold', pf_alu_kg: 'Aluminium kg', pf_film_col: 'Film kg',
@@ -836,8 +838,10 @@ const I18N = {
     pv_profit_s: '{rev} बिक्री का {m}%, हर बिके किलो पर ₹{k}', pv_leg_gain: 'मुनाफ़ा बढ़ाता है', pv_leg_cost: 'लागत',
     pv_pb_h: 'हर प्रोफ़ाइल का प्रति किलो मुनाफ़ा', pv_pb_sub: 'सबसे ज़्यादा पहले: एल्युमिनियम, एनोडाइज़िंग और फ़िल्म के बाद हर बिके किलो पर मुनाफ़ा।', pv_on: '{kg} किलो पर {p}',
     pf_h: 'मुनाफ़ा', pf_sub: 'हमारे स्टॉक से हर बिक्री: उसकी कीमत में से लैंडेड कॉस्ट पर एल्युमिनियम, एनोडाइज़िंग और स्ट्रेच फ़िल्म घटाकर। खरीद पर पीस बिना पैकिंग तौले जाते हैं और बिक्री पर फ़िल्म में लिपटे, इसलिए बढ़ा वज़न फ़िल्म है, जो एल्युमिनियम के रेट पर बिकता है।',
-    pf_rates: 'एनोडाइज़िंग ₹{a} प्रति किलो एल्युमिनियम। स्ट्रेच फ़िल्म ₹{f} प्रति किलो। पाउडर कोटिंग की लागत तय होने तक बाक़ी सब एनोडाइज़्ड माना गया है।',
+    pf_rates: 'एनोडाइज़िंग ₹{a} प्रति किलो एल्युमिनियम। स्ट्रेच फ़िल्म ₹{f} प्रति किलो। पाउडर कोटेड (शेड के साथ) बंडल पर एनोडाइज़िंग की जगह पाउडर कोटिंग का रेट लगता है।',
     pf_bare: 'बिना एनोडाइज़िंग और बिना फ़िल्म के बिकते हैं, जब तक चालान में एनोडाइज़्ड न लिखा हो: {list}।', fin_mill: 'बिना फ़िनिश',
+    fin_powder: 'पाउडर', pf_powder: 'पाउडर कोटिंग', pv_powder_s: '{kg} किलो पाउडर कोटेड ₹{r}/किलो पर', pf_powder_rate: 'पाउडर कोटिंग ₹{r} प्रति किलो एल्युमिनियम।',
+    pf_powder_none: 'पाउडर कोटिंग की लागत अभी तय नहीं है, इसलिए पाउडर कोटेड बिक्री मुनाफ़े में नहीं गिनी गई।', f_no_powder_rate: 'पाउडर कोटिंग की लागत प्रति किलो अभी तय नहीं',
     pf_sales_h: 'हमारे स्टॉक से बिक्री', pf_jobs_h: 'जॉब-वर्क ऑर्डर', pf_jobs_sub: 'ऑर्डर की कीमत में से लैंडेड कॉस्ट पर माल, एनोडाइज़्ड लाइनों पर एनोडाइज़िंग, वर्क ऑर्डर में लगी खपत सामग्री, और उस पर डाले गए खर्च घटाकर।',
     pf_value: 'बिक्री की कीमत', pf_alu: 'एल्युमिनियम', pf_anod: 'एनोडाइज़िंग', pf_film: 'स्ट्रेच फ़िल्म', pf_film_kg: 'वज़न में बिकी फ़िल्म', pf_film_gain: 'फ़िल्म के वज़न से कमाई', pf_per_kg: 'मुनाफ़ा / किलो', pf_challan: 'चालान',
     pf_film_gain_t: '{kg} किलो फ़िल्म ₹{r}/किलो पर बिकी, कमाई {earn}; फ़िल्म की लागत {cost}। शुद्ध {gain}।', pf_bought: 'किलो/पीस खरीद', pf_sold: 'किलो/पीस बिक्री', pf_alu_kg: 'एल्युमिनियम किलो', pf_film_col: 'फ़िल्म किलो',
@@ -1011,6 +1015,8 @@ let SB = null, ME = null, RAW = null, M = null, LOADED_AT = null;
 const isMaster = () => !ME || ME.role === 'master';          // offline copy = master view
 /* access: what each login may see and do (set by the master; enforced by the database) */
 const FILM_LO = 1, FILM_HI = 8;  // film weight (% of aluminium weight) outside this band → check the length count
+const GAIN_BAND = { anodised: [FILM_LO, FILM_HI], powder: [3, 16] };  // powder coat + film weigh more than film alone
+const gainOdd = (fin, pct) => { const b = GAIN_BAND[fin]; return !!b && (pct < b[0] || pct > b[1]); };
 const PERM_SEE = ['stock', 'orders', 'rates', 'work', 'consumables', 'purchases', 'expenses', 'consumable_costs', 'profit', 'cash'];
 const PERM_DO = ['confirm_orders', 'move_work', 'dispatch', 'salary'];
 const PERM_NEEDS = { profit: ['stock', 'orders', 'rates', 'work', 'purchases', 'expenses', 'consumable_costs'], rates: ['orders'], cash: ['rates', 'orders'], confirm_orders: ['orders'], move_work: ['work'] };
@@ -1231,22 +1237,23 @@ function buildModel(R) {
   // profit per sale from our stock: value − aluminium at landed cost − anodising − stretch film
   if (can('profit')) register.filter(r => r.kind === 'sale').forEach(r => {
     const l = lists.find(x => x.id === r.packing_list); const flags = [];
-    const anod = costRate('anodising_per_kg', r.date), filmR = costRate('stretch_film_per_kg', r.date);
+    const anod = costRate('anodising_per_kg', r.date), filmR = costRate('stretch_film_per_kg', r.date), powR = costRate('powder_coating_per_kg', r.date);
     if (!l) flags.push('f_no_list'); if (r.amount == null) flags.push('f_no_amount'); if (anod == null || filmR == null) flags.push('f_no_cost_rates');
     const kgSold = l ? l.kg : (r.kg || 0); const sRate = r.amount != null && (r.kg || kgSold) ? r.amount / (r.kg || kgSold) : null;
-    const by = {}; (l ? l.bundles : []).forEach(b => { const k = b.profile + '|' + b.fin; const x = by[k] = by[k] || { profile: b.profile, fin: b.fin, pcs: 0, kg: 0, alu: 0 }; x.pcs += b.pcs; x.kg += b.kg; x.alu += b.alu; });
+    const by = {}; (l ? l.bundles : []).forEach(b => { const k = b.profile + '|' + b.fin + '|' + (b.shade || ''); const x = by[k] = by[k] || { profile: b.profile, fin: b.fin, shade: b.shade || '', pcs: 0, kg: 0, alu: 0 }; x.pcs += b.pcs; x.kg += b.kg; x.alu += b.alu; });
     const lines = Object.values(by).map(x => {
       const p = P[x.profile]; const landed = (p && p.rate) || 0; if (!landed) flags.push('f_no_mat_rate');
       const film = x.kg - x.alu, filmPct = x.alu ? film / x.alu * 100 : 0;
-      const anodKg = x.fin === 'mill' ? 0 : x.alu;
-      const revenue = sRate != null ? x.kg * sRate : 0, aluCost = x.alu * landed, anodCost = anodKg * (anod || 0), filmCost = film * (filmR || 0);
-      return { ...x, film, filmPct, anodKg, landed, boughtPc: x.pcs ? x.alu / x.pcs : 0, soldPc: x.pcs ? x.kg / x.pcs : 0, revenue, aluCost, anodCost, filmCost, profit: revenue - aluCost - anodCost - filmCost, odd: x.fin !== 'mill' && (filmPct < FILM_LO || filmPct > FILM_HI) };
+      const anodKg = x.fin === 'anodised' ? x.alu : 0, powKg = x.fin === 'powder' ? x.alu : 0;
+      if (powKg && powR == null) flags.push('f_no_powder_rate');
+      const revenue = sRate != null ? x.kg * sRate : 0, aluCost = x.alu * landed, anodCost = anodKg * (anod || 0), powCost = powKg * (powR || 0), filmCost = film * (filmR || 0);
+      return { ...x, film, filmPct, anodKg, powKg, landed, boughtPc: x.pcs ? x.alu / x.pcs : 0, soldPc: x.pcs ? x.kg / x.pcs : 0, revenue, aluCost, anodCost, powCost, filmCost, profit: revenue - aluCost - anodCost - powCost - filmCost, odd: gainOdd(x.fin, filmPct) };
     }).sort((a, b) => b.kg - a.kg);
     const T = k => sum(lines, x => x[k]);
-    const rev = r.amount != null ? r.amount : 0, alu = T('alu'), film = T('film'), anodKg = T('anodKg'), aluCost = T('aluCost'), anodCost = T('anodCost'), filmCost = T('filmCost');
-    const profit = rev - aluCost - anodCost - filmCost;
-    r.pnl = { lines, rev, kg: kgSold, alu, anodKg, film, filmPct: alu ? film / alu * 100 : 0, aluCost, anodCost, filmCost, cost: aluCost + anodCost + filmCost, profit,
-      margin: rev ? profit / rev * 100 : null, perKg: kgSold ? profit / kgSold : null, sRate, anod, filmR,
+    const rev = r.amount != null ? r.amount : 0, alu = T('alu'), film = T('film'), anodKg = T('anodKg'), powKg = T('powKg'), aluCost = T('aluCost'), anodCost = T('anodCost'), powCost = T('powCost'), filmCost = T('filmCost');
+    const profit = rev - aluCost - anodCost - powCost - filmCost;
+    r.pnl = { lines, rev, kg: kgSold, alu, anodKg, powKg, film, filmPct: alu ? film / alu * 100 : 0, aluCost, anodCost, powCost, filmCost, cost: aluCost + anodCost + powCost + filmCost, profit,
+      margin: rev ? profit / rev * 100 : null, perKg: kgSold ? profit / kgSold : null, sRate, anod, powR, filmR,
       filmEarn: sRate != null ? film * sRate : 0, filmGain: sRate != null ? film * (sRate - (filmR || 0)) : 0, flags: [...new Set(flags)], complete: !flags.length };
   });
   const cashAccounts = A('cash_accounts').slice().sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -2212,13 +2219,13 @@ function dataChecks() {
     add('ck_kg', M.register.filter(r => r.kind === 'sale' && r.packing_list).flatMap(r => { const l = M.lists.find(x => x.id === r.packing_list); return !l ? [`${r.id}: ${r.packing_list}?`] : r.kg != null && Math.abs(r.kg - l.kg) > 0.005 ? [`${r.id}: ${n2(r.kg)} vs ${l.id} ${n2(l.kg)} kg`] : []; }));
   }
   if (can('cash')) add('ck_cash', M.register.filter(r => r.kind === 'sale' && r.amount != null && r.paid_mode).flatMap(r => { const got = sum(M.cash.filter(e => e.ref === r.id && e.direction === 'in'), e => e.amount); return Math.abs(got - r.amount) > 0.5 ? [`${r.id} (${r.party}): ${inr(got)} / ${inr(r.amount)}`] : []; }));
-  const outB = M.bundles.filter(b => b.direction === 'out' && b.alu != null && b.fin !== 'mill');
-  const byLine = {}; outB.forEach(b => { const x = byLine[b.list + '|' + b.profile] = byLine[b.list + '|' + b.profile] || { list: b.list, profile: b.profile, pcs: 0, kg: 0, alu: 0, per: b.boughtPer }; x.pcs += b.pcs; x.kg += b.kg; x.alu += b.alu; });
+  const outB = M.bundles.filter(b => b.direction === 'out' && b.alu != null && GAIN_BAND[b.fin]);
+  const byLine = {}; outB.forEach(b => { const k = b.list + '|' + b.profile + '|' + b.fin; const x = byLine[k] = byLine[k] || { list: b.list, profile: b.profile, fin: b.fin, pcs: 0, kg: 0, alu: 0, per: b.boughtPer }; x.pcs += b.pcs; x.kg += b.kg; x.alu += b.alu; });
   const lines = Object.values(byLine).map(x => ({ ...x, pct: x.alu ? (x.kg / x.alu - 1) * 100 : 0 }));
-  const med = median(lines.map(x => x.pct)) || 0;
+  const medOf = {}; Object.keys(GAIN_BAND).forEach(f => { medOf[f] = median(lines.filter(x => x.fin === f).map(x => x.pct)) || 0; });
   // weight per length of a profile in each received list: when lots differ a lot, the average misleads
   const lotW = {}; M.lists.filter(l => l.direction === 'in').forEach(l => { const g = {}; l.bundles.forEach(b => { const x = g[b.profile] = g[b.profile] || { kg: 0, pcs: 0 }; x.kg += b.kg; x.pcs += b.pcs; }); Object.entries(g).forEach(([k, x]) => x.pcs && (lotW[k] = lotW[k] || []).push({ list: l.id, per: x.kg / x.pcs })); });
-  add('ck_film', lines.filter(x => x.pct < FILM_LO || x.pct > FILM_HI).map(x => { const w = lotW[x.profile] || []; const lo = Math.min(...w.map(v => v.per)), hi = Math.max(...w.map(v => v.per));
+  add('ck_film', lines.filter(x => gainOdd(x.fin, x.pct)).map(x => { const med = medOf[x.fin]; const w = lotW[x.profile] || []; const lo = Math.min(...w.map(v => v.per)), hi = Math.max(...w.map(v => v.per));
     return w.length > 1 && hi / lo > 1.05 ? t('ck_film_lots', { l: x.list, p: x.profile, pct: x.pct.toFixed(1), w: w.map(v => `${v.list} ${n3(v.per)} kg`).join(', ') })
       : t('ck_film_i', { l: x.list, p: x.profile, pct: x.pct.toFixed(1), n: n0(x.pcs), m: x.per ? n0(x.kg / (x.per * (1 + med / 100))) : '?', med: med.toFixed(1) }); }));
   const cw = M.work.filter(w => w.cancelled && w.stage !== 'dispatched');
@@ -2339,9 +2346,10 @@ function profitParts(rows) {
   const P = rows.map(r => r.pnl), S = f => sum(P, f);
   const rev = S(p => p.rev), kg = S(p => p.kg), alu = S(p => p.alu), film = S(p => p.film), anodKg = S(p => p.anodKg);
   const filmSold = S(p => p.filmEarn), anod = S(p => p.anodCost), filmCost = S(p => p.filmCost), aluCost = S(p => p.aluCost), profit = S(p => p.profit);
-  // profit = margin on the aluminium + film sold at the aluminium rate − anodising − film cost (the margin closes the sum exactly)
-  return { rev, kg, alu, film, anodKg, filmSold, anod, filmCost, aluCost, profit, metal: profit - filmSold + anod + filmCost,
-    rate: kg ? rev / kg : 0, landed: alu ? aluCost / alu : 0, anodR: anodKg ? anod / anodKg : 0, filmR: film ? filmCost / film : 0 };
+  const powKg = S(p => p.powKg || 0), pow = S(p => p.powCost || 0);
+  // profit = margin on the aluminium + film sold at the aluminium rate − anodising − powder coating − film cost (the margin closes the sum exactly)
+  return { rev, kg, alu, film, anodKg, powKg, filmSold, anod, pow, filmCost, aluCost, profit, metal: profit - filmSold + anod + pow + filmCost,
+    rate: kg ? rev / kg : 0, landed: alu ? aluCost / alu : 0, anodR: anodKg ? anod / anodKg : 0, powR: powKg ? pow / powKg : 0, filmR: film ? filmCost / film : 0 };
 }
 const pvSigned = v => (v < 0 ? '−' : '+') + inr(Math.abs(v));
 function bridgeHtml(x) {
@@ -2349,6 +2357,7 @@ function bridgeHtml(x) {
     { k: 'pv_metal', s: t('pv_metal_s', { kg: n2(x.alu), r: n2(x.rate), c: n2(x.landed) }), v: x.metal },
     { k: 'pv_film_sold', s: t('pv_film_sold_s', { kg: n2(x.film), r: n2(x.rate) }), v: x.filmSold },
     { k: 'pf_anod', s: t('pv_anod_s', { kg: n2(x.anodKg), r: n2(x.anodR) }), v: -x.anod },
+    ...(x.powKg ? [{ k: 'pf_powder', s: t('pv_powder_s', { kg: n2(x.powKg), r: n2(x.powR) }), v: -x.pow }] : []),
     { k: 'pv_film_cost', s: t('pv_film_cost_s', { kg: n2(x.film), r: n2(x.filmR) }), v: -x.filmCost }];
   let run = 0; const pos = [0];
   steps.forEach(st => { st.a = run; run += st.v; st.b = run; pos.push(run); });
@@ -2363,12 +2372,12 @@ function bridgeHtml(x) {
 }
 function profileBarsHtml(rows) {
   const g = {};
-  rows.forEach(r => r.pnl.lines.forEach(l => { const k = l.profile + '|' + l.fin; const x = g[k] = g[k] || { profile: l.profile, fin: l.fin, kg: 0, profit: 0, odd: false }; x.kg += l.kg; x.profit += l.profit; x.odd = x.odd || l.odd; }));
+  rows.forEach(r => r.pnl.lines.forEach(l => { const k = l.profile + '|' + l.fin + '|' + (l.shade || ''); const x = g[k] = g[k] || { profile: l.profile, fin: l.fin, shade: l.shade, kg: 0, profit: 0, odd: false }; x.kg += l.kg; x.profit += l.profit; x.odd = x.odd || l.odd; }));
   const L = Object.values(g).map(x => ({ ...x, per: x.kg ? x.profit / x.kg : 0 })).sort((a, b) => b.per - a.per);
   if (!L.length) return '';
   const lo = Math.min(0, ...L.map(x => x.per)), hi = Math.max(0, ...L.map(x => x.per)), span = (hi - lo) || 1, X = v => ((v - lo) / span * 100).toFixed(2);
   return `<div class="pb" role="list" aria-label="${esc(t('pv_pb_h'))}">${L.map(x => { const val = (x.per < 0 ? '−' : '') + '₹' + n2(Math.abs(x.per)); return `<div class="pb-row" role="listitem" title="${esc(x.profile + ': ' + val + '/kg, ' + t('pv_on', { p: inr(x.profit), kg: n2(x.kg) }))}">
-      <span class="pb-l">${esc(x.profile)}${x.fin === 'mill' ? ` <span class="pill">${esc(t('fin_mill'))}</span>` : ''}${x.odd ? ` <span class="pill warn">${esc(t('check'))}</span>` : ''}</span>
+      <span class="pb-l">${esc(x.profile)}${x.fin === 'mill' ? ` <span class="pill">${esc(t('fin_mill'))}</span>` : x.fin === 'powder' ? ` <span class="pill">${esc(x.shade || t('fin_powder'))}</span>` : ''}${x.odd ? ` <span class="pill warn">${esc(t('check'))}</span>` : ''}</span>
       <span class="pb-t"><i class="pb-z" style="left:${X(0)}%"></i><i class="pb-b${x.per < 0 ? ' neg' : ''}" style="left:${X(Math.min(0, x.per))}%;width:${Math.max(0.5, Math.abs(x.per) / span * 100).toFixed(2)}%"></i></span>
       <span class="pb-v"><b>${esc(val)}</b>/kg<small>${esc(t('pv_on', { p: inr(x.profit), kg: n2(x.kg) }))}</small></span></div>`; }).join('')}</div>`;
 }
@@ -2376,12 +2385,13 @@ function saleProfitDetail(r) {
   const p = r.pnl;
   const cls = v => v >= 0 ? 'pos' : 'neg';
   return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('profile'))}</th><th class="num">${esc(t('pcs'))}</th><th class="num">${esc(t('pf_bought'))}</th><th class="num">${esc(t('pf_sold'))}</th><th class="num">${esc(t('kg'))}</th><th class="num">${esc(t('pf_alu_kg'))}</th><th class="num">${esc(t('pf_film_col'))}</th><th class="num">${esc(t('rs_kg'))}</th><th class="num">${esc(t('profit'))}</th></tr></thead>
-    <tbody>${p.lines.map(x => `<tr><td>${esc(x.profile)}${x.fin === 'mill' ? ` <span class="pill">${esc(t('fin_mill'))}</span>` : ''}${x.odd ? ` <span class="pill warn">${esc(t('check'))}</span>` : ''}</td><td class="num">${n0(x.pcs)}</td><td class="num">${n3(x.boughtPc)}</td><td class="num">${n3(x.soldPc)}</td><td class="num">${n2(x.kg)}</td><td class="num">${n2(x.alu)}</td><td class="num">${n2(x.film)} <span class="faint">${x.filmPct.toFixed(1)}%</span></td><td class="num">${x.landed ? n2(x.landed) : '–'}</td><td class="num">${p.complete ? `<span class="${cls(x.profit)}">${inr(x.profit)}</span>` : '–'}</td></tr>`).join('')}</tbody></table></div>
+    <tbody>${p.lines.map(x => `<tr><td>${esc(x.profile)}${x.fin === 'mill' ? ` <span class="pill">${esc(t('fin_mill'))}</span>` : x.fin === 'powder' ? ` <span class="pill">${esc(x.shade || t('fin_powder'))}</span>` : ''}${x.odd ? ` <span class="pill warn">${esc(t('check'))}</span>` : ''}</td><td class="num">${n0(x.pcs)}</td><td class="num">${n3(x.boughtPc)}</td><td class="num">${n3(x.soldPc)}</td><td class="num">${n2(x.kg)}</td><td class="num">${n2(x.alu)}</td><td class="num">${n2(x.film)} <span class="faint">${x.filmPct.toFixed(1)}%</span></td><td class="num">${x.landed ? n2(x.landed) : '–'}</td><td class="num">${p.complete ? `<span class="${cls(x.profit)}">${inr(x.profit)}</span>` : '–'}</td></tr>`).join('')}</tbody></table></div>
     <div class="grid2" style="margin-top:14px"><div><p class="note" style="margin-top:0">${esc(t('pf_how'))}</p>${p.lines.some(x => x.odd) ? `<p class="note">${esc(t('pf_odd'))}</p>` : ''}
       ${p.sRate != null ? `<p class="note">${esc(t('pf_film_gain_t', { kg: n2(p.film), r: n2(p.sRate), earn: inr(p.filmEarn), cost: inr(p.filmCost), gain: inr(p.filmGain) }))}</p>` : ''}</div>
     <div><dl class="kv"><dt>${esc(t('pf_value'))}${p.sRate != null ? ` <span class="faint">${n2(p.kg)} kg × ₹${n2(p.sRate)}</span>` : ''}</dt><dd>${r.amount != null ? inr(p.rev) : '–'}</dd>
       <dt>− ${esc(t('pf_alu'))} <span class="faint">${n2(p.alu)} kg</span></dt><dd>${inr(p.aluCost)}</dd>
-      <dt>− ${esc(t('pf_anod'))} <span class="faint">${n2(p.anodKg)} kg × ₹${n2(p.anod || 0)}</span></dt><dd>${inr(p.anodCost)}</dd>
+      ${p.anodKg ? `<dt>− ${esc(t('pf_anod'))} <span class="faint">${n2(p.anodKg)} kg × ₹${n2(p.anod || 0)}</span></dt><dd>${inr(p.anodCost)}</dd>` : ''}
+      ${p.powKg ? `<dt>− ${esc(t('pf_powder'))} <span class="faint">${n2(p.powKg)} kg × ${p.powR != null ? '₹' + n2(p.powR) : esc(t('ro_not_set'))}</span></dt><dd>${p.powR != null ? inr(p.powCost) : '–'}</dd>` : ''}
       <dt>− ${esc(t('pf_film'))} <span class="faint">${n2(p.film)} kg × ₹${n2(p.filmR || 0)}</span></dt><dd>${inr(p.filmCost)}</dd>
       <dt class="tot">${esc(t('profit'))}</dt><dd class="tot ${p.complete ? cls(p.profit) : 'faint'}">${inr(p.profit)} ${p.complete && p.margin != null ? '(' + p.margin.toFixed(1) + '%)' : '(' + esc(t('incomplete')) + ')'}</dd></dl>
       ${p.flags.length ? `<p class="note" style="margin-top:12px">${p.flags.map(f => esc(t(f))).join('<br>')}</p>` : ''}</div></div>`;
@@ -2399,7 +2409,7 @@ VIEWS.profit = () => {
   const rev = S('rev'), tot = S('profit'), film = S('film'), alu = S('alu');
   const anodNow = M.costRate('anodising_per_kg', today()), filmNow = M.costRate('stretch_film_per_kg', today());
   view(`<div class="head-row"><div><h2>${esc(t('pf_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('pf_sub'))}</p></div></div>
-    <p class="note">${esc(anodNow != null && filmNow != null ? t('pf_rates', { a: n2(anodNow), f: n2(filmNow) }) : t('f_no_cost_rates'))}${(() => { const bare = M.profiles.filter(p => p.soldAs === 'mill').map(p => p.name); return bare.length ? '<br>' + esc(t('pf_bare', { list: bare.join(', ') })) : ''; })()}</p>
+    <p class="note">${esc(anodNow != null && filmNow != null ? t('pf_rates', { a: n2(anodNow), f: n2(filmNow) }) : t('f_no_cost_rates'))} ${esc((() => { const pw = M.costRate('powder_coating_per_kg', today()); return pw != null ? t('pf_powder_rate', { r: n2(pw) }) : t('pf_powder_none'); })())}${(() => { const bare = M.profiles.filter(p => p.soldAs === 'mill').map(p => p.name); return bare.length ? '<br>' + esc(t('pf_bare', { list: bare.join(', ') })) : ''; })()}</p>
     <div class="panel meta"><div><span>${esc(t('pf_value'))}</span><b>${inr(rev)}</b></div><div><span>${esc(t('pf_alu'))}</span><b>${inr(S('aluCost'))}</b></div><div><span>${esc(t('pf_anod'))}</span><b>${inr(S('anodCost'))}</b></div><div><span>${esc(t('pf_film'))}</span><b>${inr(S('filmCost'))}</b></div>
       <div><span>${esc(t('profit'))}</span><b class="${cls(tot)}">${inr(tot)}${rev ? ` <span class="faint">(${(tot / rev * 100).toFixed(1)}%)</span>` : ''}</b></div>
       <div><span>${esc(t('pf_film_kg'))}</span><b>${n2(film)} kg <span class="faint">(${alu ? (film / alu * 100).toFixed(1) : '0.0'}%)</span></b></div><div><span>${esc(t('pf_film_gain'))}</span><b>${inr(S('filmGain'))}</b></div>
