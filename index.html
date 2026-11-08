@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-9hP/1Xfn1K3tvk3KO7IFRHcJ12qQiEf+bdaVvMrFiww='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-/xtWtGh3Ygv1A5WUeNyNdZWK6LaXB5VXMhilQnltB7k='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -112,6 +112,7 @@ h3{font:600 var(--fs-h3)/1.25 var(--display);margin:0 0 8px}
 .series-h b{font:600 var(--fs-sm) var(--display);color:var(--ink)}
 .bar-row{display:grid;grid-template-columns:230px minmax(0,1fr) 100px 92px;gap:14px;align-items:center;padding:5px 6px;margin:0 -6px;border-radius:6px;cursor:pointer}
 .bar-row:hover{background:var(--hover)}
+.bar-row .bar-fins{grid-column:2/-1;margin-top:-8px}
 .bar-row .nm{font-size:var(--fs-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar-row .nm .new{font-size:var(--fs-cap);color:var(--gold-text);margin-left:6px}
 .track{height:14px;position:relative}
@@ -516,7 +517,7 @@ table.att th,table.att td{padding:7px 5px;font-size:var(--fs-cap)} table.att .su
 .mbrand .fseg{width:auto}.mbrand .fseg button{min-height:34px;padding:0 10px;font-size:var(--fs-cap)}
 .fseg.big{max-width:420px}.fseg.big button{min-height:44px;font-size:var(--fs-md)}
 .bfp{padding:16px 18px;margin-bottom:18px;border:2px solid var(--gold)}
-.bf .bl{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1fr) minmax(0,.8fr) minmax(0,1fr) 110px 40px;gap:8px 10px;align-items:end;padding:10px 0;border-bottom:1px solid var(--rule2)}
+.bf .bl{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1.1fr) minmax(0,1fr) minmax(0,.8fr) minmax(0,1fr) 110px 40px;gap:8px 10px;align-items:end;padding:10px 0;border-bottom:1px solid var(--rule2)}
 .bf .bl label,.bf-grid label{display:grid;gap:4px;font-size:var(--fs-sm);color:var(--steel)}
 .bf input,.bf select,.sf-grid textarea{height:44px;border:1px solid var(--rule);border-radius:6px;padding:0 10px;font-size:var(--fs-md);background:var(--sheet);color:var(--ink);width:100%;min-width:0}
 .sf-grid textarea{height:auto;padding:8px 10px;font:inherit}
@@ -525,6 +526,11 @@ table.att th,table.att td{padding:7px 5px;font-size:var(--fs-cap)} table.att .su
 .bl-x{height:44px;width:40px;font-size:1.25rem}
 .bl-msg{grid-column:1/-1;color:var(--steel);font-size:var(--fs-cap);min-height:0}
 .bl-msg.warn{color:var(--warn);font-weight:600}
+.fin{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:var(--fs-cap);color:var(--steel);vertical-align:middle}
+.fin i{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;border:1px solid rgba(0,0,0,.28);flex:none}
+.fin b{color:var(--ink);font-weight:600}
+.fins{display:flex;flex-wrap:wrap;gap:3px 12px;margin-top:3px}
+td.num .fins{justify-content:flex-end}
 .bf-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 14px;margin:6px 0 14px}
 .bf-wide{grid-column:1/-1}
 .bf-tot{display:flex;gap:28px;padding:12px 16px;background:var(--gold-soft);border-radius:var(--r);margin-bottom:12px}
@@ -534,8 +540,8 @@ table.att th,table.att td{padding:7px 5px;font-size:var(--fs-cap)} table.att .su
 .sf-grid .row,.sf-grid .toggle{align-self:center}
 @media (max-width:900px){.bf-grid,.sf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:720px){
-  .bf .bl{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;grid-template-areas:"it it x" "q p p" "r a a" "m m m";padding:12px 0}
-  .bf .bl .bl-it{grid-area:it}.bf .bl .bl-q{grid-area:q}.bf .bl .bl-pcs{grid-area:p}.bf .bl .bl-r{grid-area:r}.bf .bl .bl-amt{grid-area:a;text-align:left;line-height:44px;padding-left:4px}.bf .bl .bl-x{grid-area:x;width:44px}.bf .bl .bl-msg{grid-area:m}
+  .bf .bl{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;grid-template-areas:"it it x" "f f f" "q p p" "r a a" "m m m";padding:12px 0}
+  .bf .bl .bl-it{grid-area:it}.bf .bl .bl-f{grid-area:f}.bf .bl .bl-q{grid-area:q}.bf .bl .bl-pcs{grid-area:p}.bf .bl .bl-r{grid-area:r}.bf .bl .bl-amt{grid-area:a;text-align:left;line-height:44px;padding-left:4px}.bf .bl .bl-x{grid-area:x;width:44px}.bf .bl .bl-msg{grid-area:m}
   .bf-grid,.sf-grid{grid-template-columns:minmax(0,1fr)}
   .bf-tot{gap:18px}
   .bfp{padding:14px 12px}
@@ -653,6 +659,10 @@ const I18N = {
     pf_powder_parts: 'Powder coating ₹{r} per kg of aluminium: {u} kg of powder per 100 kg at ₹{p}/kg, plus ₹{c}/kg for LPG, labour and electricity. On powder-coated lengths the stretch film is taken as {s}% of the aluminium weight (what anodised sales show); the rest of the extra weight is powder left on the profiles.',
     pf_dep_t: 'Of the {kg} kg extra weight, about {f} kg is stretch film ({s}% of the aluminium, as on anodised sales) and {d} kg is powder left on the profiles. Both are sold at the aluminium rate; the powder is already paid for in the powder-coating cost.',
     pv_extra_sold: 'Film and powder sold as weight', pv_extra_sold_s: '{kg} kg ({f} kg film + {d} kg powder) at ₹{r}/kg',
+    s_finish: 'Finish', s_fin_ph: 'Anodised, Brown, Ivory…', s_by_finish: 'By finish', s_fin_h: 'Stock by finish', s_fin_unset: 'Finish not set',
+    s_fin_need: 'Choose the finish of {n} (Anodised, Brown, Ivory, Bare …)', s_fin_pick: 'Choose the finish. In stock: {list}', s_fin_have: 'in stock: {list}',
+    st_left_raw: 'In stock (raw)', st_raw_s: 'not yet finished', st_sent_fin_h: 'Sent by finish',
+    st_raw_note: 'Acta keeps material raw and anodises or powder-coats it only for a dispatch, so what is left in stock is raw. This is how it went out.',
     fin_powder: 'Powder', pf_powder: 'Powder coating', pv_powder_s: '{kg} kg powder-coated at ₹{r}/kg', pf_powder_rate: 'Powder coating ₹{r} per kg of aluminium.',
     pf_powder_none: 'Powder-coating cost is not set yet, so powder-coated sales are left out of the profit.', f_no_powder_rate: 'powder-coating cost per kg not set yet',
     pf_sales_h: 'Sales from our stock', pf_jobs_h: 'Job-work orders', pf_jobs_sub: 'Order value minus material at landed cost, anodising on anodised lines, consumables used on its work orders, and expenses booked to it.',
@@ -846,6 +856,10 @@ const I18N = {
     pf_powder_parts: 'पाउडर कोटिंग ₹{r} प्रति किलो एल्युमिनियम: हर 100 किलो पर {u} किलो पाउडर ₹{p}/किलो, और ₹{c}/किलो LPG, मज़दूरी व बिजली। पाउडर कोटेड पीस पर स्ट्रेच फ़िल्म एल्युमिनियम वज़न का {s}% मानी गई है (जितनी एनोडाइज़्ड बिक्री में दिखती है); बाक़ी बढ़ा वज़न प्रोफ़ाइल पर चढ़ा पाउडर है।',
     pf_dep_t: '{kg} किलो बढ़े वज़न में लगभग {f} किलो स्ट्रेच फ़िल्म है ({s}%, एनोडाइज़्ड बिक्री जितनी) और {d} किलो प्रोफ़ाइल पर चढ़ा पाउडर। दोनों एल्युमिनियम के रेट पर बिकते हैं; पाउडर की क़ीमत पाउडर कोटिंग लागत में पहले ही जुड़ी है।',
     pv_extra_sold: 'वज़न में बिकी फ़िल्म और पाउडर', pv_extra_sold_s: '{kg} किलो ({f} किलो फ़िल्म + {d} किलो पाउडर) ₹{r}/किलो पर',
+    s_finish: 'फ़िनिश', s_fin_ph: 'एनोडाइज़्ड, ब्राउन, आइवरी…', s_by_finish: 'फ़िनिश अनुसार', s_fin_h: 'फ़िनिश अनुसार स्टॉक', s_fin_unset: 'फ़िनिश तय नहीं',
+    s_fin_need: '{n} की फ़िनिश चुनें (Anodised, Brown, Ivory, Bare …)', s_fin_pick: 'फ़िनिश चुनें। स्टॉक में: {list}', s_fin_have: 'स्टॉक में: {list}',
+    st_left_raw: 'स्टॉक में (कच्चा)', st_raw_s: 'अभी फ़िनिश नहीं', st_sent_fin_h: 'फ़िनिश अनुसार भेजा',
+    st_raw_note: 'Acta माल कच्चा रखती है और भेजते समय ही एनोडाइज़ या पाउडर कोट करती है, इसलिए स्टॉक में बचा माल कच्चा है। यह इस रूप में भेजा गया।',
     fin_powder: 'पाउडर', pf_powder: 'पाउडर कोटिंग', pv_powder_s: '{kg} किलो पाउडर कोटेड ₹{r}/किलो पर', pf_powder_rate: 'पाउडर कोटिंग ₹{r} प्रति किलो एल्युमिनियम।',
     pf_powder_none: 'पाउडर कोटिंग की लागत अभी तय नहीं है, इसलिए पाउडर कोटेड बिक्री मुनाफ़े में नहीं गिनी गई।', f_no_powder_rate: 'पाउडर कोटिंग की लागत प्रति किलो अभी तय नहीं',
     pf_sales_h: 'हमारे स्टॉक से बिक्री', pf_jobs_h: 'जॉब-वर्क ऑर्डर', pf_jobs_sub: 'ऑर्डर की कीमत में से लैंडेड कॉस्ट पर माल, एनोडाइज़्ड लाइनों पर एनोडाइज़िंग, वर्क ऑर्डर में लगी खपत सामग्री, और उस पर डाले गए खर्च घटाकर।',
@@ -1136,6 +1150,7 @@ function buildModel(R) {
       b.fin = b.finish || p.soldAs || 'anodised';  // mill = sold bare: no anodising, no film, so the sent weight is all aluminium
       b.alu = b.fin !== 'mill' && kgft && b.pcs && b.len_ft ? b.pcs * b.len_ft * kgft : b.kg; b.film = b.kg - b.alu; b.filmPct = b.alu ? b.film / b.alu * 100 : 0; b.boughtPer = kgft * b.len_ft;
       p.outPcs += b.pcs; p.outKg += b.alu; p.outPacked += b.kg;
+      b.finName = finLbl(b.finish, p.soldAs, b.shade); p.sentFin = p.sentFin || {}; const sf = p.sentFin[b.finName] = p.sentFin[b.finName] || { fin: b.finName, pcs: 0, kg: 0 }; sf.pcs += b.pcs; sf.kg += b.kg;
     }
   }); if (l.direction !== 'in') { l.alu = sum(l.bundles, b => b.alu); l.film = l.kg - l.alu; } });
   // stretch film as % of aluminium weight, measured on anodised sales (film is the only weight they gain);
@@ -1699,6 +1714,14 @@ function roDetail(p) {
     ${p.suggest ? `<p class="note" style="max-width:80ch">${esc(t('ro_suggest', { n: n0(p.suggest), d: n0(M.leadDays) }))}</p>` : ''}
     ${roOk() ? roForm(p) : ''}`;
 }
+const sentFins = p => Object.values(p.sentFin || {}).sort((a, b) => b.pcs - a.pcs);
+const sentChips = p => sentFins(p).length ? `<div class="fins">${sentFins(p).map(x => finTag(x.fin, n0(x.pcs))).join('')}</div>` : '';
+function sentFinTable(p) {
+  const L = sentFins(p); if (!L.length) return '';
+  return `<h3>${esc(t('st_sent_fin_h'))}</h3><p class="sub" style="margin:0 0 8px;max-width:80ch">${esc(t('st_raw_note'))}</p><div class="tw" style="max-width:560px"><table class="compact"><thead><tr><th>${esc(t('s_finish'))}</th><th class="num">${esc(t('lengths_h'))}</th><th class="num">${esc(t('kg'))}</th></tr></thead>
+    <tbody>${L.map(x => `<tr><td>${finTag(x.fin)}</td><td class="num">${n0(x.pcs)}</td><td class="num">${n2(x.kg)}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td>${esc(t('sent'))}</td><td class="num"><b>${n0(sum(L, x => x.pcs))}</b></td><td class="num"><b>${n2(sum(L, x => x.kg))}</b></td></tr></tfoot></table></div>`;
+}
 function moveTable(p) {
   if (!p.moves.length) return `<p class="muted">${esc(t('no_moves'))}</p>`;
   return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('mv_what'))}</th><th>${esc(t('party'))}</th><th class="num">${esc(t('mv_in'))}</th><th class="num">${esc(t('mv_out'))}</th><th class="num">${esc(t('mv_bal'))}</th><th class="num">${esc(t('kg'))}</th></tr></thead><tbody>
@@ -1719,12 +1742,14 @@ VIEWS.stock = (arg) => {
   if (!series.includes(S.sel)) S.sel = 'All';
   const inPcs = sum(M.profiles, p => p.inPcs), outPcs = sum(M.profiles, p => p.outPcs);
   const inKg = sum(M.profiles, p => p.inKg), outKg = sum(M.profiles, p => p.outKg);
+  const sentBy = {}; M.profiles.forEach(p => sentFins(p).forEach(x => { sentBy[x.fin] = (sentBy[x.fin] || 0) + x.pcs; }));
+  const sentTxt = Object.entries(sentBy).sort((a, b) => b[1] - a[1]).map(([f, n]) => finTag(f, n0(n))).join('');
   view(`<div class="head-row"><div><h2>${esc(t('stock_h'))}</h2><p class="sub" style="margin:0;max-width:80ch">${esc(t('stock_sub'))}</p></div>
       ${roOk() ? `<span class="sp"></span><button class="btn" type="button" data-lead-open>${esc(t('ro_lead_btn'))}</button>` : ''}${adjOk() ? `${roOk() ? '' : '<span class="sp"></span>'}<button class="btn" type="button" data-adj-open="">${esc(t('adj_btn'))}</button>` : ''}</div>
     <div id="adjp"></div>
     <div class="panel meta"><div><span>${esc(t('rcv'))}</span><b>${n0(inPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(inKg)} kg</small></div>
-      <div><span>${esc(t('sent'))}</span><b>${n0(outPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(outKg)} kg</small></div>
-      <div><span>${esc(t('st_left'))}</span><b>${n0(M.stockPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(M.stockKg)} kg</small></div>
+      <div><span>${esc(t('sent'))}</span><b>${n0(outPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(outKg)} kg</small>${sentTxt ? `<div class="fins">${sentTxt}</div>` : ''}</div>
+      <div><span>${esc(t('st_left_raw'))}</span><b>${n0(M.stockPcs)} <small>${esc(t('lengths'))}</small></b><small>${n2(M.stockKg)} kg · ${esc(t('st_raw_s'))}</small></div>
       <div><span>${esc(t('st_profiles'))}</span><b>${M.inStock.length} <small>${esc(t('of_n', { n: M.profiles.length }))}</small></b></div>
       <div><span>${esc(t('st_to_order'))}</span><b class="${M.toOrder.length ? 'neg' : ''}">${M.toOrder.length}</b><small>${esc(M.toOrder.length ? t('st_to_order_s') : t('st_all_ok'))}</small></div></div>
     ${M.negStock.length ? `<p class="note" role="alert" style="border-left:3px solid var(--warn)">${esc(t('neg_banner', { n: M.negStock.length, names: M.negStock.map(p => p.name + ' (' + n0(p.pcs) + ' / ' + n2(p.kg) + ' kg)').join(', ') }))}</p>` : ''}
@@ -1755,7 +1780,7 @@ VIEWS.stock = (arg) => {
     cols: [{ k: 'name', t: t('profile'), h: r => `<b>${esc(r.name)}</b>${r.pcs < 0 || r.kg < -0.0005 ? ` <span class="pill warn">${esc(t('neg_pill'))}</span>` : ''}${r.isNew ? ` <span class="pill out">${esc(t('new'))}</span>` : ''}${r.aliases.length ? `<div class="faint tiny">${esc(t('sup_name'))}: ${esc(r.aliases.join(', '))}</div>` : ''}` },
       { k: 'series', t: t('series'), ph: 0 },
       { k: 'inPcs', t: t('rcv'), num: 1, ph: 0, h: r => r.inPcs ? n0(r.inPcs) : '<span class="faint">0</span>' },
-      { k: 'outPcs', t: t('sent'), num: 1, ph: 0, h: r => r.outPcs ? n0(r.outPcs) : '<span class="faint">0</span>' },
+      { k: 'outPcs', t: t('sent'), num: 1, ph: 0, h: r => r.outPcs ? n0(r.outPcs) + sentChips(r) : '<span class="faint">0</span>' },
       { k: 'pcs', t: t('st_left'), num: 1, h: r => `<b>${r.pcs ? n0(r.pcs) : '<span class="faint">0</span>'}</b>` },
       { k: 'flow', t: '', nosort: 1, ph: 0, h: r => r.inPcs ? flowBar(r) : '' },
       { k: 'kg', t: t('kg'), num: 1, h: r => r.kg ? n2(r.kg) : '<span class="faint">0</span>' },
@@ -1765,7 +1790,7 @@ VIEWS.stock = (arg) => {
       { k: 'status', t: t('status'), nosort: 1, h: stStatus },
       { k: 'last', t: t('last_rcv'), ph: 0, h: r => dt(r.last) }],
     foot: (c, rows) => ({ name: t('profiles_n', { n: rows.length }), inPcs: n0(sum(rows, r => r.inPcs)), outPcs: n0(sum(rows, r => r.outPcs)), pcs: n0(sum(rows, r => r.pcs)), kg: n2(sum(rows, r => r.kg)) })[c.k],
-    detail: r => `<h3>${esc(t('mv_h'))}</h3>${moveTable(r)}${roDetail(r)}${r.bundles.length ? `<h3 style="margin-top:18px">${esc(t('bundles_of', { name: r.name, n: r.bundles.length }))}</h3>${bundleTable(r.bundles, { list: 1 })}` : ''}${adjDetail(r)}`,
+    detail: r => `${sentFinTable(r)}<h3${sentFins(r).length ? ' style="margin-top:18px"' : ''}>${esc(t('mv_h'))}</h3>${moveTable(r)}${roDetail(r)}${r.bundles.length ? `<h3 style="margin-top:18px">${esc(t('bundles_of', { name: r.name, n: r.bundles.length }))}</h3>${bundleTable(r.bundles, { list: 1 })}` : ''}${adjDetail(r)}`,
     empty: `<div class="empty"><h3>${esc(t('no_match_h'))}</h3><p>${esc(t('no_match_p'))}</p></div>`
   });
   draw();
@@ -2831,6 +2856,13 @@ VIEWS.more = () => {
 const SHOP = 'NKB Aluminium House';
 const SHOP_ADDR = 'Beawar, Rajasthan';
 const TO_SHOP = /nkb\s*alumin(i)?um\s*house/i;
+// finish of a profile in the shop: Anodised, Bare, or the powder shade (same as finish_label() in the database)
+const normFin = v => String(v || '').trim().replace(/\s+/g, ' ').toLowerCase().replace(/(^|[^a-z0-9])([a-z])/g, (m, a, b) => a + b.toUpperCase());
+const finLbl = (finish, soldAs, shade) => { const f = finish || soldAs || 'anodised'; return f === 'mill' ? 'Bare' : f === 'powder' ? (normFin(shade) || 'Powder') : 'Anodised'; };
+const FIN_SW = { Anodised: '#c3c9d0', Bare: '#8d949b', Brown: '#6b4630', Ivory: '#efe5c8', Black: '#222', White: '#fafafa', Grey: '#8a8f94', Champagne: '#d8c39a', Powder: '#b9b9b9' };
+const FIN_BASE = ['Anodised', 'Bare', 'Brown', 'Ivory'];
+const finTag = (f, q) => f ? `<span class="fin"><i style="background:${FIN_SW[f] || '#b4b4b4'}"></i>${esc(f)}${q != null ? ` <b>${esc(q)}</b>` : ''}</span>` : '';
+const finUnset = () => `<span class="fin"><i style="background:transparent;border-style:dashed"></i>${esc(t('s_fin_unset'))}</span>`;
 const S_PAY_MODES = ['Cash', 'UPI', 'Bank', 'Cheque'];
 const S_UNITS = ['kg', 'pcs', 'set', 'pair', 'ft', 'sq ft', 'm', 'box', 'roll', 'ltr'];
 const S_KINDS = ['profile', 'hardware', 'glass', 'other'];
@@ -2850,22 +2882,24 @@ function buildShop(R) {
     const bl = groupBy(A('bundles'), 'packing_list');
     movesRaw = []; receipts = receipts || [];
     const mkRc = !R.shop_receipts;
+    const soldAs = Object.fromEntries(A('alu_profiles').map(p => [p.name, p.sold_as]));
     A('packing_lists').filter(toShop).forEach(l => {
-      const by = {}; (bl[l.id] || []).forEach(b => { const x = by[b.profile] = by[b.profile] || { pcs: 0, kg: 0 }; x.pcs += +b.pcs || 0; x.kg += +b.kg || 0; });
+      const by = {}; (bl[l.id] || []).forEach(b => { const f = finLbl(b.finish, soldAs[b.profile], b.shade), k = b.profile + '|' + f;
+        const x = by[k] = by[k] || { p: b.profile, f, pcs: 0, kg: 0 }; x.pcs += +b.pcs || 0; x.kg += +b.kg || 0; });
       const sr = A('sales_register').find(r => r.packing_list === l.id);
-      Object.entries(by).forEach(([p, x]) => {
-        movesRaw.push({ date: l.received || l.date, item: p, qty: x.kg, pcs: x.pcs, kind: 'acta', ref: l.id, party: 'Acta International' });
-        if (mkRc) receipts.push({ list: l.id, date: l.received || l.date, challan: sr ? sr.challan_no : null, sale: sr ? sr.id : null, item: p, pcs: x.pcs, kg: x.kg,
+      Object.values(by).forEach(x => { const p = x.p;
+        movesRaw.push({ date: l.received || l.date, item: p, qty: x.kg, pcs: x.pcs, kind: 'acta', ref: l.id, party: 'Acta International', finish: x.f });
+        if (mkRc) receipts.push({ list: l.id, date: l.received || l.date, challan: sr ? sr.challan_no : null, sale: sr ? sr.id : null, item: p, pcs: x.pcs, kg: x.kg, finish: x.f,
           rate: sr ? (sr.rate != null ? +sr.rate : (sr.amount != null && +sr.kg ? sr.amount / sr.kg : null)) : null, list_kg: sr ? sr.kg : null, list_amount: sr ? sr.amount : null });
       });
     });
     const pl = groupBy(A('shop_purchase_lines'), 'purchase');
-    A('shop_purchases').filter(p => !p.voided).forEach(p => (pl[p.id] || []).forEach(l => movesRaw.push({ date: p.date, item: l.item, qty: +l.qty, pcs: l.pcs, kind: 'purchase', ref: p.id, party: p.supplier })));
+    A('shop_purchases').filter(p => !p.voided).forEach(p => (pl[p.id] || []).forEach(l => movesRaw.push({ date: p.date, item: l.item, qty: +l.qty, pcs: l.pcs, kind: 'purchase', ref: p.id, party: p.supplier, finish: l.finish })));
     const bl2 = groupBy(A('shop_bill_lines'), 'bill');
-    A('shop_bills').filter(b => !b.voided).forEach(b => (bl2[b.id] || []).forEach(l => movesRaw.push({ date: b.date, item: l.item, qty: -l.qty, pcs: l.pcs == null ? null : -l.pcs, kind: 'sale', ref: b.id, party: b.party || b.cust_name })));
+    A('shop_bills').filter(b => !b.voided).forEach(b => (bl2[b.id] || []).forEach(l => movesRaw.push({ date: b.date, item: l.item, qty: -l.qty, pcs: l.pcs == null ? null : -l.pcs, kind: 'sale', ref: b.id, party: b.party || b.cust_name, finish: l.finish })));
     const jp = Object.fromEntries(A('shop_jobs').map(j => [j.id, j.party]));
-    A('shop_job_materials').filter(m => !m.voided).forEach(m => movesRaw.push({ date: m.date, item: m.item, qty: -m.qty, pcs: m.pcs == null ? null : -m.pcs, kind: 'job', ref: m.job, party: jp[m.job] }));
-    A('shop_adjustments').filter(a => !a.voided_at).forEach(a => movesRaw.push({ date: a.date, item: a.item, qty: +a.qty, pcs: a.pcs, kind: 'adjust', ref: String(a.id), party: a.reason }));
+    A('shop_job_materials').filter(m => !m.voided).forEach(m => movesRaw.push({ date: m.date, item: m.item, qty: -m.qty, pcs: m.pcs == null ? null : -m.pcs, kind: 'job', ref: m.job, party: jp[m.job], finish: m.finish }));
+    A('shop_adjustments').filter(a => !a.voided_at).forEach(a => movesRaw.push({ date: a.date, item: a.item, qty: +a.qty, pcs: a.pcs, kind: 'adjust', ref: String(a.id), party: a.reason, finish: a.finish }));
   }
   if (!actaPaid && R.cash_entries) actaPaid = A('cash_entries').filter(e => e.direction === 'in' && !e.voided && TO_SHOP.test(e.party || '')).map(e => ({ id: e.id, date: e.date, amount: +e.amount, account: e.account, note: e.note }));
   actaPaid = (actaPaid || []).map(e => ({ ...e, amount: +e.amount }));
@@ -2875,21 +2909,25 @@ function buildShop(R) {
   const I = {};
   const mk = r => ({ name: r.name, kind: r.kind || 'other', unit: r.unit || (r.kind === 'profile' ? 'kg' : 'pcs'), series: r.series || '', saleRate: r.sale_rate == null ? null : +r.sale_rate,
     levelSet: r.reorder_qty == null ? null : +r.reorder_qty, uptoSet: r.order_upto_qty == null ? null : +r.order_upto_qty, active: r.active !== false, sort: r.sort == null ? 9999 : +r.sort, note: r.note || '',
-    moves: [], inQty: 0, outQty: 0, adjQty: 0, qty: 0, peak: 0, costQty: 0, costAmt: 0, lenKg: 0, lenPcs: 0, lastRate: null, lastSale: '' });
+    moves: [], inQty: 0, outQty: 0, adjQty: 0, qty: 0, peak: 0, costQty: 0, costAmt: 0, lenKg: 0, lenPcs: 0, lastRate: null, lastSale: '', fins: {}, finList: [] });
   A('shop_items').forEach(r => { I[r.name] = mk(r); });
   const profNames = new Set((R.alu_profiles || []).map(p => p.name));
   const ensure = n => I[n] || (I[n] = mk({ name: n, kind: profNames.has(n) ? 'profile' : 'other' }));
+  // profiles are kept apart by finish (Anodised / Bare / Brown / Ivory …): the shop sells them finished
+  const fv = (it, f) => { if (it.kind !== 'profile') return null; const k = f || ''; return it.fins[k] || (it.fins[k] = { fin: k, moves: [], inQty: 0, outQty: 0, adjQty: 0, qty: 0, peak: 0, costQty: 0, costAmt: 0, lenKg: 0, lenPcs: 0 }); };
   const moves = movesRaw.map(m => ({ ...m, qty: +m.qty || 0, pcs: m.pcs == null ? null : +m.pcs }))
     .sort((a, b) => String(a.date).localeCompare(String(b.date)) || (S_KORD[a.kind] ?? 9) - (S_KORD[b.kind] ?? 9));
-  moves.forEach(m => { const it = ensure(m.item); it.moves.push(m);
-    if (m.kind === 'acta' || m.kind === 'purchase') { it.inQty += m.qty; if (m.pcs) { it.lenKg += m.qty; it.lenPcs += m.pcs; } }
-    else if (m.kind === 'adjust') it.adjQty += m.qty; else it.outQty -= m.qty; });
+  moves.forEach(m => { const it = ensure(m.item); it.moves.push(m); const fx = fv(it, m.finish); if (fx) fx.moves.push(m);
+    [it, fx].forEach(o => { if (!o) return;
+      if (m.kind === 'acta' || m.kind === 'purchase') { o.inQty += m.qty; if (m.pcs) { o.lenKg += m.qty; o.lenPcs += m.pcs; } }
+      else if (m.kind === 'adjust') o.adjQty += m.qty; else o.outQty -= m.qty; }); });
   // cost: Acta challans at their rate, purchases at bill rate + freight shared by value
-  receipts.forEach(r => { if (r.rate != null) { const it = ensure(r.item); it.costQty += r.kg; it.costAmt += r.kg * r.rate; } });
+  receipts.forEach(r => { if (r.rate != null) { const it = ensure(r.item); it.costQty += r.kg; it.costAmt += r.kg * r.rate; const fx = fv(it, r.finish); if (fx) { fx.costQty += r.kg; fx.costAmt += r.kg * r.rate; } } });
   const plines = groupBy(A('shop_purchase_lines').map(l => ({ ...l, qty: +l.qty, rate: +l.rate, amount: +l.amount, pcs: l.pcs == null ? null : +l.pcs })), 'purchase');
   const purchases = A('shop_purchases').map(p => { const lines = (plines[p.id] || []).slice().sort((a, b) => a.line_no - b.line_no); const sub = sum(lines, l => l.amount);
     return { ...p, lines, sub, freight: +p.freight || 0, paid: +p.paid || 0, total: sub + (+p.freight || 0) }; });
-  purchases.filter(p => !p.voided).forEach(p => p.lines.forEach(l => { const it = ensure(l.item); it.costQty += l.qty; it.costAmt += l.amount + (p.sub ? p.freight * l.amount / p.sub : 0); }));
+  purchases.filter(p => !p.voided).forEach(p => p.lines.forEach(l => { const it = ensure(l.item), c = l.amount + (p.sub ? p.freight * l.amount / p.sub : 0); it.costQty += l.qty; it.costAmt += c;
+    const fx = fv(it, l.finish); if (fx) { fx.costQty += l.qty; fx.costAmt += c; } }));
   // bills
   const blines = groupBy(A('shop_bill_lines').map(l => ({ ...l, qty: +l.qty, rate: +l.rate, amount: +l.amount, pcs: l.pcs == null ? null : +l.pcs })), 'bill');
   const bills = A('shop_bills').map(b => ({ ...b, lines: (blines[b.id] || []).slice().sort((a, x) => a.line_no - x.line_no), total: +b.total, paid: +b.paid, discount: +b.discount || 0, voided: !!b.voided }))
@@ -2910,15 +2948,22 @@ function buildShop(R) {
     if (it.level != null && it.upto != null && it.upto < it.level) it.upto = it.level;
     it.low = it.level != null && it.qty <= it.level + 1e-9 && (peak > 0 || !it.auto);
     it.toOrder = it.low && it.upto != null ? Math.max(0, rnd(it.upto - it.qty)) : 0;
+    it.finList = Object.values(it.fins).map(fx => { let b = 0, pk = 0; fx.moves.forEach(m => { b += m.qty; if (b > pk) pk = b; });
+      fx.qty = Math.abs(b) < 1e-9 ? 0 : b; fx.peak = pk; fx.avg = fx.costQty > 0 ? fx.costAmt / fx.costQty : it.avg;
+      fx.perLen = fx.lenPcs ? fx.lenKg / fx.lenPcs : it.perLen; fx.value = fx.avg != null ? Math.max(0, fx.qty) * fx.avg : 0; return fx; })
+      .sort((a, b) => (b.qty > 1e-9) - (a.qty > 1e-9) || b.qty - a.qty || a.fin.localeCompare(b.fin));
+    if (it.finList.length) it.value = sum(it.finList, fx => fx.value);
   });
+  // average cost of one finish of an item (falls back to the item's average)
+  const costOf = (item, fin) => { const it = I[item]; if (!it) return null; const fx = it.fins[fin || '']; return fx && fx.avg != null ? fx.avg : it.avg; };
   items.sort((a, b) => S_KINDS.indexOf(a.kind) - S_KINDS.indexOf(b.kind) || a.sort - b.sort || a.name.localeCompare(b.name));
   // profit per bill: amount after discount − goods at average cost
-  bills.forEach(b => { const miss = b.lines.some(l => (I[l.item] || {}).avg == null); const cost = sum(b.lines, l => l.qty * ((I[l.item] || {}).avg || 0));
+  bills.forEach(b => { const miss = b.lines.some(l => costOf(l.item, l.finish) == null); const cost = sum(b.lines, l => l.qty * (costOf(l.item, l.finish) || 0));
     b.cost = cost; b.profit = b.total - cost; b.costOk = !miss; });
   // payments, jobs
   const payments = A('shop_payments').map(p => ({ ...p, amount: +p.amount, voided: !!p.voided })).sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(b.id).localeCompare(String(a.id), 'en', { numeric: true }));
   const jm = groupBy(A('shop_job_materials').filter(m => !m.voided).map(m => ({ ...m, qty: +m.qty, pcs: m.pcs == null ? null : +m.pcs })), 'job');
-  const jobs = A('shop_jobs').map(j => { const mats = (jm[j.id] || []).map(m => ({ ...m, cost: m.qty * ((I[m.item] || {}).avg || 0), costOk: (I[m.item] || {}).avg != null }));
+  const jobs = A('shop_jobs').map(j => { const mats = (jm[j.id] || []).map(m => ({ ...m, cost: m.qty * (costOf(m.item, m.finish) || 0), costOk: costOf(m.item, m.finish) != null }));
     const pays = payments.filter(p => !p.voided && p.ref === j.id && p.direction === 'in'); const value = j.value == null ? null : +j.value; const cost = sum(mats, m => m.cost);
     return { ...j, value, mats, pays, recv: sum(pays, p => p.amount), cost, profit: (value || 0) - cost, costOk: mats.every(m => m.costOk) }; })
     .sort((a, b) => String(b.date).localeCompare(String(a.date)) || (+String(b.id).replace(/\D/g, '') - +String(a.id).replace(/\D/g, '')));
@@ -2943,7 +2988,8 @@ function buildShop(R) {
   const acta = { billed: sum(actaLists, x => x.amount || 0), paid: sum(actaPaid, e => e.amount) }; acta.bal = -(acta.billed - acta.paid);
   const toOrder = items.filter(it => it.low && it.toOrder > 0);
   const inStock = items.filter(it => Math.abs(it.qty) > 1e-9);
-  return { I, items, moves, receipts, actaLists, actaPaid, acta, bills, purchases, payments, jobs, parties, ledgerOf, toOrder, inStock,
+  const finNames = [...new Set([...FIN_BASE, ...items.flatMap(it => it.finList.map(fx => fx.fin).filter(Boolean))])];
+  return { I, items, moves, receipts, actaLists, actaPaid, acta, bills, purchases, payments, jobs, parties, ledgerOf, toOrder, inStock, costOf, finNames,
     kgProfiles: sum(items.filter(it => it.kind === 'profile'), it => Math.max(0, it.qty)), value: sum(items, it => it.value),
     udhaar: sum(parties.filter(p => p.bal > 0.004), p => p.bal), toPay: sum(parties.filter(p => p.bal < -0.004), p => -p.bal) + Math.max(0, -acta.bal) };
 }
@@ -3027,7 +3073,7 @@ VIEWS['s-home'] = () => {
   const max = Math.max(1, ...S.items.map(it => it.unit === 'kg' ? it.qty : 0));
   const prof = S.items.filter(it => it.kind === 'profile' && it.qty > 0.001);
   const main = `<section class="panel rack"><div class="rack-head"><h2>${esc(t('s_rack'))}</h2><span class="muted">${esc(t('s_rack_sub'))}</span></div>
-    ${can('shop_stock') ? (prof.length ? prof.map(it => `<div class="bar-row" data-go="s-stock/${esc(it.name)}"><span class="nm">${esc(it.name)}${it.low ? ` <span class="pill warn">${esc(t('st_low'))}</span>` : ''}</span><span class="track"><span class="alu" style="display:block;width:${(it.qty / max * 100).toFixed(1)}%"></span></span><span class="v">${n2(it.qty)} kg</span><span class="w">${it.perLen ? '≈' + n0(it.qty / it.perLen) + ' ' + esc(t('lengths')) : ''}</span></div>`).join('') : `<p class="muted">${esc(t('s_no_stock'))}</p>`) : ''}
+    ${can('shop_stock') ? (prof.length ? prof.map(it => `<div class="bar-row" data-go="s-stock/${esc(it.name)}"><span class="nm">${esc(it.name)}${it.low ? ` <span class="pill warn">${esc(t('st_low'))}</span>` : ''}</span><span class="track"><span class="alu" style="display:block;width:${(it.qty / max * 100).toFixed(1)}%"></span></span><span class="v">${n2(it.qty)} kg</span><span class="w">${it.perLen ? '≈' + n0(it.qty / it.perLen) + ' ' + esc(t('lengths')) : ''}</span>${finChips(it) ? `<span class="bar-fins">${finChips(it)}</span>` : ''}</div>`).join('') : `<p class="muted">${esc(t('s_no_stock'))}</p>`) : ''}
     ${recent.length ? `<h3 style="margin-top:20px">${esc(t('s_recent_bills'))}</h3>${recent.map(b => `<div class="flag" data-go="s-bills/${esc(b.id)}"><span class="b">${esc(b.id)}</span><span class="t">${esc(custOf(b))} · ${dt(b.date)} · <b>${inr(b.total)}</b>${b.due > 0.004 ? ` <span class="pill warn">${esc(t('s_due_amt', { a: inr(b.due) }))}</span>` : ''}</span></div>`).join('')}` : ''}</section>`;
   const lede = can('shop_stock') ? `${esc(t('s_home_lede', { kg: n2(S.kgProfiles) }))} <span class="soft">— ${esc(t('s_home_more', { n: S.inStock.filter(it => it.kind !== 'profile' && it.qty > 0).length }))}.</span>` : esc(t('lede_hi', { name: uname(ME) }));
   view(`${ONLINE && !isMaster() ? checkInCard() : ''}${isMaster() ? attStrip() : ''}<p class="lede">${lede}</p><div class="ov">${main}${side.length ? `<aside class="panel side">${side.join('')}</aside>` : ''}</div>`);
@@ -3035,10 +3081,11 @@ VIEWS['s-home'] = () => {
 
 /* line editor shared by bills and purchases */
 function sItemList() {
-  return `<datalist id="s-items">${M.shop.items.filter(it => it.active).map(it => `<option value="${esc(it.name)}">${esc(qtyTxt(it.qty, it.unit))}</option>`).join('')}</datalist>`;
+  return `<datalist id="s-items">${M.shop.items.filter(it => it.active).map(it => `<option value="${esc(it.name)}">${esc(qtyTxt(it.qty, it.unit))}</option>`).join('')}</datalist><datalist id="s-fins">${M.shop.finNames.map(f => `<option value="${esc(f)}">`).join('')}</datalist>`;
 }
 function sLine(kind) {
   return `<div class="bl"><label class="bl-it"><span>${esc(t('s_item'))}</span><input name="item" list="s-items" required autocomplete="off" maxlength="80"></label>
+    <label class="bl-f"><span>${esc(t('s_finish'))}</span><input name="fin" list="s-fins" autocomplete="off" maxlength="30" placeholder="${esc(t('s_fin_ph'))}"></label>
     <label class="bl-q"><span data-unit>${esc(t('s_qty'))}</span><input name="qty" type="number" step="0.001" min="0" inputmode="decimal" required></label>
     <label class="bl-pcs"><span>${esc(t('lengths_h'))}</span><input name="pcs" type="number" step="1" min="0" inputmode="numeric"></label>
     <label class="bl-r"><span>${esc(kind === 'pur' ? t('s_buy_rate') : t('rg_rate'))} ₹</span><input name="rate" type="number" step="0.01" min="0" inputmode="decimal" required></label>
@@ -3086,7 +3133,7 @@ function purForm() {
 const r2 = v => Math.round(v * 100) / 100;
 function bfLines(f) {
   return [...f.querySelectorAll('.bl')].map(row => { const v = n => row.querySelector(`[name=${n}]`).value.trim();
-    return { row, item: v('item'), qty: +v('qty') || 0, pcs: v('pcs') === '' ? null : Math.round(+v('pcs')), rate: v('rate') === '' ? null : +v('rate') }; });
+    return { row, item: v('item'), fin: normFin(v('fin')), qty: +v('qty') || 0, pcs: v('pcs') === '' ? null : Math.round(+v('pcs')), rate: v('rate') === '' ? null : +v('rate') }; });
 }
 function bfUpdate(f) {
   const isBill = f.matches('[data-sbill]');
@@ -3096,10 +3143,15 @@ function bfUpdate(f) {
     l.row.querySelector('.bl-amt').textContent = inr(amt);
     l.row.querySelector('[data-unit]').textContent = it ? (it.unit === 'kg' ? t('s_qty_kg') : `${t('s_qty')} (${it.unit})`) : t('s_qty');
     l.row.querySelector('.bl-pcs').style.visibility = it && it.kind !== 'profile' ? 'hidden' : '';
-    const msg = l.row.querySelector('.bl-msg');
+    l.row.querySelector('.bl-f').style.visibility = it && it.kind !== 'profile' ? 'hidden' : '';
+    const msg = l.row.querySelector('.bl-msg'), prof = it && it.kind === 'profile';
+    const inStock = prof ? it.finList.filter(x => x.fin && x.qty > 1e-9).map(x => `${x.fin} ${qtyTxt(x.qty, it.unit)}`).join(', ') : '';
     if (l.item && !it) { msg.className = 'bl-msg warn'; msg.textContent = t('s_no_item'); }
-    else if (it && isBill) { const left = it.qty - sum(bfLines(f).filter(x => x.item === l.item && x.row !== l.row), x => x.qty);
-      msg.className = 'bl-msg' + (l.qty > left + 1e-9 ? ' warn' : ''); msg.textContent = l.qty > left + 1e-9 ? t('s_short', { q: qtyTxt(Math.max(0, left), it.unit) }) : t('s_have', { q: qtyTxt(it.qty, it.unit) }) + (it.perLen && l.qty ? ' · ≈' + nq(Math.round(l.qty / it.perLen * 10) / 10) + ' ' + t('lengths') : ''); }
+    else if (prof && !l.fin) { msg.className = 'bl-msg' + (l.qty ? ' warn' : ''); msg.textContent = t('s_fin_pick', { list: inStock || t('none') }); }
+    else if (it && isBill) { const fx = prof ? it.fins[l.fin] : null, have = prof ? (fx ? fx.qty : 0) : it.qty, per = prof ? (fx && fx.perLen) || it.perLen : it.perLen;
+      const left = have - sum(bfLines(f).filter(x => x.item === l.item && (!prof || x.fin === l.fin) && x.row !== l.row), x => x.qty);
+      msg.className = 'bl-msg' + (l.qty > left + 1e-9 ? ' warn' : ''); msg.textContent = (prof ? l.fin + ': ' : '') + (l.qty > left + 1e-9 ? t('s_short', { q: qtyTxt(Math.max(0, left), it.unit) }) : t('s_have', { q: qtyTxt(have, it.unit) }) + (per && l.qty ? ' · ≈' + nq(Math.round(l.qty / per * 10) / 10) + ' ' + t('lengths') : ''))
+        + (prof && inStock && !(fx && fx.qty > 1e-9) ? ' · ' + t('s_fin_have', { list: inStock }) : ''); }
     else { msg.className = 'bl-msg'; msg.textContent = ''; }
   });
   const g = n => f.elements[n] ? (+f.elements[n].value || 0) : 0;
@@ -3110,7 +3162,8 @@ function bfUpdate(f) {
 document.addEventListener('input', e => {
   const f = e.target.closest && e.target.closest('form[data-sbill],form[data-spur]'); if (!f) return;
   if (e.target.name === 'item') { const it = M.shop.I[e.target.value.trim()]; const row = e.target.closest('.bl'); const rt = row.querySelector('[name=rate]');
-    if (it && rt.value === '' && f.matches('[data-sbill]')) { const r = it.saleRate != null ? it.saleRate : it.lastRate; if (r != null) rt.value = r; } }
+    if (it && rt.value === '' && f.matches('[data-sbill]')) { const r = it.saleRate != null ? it.saleRate : it.lastRate; if (r != null) rt.value = r; }
+    const fi = row.querySelector('[name=fin]'); if (it && it.kind === 'profile' && fi.value === '' && f.matches('[data-sbill]')) { const have = it.finList.filter(x => x.fin && x.qty > 1e-9); if (have.length === 1) fi.value = have[0].fin; } }
   bfUpdate(f);
 });
 document.addEventListener('click', e => {
@@ -3125,8 +3178,9 @@ async function bfSubmit(f) {
   const lines = bfLines(f).filter(l => l.item || l.qty || l.rate != null);
   const bad = m => { msg.className = 'msg err'; msg.textContent = m; return null; };
   if (!lines.length) return bad(t('s_need_line'));
-  for (const l of lines) { if (!M.shop.I[l.item]) return bad(t('s_no_item_n', { n: l.item || '–' })); if (!(l.qty > 0)) return bad(t('s_need_qty', { n: l.item })); if (l.rate == null || l.rate < 0) return bad(t('s_need_rate', { n: l.item })); }
-  const payload = lines.map(l => ({ item: l.item, qty: Math.round(l.qty * 1000) / 1000, pcs: l.pcs, rate: r2(l.rate) }));
+  for (const l of lines) { const it = M.shop.I[l.item]; if (!it) return bad(t('s_no_item_n', { n: l.item || '–' })); if (it.kind === 'profile' && !l.fin) return bad(t('s_fin_need', { n: l.item }));
+    if (!(l.qty > 0)) return bad(t('s_need_qty', { n: l.item })); if (l.rate == null || l.rate < 0) return bad(t('s_need_rate', { n: l.item })); }
+  const payload = lines.map(l => ({ item: l.item, finish: M.shop.I[l.item].kind === 'profile' ? l.fin : null, qty: Math.round(l.qty * 1000) / 1000, pcs: l.pcs, rate: r2(l.rate) }));
   const v = n => (f.elements[n] ? f.elements[n].value.trim() : '');
   const b = f.querySelector('button[type=submit]');
   if (isBill) {
@@ -3149,7 +3203,8 @@ document.addEventListener('submit', e => { const f = e.target; if (!f.matches('f
 function billDetail(b) {
   const prof = can('shop_profit');
   const rows = b.lines.map(l => { const it = M.shop.I[l.item] || { unit: '' };
-    return `<tr><td>${esc(l.item)}</td><td class="num">${l.pcs != null ? n0(l.pcs) : ''}</td><td class="num">${esc(qtyTxt(l.qty, it.unit))}</td><td class="num">₹${n2(l.rate)}</td><td class="num">${inr(l.amount)}</td>${prof ? `<td class="num">${it.avg != null ? inr(l.qty * it.avg) : '–'}</td>` : ''}</tr>`; }).join('');
+    const c = M.shop.costOf(l.item, l.finish);
+    return `<tr><td>${esc(l.item)} ${finTag(l.finish)}</td><td class="num">${l.pcs != null ? n0(l.pcs) : ''}</td><td class="num">${esc(qtyTxt(l.qty, it.unit))}</td><td class="num">₹${n2(l.rate)}</td><td class="num">${inr(l.amount)}</td>${prof ? `<td class="num">${c != null ? inr(l.qty * c) : '–'}</td>` : ''}</tr>`; }).join('');
   const canVoid = ONLINE && !b.voided && (isMaster() || (can('shop_sell') && b.created_by === (ME && ME.id) && String(b.created_at || '').length && istDay(b.created_at) === today()));
   return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('s_item'))}</th><th class="num">${esc(t('lengths_h'))}</th><th class="num">${esc(t('s_qty'))}</th><th class="num">${esc(t('rg_rate'))}</th><th class="num">${esc(t('rg_amount'))}</th>${prof ? `<th class="num">${esc(t('s_cost'))}</th>` : ''}</tr></thead><tbody>${rows}</tbody>
     <tfoot>${b.discount ? `<tr><td colspan="4">${esc(t('s_discount'))}</td><td class="num">−${inr(b.discount)}</td>${prof ? '<td></td>' : ''}</tr>` : ''}<tr><td colspan="4"><b>${esc(t('rg_total'))}</b></td><td class="num"><b>${inr(b.total)}</b></td>${prof ? `<td class="num">${inr(b.cost)}</td>` : ''}</tr></tfoot></table></div>
@@ -3167,7 +3222,7 @@ function billHtml(b) {
   return `<header class="rh"><div class="rh-co">${esc(SHOP)}</div><div class="rh-ad">${esc(SHOP_ADDR)}</div><h1>${esc(t('s_bill_title'))}</h1>
     <dl class="rh-meta"><div><dt>${esc(t('s_bill_no'))}</dt><dd>${esc(b.id)}</dd></div><div><dt>${esc(t('date'))}</dt><dd>${esc(dt(b.date))}</dd></div><div><dt>${esc(t('s_customer'))}</dt><dd>${esc(custOf(b))}${b.cust_phone ? ' · ' + esc(b.cust_phone) : ''}</dd></div></dl></header>
     <table class="rt"><thead><tr><th>#</th><th>${esc(t('s_item'))}</th><th class="num">${esc(t('lengths_h'))}</th><th class="num">${esc(t('s_qty'))}</th><th class="num">${esc(t('rg_rate'))}</th><th class="num">${esc(t('rg_amount'))}</th></tr></thead>
-    <tbody>${b.lines.map((l, i) => { const it = M.shop.I[l.item] || { unit: '' }; return `<tr><td>${i + 1}</td><td>${esc(l.item)}</td><td class="num">${l.pcs != null ? n0(l.pcs) : ''}</td><td class="num">${esc(qtyTxt(l.qty, it.unit))}</td><td class="num">₹${n2(l.rate)}</td><td class="num">${inr(l.amount)}</td></tr>`; }).join('')}</tbody>
+    <tbody>${b.lines.map((l, i) => { const it = M.shop.I[l.item] || { unit: '' }; return `<tr><td>${i + 1}</td><td>${esc(l.item)}${l.finish ? ' — ' + esc(l.finish) : ''}</td><td class="num">${l.pcs != null ? n0(l.pcs) : ''}</td><td class="num">${esc(qtyTxt(l.qty, it.unit))}</td><td class="num">₹${n2(l.rate)}</td><td class="num">${inr(l.amount)}</td></tr>`; }).join('')}</tbody>
     <tfoot>${b.discount ? `<tr><td colspan="5">${esc(t('s_discount'))}</td><td class="num">−${inr(b.discount)}</td></tr>` : ''}<tr><td colspan="5"><b>${esc(t('rg_total'))}</b></td><td class="num"><b>${inr(b.total)}</b></td></tr>
       <tr><td colspan="5">${esc(t('s_paid_counter_l'))}${b.paid_mode ? ' (' + esc(b.paid_mode) + ')' : ''}</td><td class="num">${inr(b.paid)}</td></tr>
       ${b.due > 0.004 ? `<tr><td colspan="5">${esc(t('s_udhaar_this'))}</td><td class="num"><b>${inr(b.due)}</b></td></tr>` : ''}
@@ -3194,7 +3249,7 @@ VIEWS['s-bills'] = (arg) => {
   const tb = table($('#sbt'), { rows: M.shop.bills, id: r => r.id, open: pick ? pick.id : null, state: S.tb, filter: match,
     cols: [{ k: 'id', t: t('s_bill_no'), sv: r => +String(r.id).replace(/\D/g, ''), h: r => `<b class="nw">${esc(r.id)}</b>${r.voided ? ` <span class="pill grey">${esc(t('s_cancelled'))}</span>` : ''}` },
       { k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'cust', t: t('s_customer'), sv: custOf, h: r => esc(custOf(r)) },
-      { k: 'items', t: t('items'), ph: 0, sv: r => r.lines.length, h: r => esc(r.lines.map(l => l.item).slice(0, 2).join(', ') + (r.lines.length > 2 ? ` +${r.lines.length - 2}` : '')) },
+      { k: 'items', t: t('items'), ph: 0, sv: r => r.lines.length, h: r => esc(r.lines.map(l => l.item + (l.finish ? ` (${l.finish})` : '')).slice(0, 2).join(', ') + (r.lines.length > 2 ? ` +${r.lines.length - 2}` : '')) },
       { k: 'total', t: t('rg_amount'), num: 1, h: r => r.voided ? `<s>${inr(r.total)}</s>` : inr(r.total) },
       { k: 'due', t: t('s_due'), num: 1, h: r => r.due > 0.004 ? `<span class="neg">${inr(r.due)}</span>` : `<span class="faint">${esc(r.paid_mode || '–')}</span>` },
       { k: 'profit', t: t('s_profit'), num: 1, ph: 0, hide: !can('shop_profit'), h: r => r.voided ? '' : inr(r.profit) }],
@@ -3221,9 +3276,17 @@ function sMoveTable(it) {
     : m.kind === 'job' && can('shop_jobs') ? `<button class="link" type="button" data-go="s-jobs/${esc(m.ref)}">${esc(m.ref)}</button>`
     : m.kind === 'purchase' && can('shop_costs') ? `<button class="link" type="button" data-go="s-purchases/${esc(m.ref)}">${esc(m.ref)}</button>` : esc(m.kind === 'adjust' ? '' : m.ref || '');
   return `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('s_mv_what'))}</th><th>${esc(t('party'))}</th><th class="num">${esc(t('mv_in'))}</th><th class="num">${esc(t('mv_out'))}</th><th class="num">${esc(t('mv_bal'))}</th></tr></thead><tbody>
-    ${it.moves.slice().reverse().map(m => `<tr><td class="nw">${dt(m.date)}</td><td><span class="pill ${m.qty > 0 ? 'in' : 'out'}">${esc(t('mk_' + m.kind))}</span> ${link(m)}</td><td>${esc(m.party || '')}</td>
+    ${it.moves.slice().reverse().map(m => `<tr><td class="nw">${dt(m.date)}</td><td><span class="pill ${m.qty > 0 ? 'in' : 'out'}">${esc(t('mk_' + m.kind))}</span> ${link(m)}${it.kind === 'profile' ? ' ' + (m.finish ? finTag(m.finish) : finUnset()) : ''}</td><td>${esc(m.party || '')}</td>
       <td class="num">${m.qty > 0 ? nq(m.qty) : ''}</td><td class="num">${m.qty < 0 ? nq(-m.qty) : ''}</td><td class="num"><b>${nq(m.bal)}</b></td></tr>`).join('')}</tbody>
     <tfoot><tr><td colspan="3">${esc(t('mv_now'))} (${esc(it.unit)})</td><td class="num">${nq(it.inQty + Math.max(0, it.adjQty))}</td><td class="num">${nq(it.outQty + Math.max(0, -it.adjQty))}</td><td class="num"><b>${nq(it.qty)}</b></td></tr></tfoot></table></div>`;
+}
+const finChips = it => it.kind === 'profile' && it.finList.some(x => Math.abs(x.qty) > 1e-9)
+  ? `<div class="fins">${it.finList.filter(x => Math.abs(x.qty) > 1e-9).map(x => x.fin ? finTag(x.fin, nq(x.qty)) : finUnset() + ` <b>${nq(x.qty)}</b>`).join('')}</div>` : '';
+function finTable(it, costs) {
+  const L = it.finList.filter(x => x.inQty || x.outQty || x.adjQty || Math.abs(x.qty) > 1e-9); if (!L.length) return '';
+  return `<h3>${esc(t('s_fin_h'))}</h3><div class="tw"><table class="compact"><thead><tr><th>${esc(t('s_finish'))}</th><th class="num">${esc(t('rcv'))}</th><th class="num">${esc(t('sold_used'))}</th><th class="num">${esc(t('st_left'))}</th><th class="num">${esc(t('lengths_h'))}</th>${costs ? `<th class="num">${esc(t('s_avg_cost'))}</th><th class="num">${esc(t('s_value'))}</th>` : ''}</tr></thead>
+    <tbody>${L.map(x => `<tr><td>${x.fin ? finTag(x.fin) : finUnset()}</td><td class="num">${nq(x.inQty + Math.max(0, x.adjQty))}</td><td class="num">${nq(x.outQty + Math.max(0, -x.adjQty))}</td><td class="num"><b>${esc(qtyTxt(x.qty, it.unit))}</b></td><td class="num">${x.perLen && x.qty > 0 ? '≈' + n0(x.qty / x.perLen) : ''}</td>${costs ? `<td class="num">${x.avg != null ? '₹' + n2(x.avg) : ''}</td><td class="num">${x.value ? inr(x.value) : ''}</td>` : ''}</tr>`).join('')}</tbody>
+    <tfoot><tr><td>${esc(t('mv_now'))}</td><td class="num">${nq(it.inQty + Math.max(0, it.adjQty))}</td><td class="num">${nq(it.outQty + Math.max(0, -it.adjQty))}</td><td class="num"><b>${esc(qtyTxt(it.qty, it.unit))}</b></td><td></td>${costs ? `<td></td><td class="num">${inr(it.value)}</td>` : ''}</tr></tfoot></table></div>`;
 }
 const sStatus = it => it.qty <= 0 && it.peak > 0 ? `<span class="pill warn">${esc(t('st_out'))}</span>` : it.low ? `<span class="pill warn">${esc(t('st_low'))}</span>` : it.level != null ? `<span class="pill ok">${esc(t('st_ok'))}</span>` : '';
 function itemForm(it) {
@@ -3248,6 +3311,7 @@ function sadjForm(name) {
   return `<div class="panel" style="padding:16px 18px;margin-bottom:18px"><h3>${esc(t('adj_h'))}</h3><p class="sub">${esc(t('s_adj_sub'))}</p>
     <form class="form" data-sadj>${sItemList()}
       <label>${esc(t('s_item'))}<input name="p" list="s-items" required value="${esc(name || '')}"></label>
+      <label>${esc(t('s_finish'))}<input name="fn" list="s-fins" maxlength="30" placeholder="${esc(t('s_fin_ph'))}"></label>
       <label>${esc(t('adj_dir'))}<select name="s"><option value="1">${esc(t('adj_plus'))}</option><option value="-1">${esc(t('adj_minus'))}</option></select></label>
       <label>${esc(t('s_qty'))}<input type="number" name="q" min="0" step="0.001" inputmode="decimal" required></label>
       <label>${esc(t('adj_pcs'))}<input type="number" name="c" min="0" step="1" inputmode="numeric"></label>
@@ -3274,18 +3338,19 @@ VIEWS['s-stock'] = (arg) => {
       <div class="chips">${['all', ...S_KINDS].map(k => `<button class="chip" type="button" data-sk="${k}" aria-pressed="${S.kind === k}">${esc(k === 'all' ? t('all') : t('sk_' + k))}</button>`).join('')}</div>
       <label class="toggle"><input type="checkbox" id="sso" ${S.only ? 'checked' : ''}> ${esc(t('s_only_stock'))}</label></div>
     <div class="panel" id="sst"></div>`);
-  const match = it => (S.kind === 'all' || it.kind === S.kind) && (!S.only || Math.abs(it.qty) > 1e-9 || it.name === arg) && (!lc(S.ft) || (it.name + ' ' + it.series + ' ' + t('sk_' + it.kind)).toLowerCase().includes(lc(S.ft)));
+  const match = it => (S.kind === 'all' || it.kind === S.kind) && (!S.only || Math.abs(it.qty) > 1e-9 || it.name === arg) && (!lc(S.ft) || (it.name + ' ' + it.series + ' ' + t('sk_' + it.kind) + ' ' + it.finList.filter(x => x.qty > 1e-9).map(x => x.fin).join(' ')).toLowerCase().includes(lc(S.ft)));
   const tb = table($('#sst'), { rows: SS.items, id: r => r.name, open: arg || null, state: S.tb, filter: match,
     cols: [{ k: 'name', t: t('s_item'), h: r => `<b>${esc(r.name)}</b>${r.active ? '' : ` <span class="pill grey">${esc(t('off'))}</span>`}<div class="faint tiny">${esc(t('sk_' + r.kind))}${r.series ? ' · ' + esc(r.series) : ''}</div>` },
       { k: 'inQty', t: t('rcv'), num: 1, ph: 0, h: r => r.inQty ? nq(r.inQty) : '<span class="faint">0</span>' },
       { k: 'outQty', t: t('sold_used'), num: 1, ph: 0, h: r => r.outQty ? nq(r.outQty) : '<span class="faint">0</span>' },
       { k: 'qty', t: t('st_left'), num: 1, h: r => `<b>${esc(qtyTxt(r.qty, r.unit))}</b>${r.perLen && r.qty > 0 ? `<div class="faint tiny">≈${n0(r.qty / r.perLen)} ${esc(t('lengths'))}</div>` : ''}` },
+      { k: 'fins', t: t('s_by_finish'), nosort: 1, h: r => finChips(r) },
       { k: 'level', t: t('ro_level'), num: 1, ph: 0, sv: r => r.level == null ? -1 : r.level, h: r => r.level == null ? '' : nq(r.level) + (r.auto ? ` <span class="faint tiny">${esc(t('s_auto'))}</span>` : '') },
       { k: 'status', t: t('status'), nosort: 1, h: sStatus },
       { k: 'avg', t: t('s_avg_cost'), num: 1, ph: 0, hide: !costs, sv: r => r.avg || 0, h: r => r.avg != null ? `₹${n2(r.avg)}<span class="faint tiny">/${esc(r.unit)}</span>` : '' },
       { k: 'value', t: t('s_value'), num: 1, hide: !costs, h: r => r.value ? inr(r.value) : '' }],
     foot: (c, rows) => ({ name: t('s_items_n', { n: rows.length }), value: costs ? inr(sum(rows, r => r.value)) : '' })[c.k],
-    detail: r => `<h3>${esc(t('mv_h'))}</h3>${sMoveTable(r)}
+    detail: r => `${finTable(r, costs)}<h3${r.finList.length ? ' style="margin-top:18px"' : ''}>${esc(t('mv_h'))}</h3>${sMoveTable(r)}
       <h3 style="margin-top:18px">${esc(t('ro_h'))}</h3><dl class="kv" style="max-width:640px"><dt>${esc(t('s_peak'))}</dt><dd>${esc(qtyTxt(r.peak, r.unit))}</dd><dt>${esc(t('ro_level'))}</dt><dd>${r.level != null ? esc(qtyTxt(r.level, r.unit)) + (r.auto ? ` <span class="faint">${esc(t('s_ro_auto'))}</span>` : '') : '–'}</dd><dt>${esc(t('ro_upto'))}</dt><dd>${r.upto != null ? esc(qtyTxt(r.upto, r.unit)) : '–'}</dd>
         ${r.saleRate != null ? `<dt>${esc(t('s_sale_rate'))}</dt><dd>₹${n2(r.saleRate)} / ${esc(r.unit)}</dd>` : r.lastRate != null ? `<dt>${esc(t('s_last_rate'))}</dt><dd>₹${n2(r.lastRate)} / ${esc(r.unit)}</dd>` : ''}${r.perLen ? `<dt>${esc(t('kg_per_len'))}</dt><dd>${n3(r.perLen)}</dd>` : ''}</dl>
       ${ONLINE && isMaster() ? sroForm(r) : ''}
@@ -3323,9 +3388,11 @@ document.addEventListener('submit', async e => {
     if (await shopCall(b, 'shop_set_reorder', { p_item: f.dataset.sro, p_level: lvl, p_upto: up }, 's-stock/' + f.dataset.sro)) toast(t('saved')); return; }
   if (f.matches('[data-sadj]')) { e.preventDefault(); const it = M.shop.I[v('p')]; if (!it) { toast(t('s_no_item_n', { n: v('p') }), 'err'); return; }
     const q = +f.elements.s.value * (Math.round((+v('q') || 0) * 1000) / 1000); if (!q) { toast(t('adj_need'), 'err'); return; }
-    if (it.qty + q < -1e-9) { toast(t('s_adj_below', { q: qtyTxt(it.qty, it.unit) }), 'err'); return; }
+    const fin = it.kind === 'profile' ? normFin(v('fn')) : null; if (it.kind === 'profile' && !fin) { toast(t('s_fin_need', { n: it.name }), 'err'); return; }
+    const have = fin ? ((it.fins[fin] || {}).qty || 0) : it.qty;
+    if (have + q < -1e-9) { toast(t('s_adj_below', { q: (fin ? fin + ': ' : '') + qtyTxt(have, it.unit) }), 'err'); return; }
     const pcs = v('c') === '' ? null : +f.elements.s.value * Math.round(+v('c'));
-    if (await shopCall(b, 'shop_adjust_add', { p_item: it.name, p_qty: q, p_pcs: pcs, p_reason: v('r') || null, p_date: v('d') }, 's-stock/' + it.name)) toast(t('adj_saved')); return; }
+    if (await shopCall(b, 'shop_adjust_add', { p_item: it.name, p_qty: q, p_pcs: pcs, p_reason: v('r') || null, p_date: v('d'), p_finish: fin }, 's-stock/' + it.name)) toast(t('adj_saved')); return; }
 });
 
 /* customers and suppliers (udhaar) */
@@ -3480,8 +3547,8 @@ function jobDetail(j) {
       ${j.note ? `<dt>${esc(t('note_l'))}</dt><dd>${esc(j.note)}</dd>` : ''}</dl>
     ${edit ? `<div class="acts"><select class="filter" data-sjst-sel="${esc(j.id)}" style="min-width:170px">${[...J_FLOW, 'cancelled'].map(s => `<option value="${s}" ${s === j.status ? 'selected' : ''}>${esc(t('j_' + s))}</option>`).join('')}</select><button class="bigbtn" type="button" data-sjst="${esc(j.id)}">${esc(t('save'))}</button><button class="btn" type="button" data-sjob-edit="${esc(j.id)}">${esc(t('edit'))}</button></div><div data-sform-for="${esc(j.id)}"></div>` : ''}
     <h3 style="margin-top:16px">${esc(t('s_mats'))}</h3>
-    ${j.mats.length ? `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('s_item'))}</th><th class="num">${esc(t('s_qty'))}</th>${prof ? `<th class="num">${esc(t('s_cost'))}</th>` : ''}<th></th></tr></thead><tbody>${j.mats.map(m => `<tr><td class="nw">${dt(m.date)}</td><td>${esc(m.item)}${m.note ? ` <span class="faint">${esc(m.note)}</span>` : ''}</td><td class="num">${esc(qtyTxt(m.qty, (M.shop.I[m.item] || {}).unit || ''))}${m.pcs != null ? ` · ${n0(m.pcs)} ${esc(t('lengths'))}` : ''}</td>${prof ? `<td class="num">${inr(m.cost)}</td>` : ''}<td class="nw">${edit ? `<button class="link danger" type="button" data-sjm-void="${m.id}">${esc(t('remove'))}</button>` : ''}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('s_no_mats'))}</p>`}
-    ${edit && j.status !== 'cancelled' ? `<form class="form ro-form" data-sjm="${esc(j.id)}">${sItemList()}<label>${esc(t('s_item'))}<input name="p" list="s-items" required></label><label>${esc(t('s_qty'))}<input name="q" type="number" step="0.001" min="0" inputmode="decimal" required></label><label>${esc(t('lengths_h'))}<input name="c" type="number" step="1" min="0" inputmode="numeric"></label><label>${esc(t('date'))}<input type="date" name="d" value="${today()}" ${shopDate()} required></label><span class="row"><button class="btn primary" type="submit">${esc(t('s_add_mat'))}</button></span></form>` : ''}
+    ${j.mats.length ? `<div class="tw"><table class="compact"><thead><tr><th>${esc(t('date'))}</th><th>${esc(t('s_item'))}</th><th class="num">${esc(t('s_qty'))}</th>${prof ? `<th class="num">${esc(t('s_cost'))}</th>` : ''}<th></th></tr></thead><tbody>${j.mats.map(m => `<tr><td class="nw">${dt(m.date)}</td><td>${esc(m.item)} ${finTag(m.finish)}${m.note ? ` <span class="faint">${esc(m.note)}</span>` : ''}</td><td class="num">${esc(qtyTxt(m.qty, (M.shop.I[m.item] || {}).unit || ''))}${m.pcs != null ? ` · ${n0(m.pcs)} ${esc(t('lengths'))}` : ''}</td>${prof ? `<td class="num">${inr(m.cost)}</td>` : ''}<td class="nw">${edit ? `<button class="link danger" type="button" data-sjm-void="${m.id}">${esc(t('remove'))}</button>` : ''}</td></tr>`).join('')}</tbody></table></div>` : `<p class="muted">${esc(t('s_no_mats'))}</p>`}
+    ${edit && j.status !== 'cancelled' ? `<form class="form ro-form" data-sjm="${esc(j.id)}">${sItemList()}<label>${esc(t('s_item'))}<input name="p" list="s-items" required></label><label>${esc(t('s_finish'))}<input name="fn" list="s-fins" maxlength="30" placeholder="${esc(t('s_fin_ph'))}"></label><label>${esc(t('s_qty'))}<input name="q" type="number" step="0.001" min="0" inputmode="decimal" required></label><label>${esc(t('lengths_h'))}<input name="c" type="number" step="1" min="0" inputmode="numeric"></label><label>${esc(t('date'))}<input type="date" name="d" value="${today()}" ${shopDate()} required></label><span class="row"><button class="btn primary" type="submit">${esc(t('s_add_mat'))}</button></span></form>` : ''}
     ${j.pays.length ? `<h3 style="margin-top:16px">${esc(t('s_job_pays'))}</h3>${j.pays.map(p => `<div class="flag static"><span class="b okb">${esc(p.id)}</span><span class="t">${dt(p.date)} · <b>${inr(p.amount)}</b> · ${esc(p.mode || '')}</span></div>`).join('')}` : ''}
     ${ONLINE && can('shop_collect') && j.status !== 'cancelled' ? `<div class="sal-forms" style="margin-top:12px">${payForm(j.party, 'in', j.id)}</div>` : ''}`;
 }
@@ -3522,7 +3589,8 @@ document.addEventListener('submit', async e => {
     if (r) toast(t('saved')); return; }
   if (f.matches('[data-sjm]')) { e.preventDefault(); const it = M.shop.I[v('p')]; if (!it) { toast(t('s_no_item_n', { n: v('p') }), 'err'); return; }
     if (!(+v('q') > 0)) { toast(t('s_need_qty', { n: it.name }), 'err'); return; }
-    if (await shopCall(b, 'shop_job_material_add', { p_job: f.dataset.sjm, p_date: v('d'), p_item: it.name, p_qty: +v('q'), p_pcs: v('c') === '' ? null : Math.round(+v('c')), p_note: null }, 's-jobs/' + f.dataset.sjm)) toast(t('saved')); return; }
+    const fin = it.kind === 'profile' ? normFin(v('fn')) : null; if (it.kind === 'profile' && !fin) { toast(t('s_fin_need', { n: it.name }), 'err'); return; }
+    if (await shopCall(b, 'shop_job_material_add', { p_job: f.dataset.sjm, p_date: v('d'), p_item: it.name, p_qty: +v('q'), p_pcs: v('c') === '' ? null : Math.round(+v('c')), p_note: null, p_finish: fin }, 's-jobs/' + f.dataset.sjm)) toast(t('saved')); return; }
 });
 
 /* profit (traded value: what the shop sold for − what it paid for the goods) */
@@ -3584,7 +3652,7 @@ VIEWS.group = () => {
     cols: [{ k: 'name', t: t('profile'), h: r => `<b>${esc(r.name)}</b><div class="faint tiny">${esc(r.series)}</div>` },
       { k: 'aPcs', t: t('g_acta') + ' · ' + t('lengths'), num: 1, ph: 0, h: r => r.aPcs ? n0(r.aPcs) : '<span class="faint">0</span>' },
       { k: 'aKg', t: t('g_acta') + ' kg', num: 1, h: r => r.aKg ? `<button class="link" type="button" data-go="stock/${esc(r.name)}">${n2(r.aKg)}</button>` : '<span class="faint">0</span>' },
-      { k: 'sKg', t: t('g_shop') + ' kg', num: 1, h: r => r.sKg ? `<button class="link" type="button" data-go="s-stock/${esc(r.name)}">${n2(r.sKg)}</button>${r.sLen ? `<div class="faint tiny">≈${n0(r.sLen)} ${esc(t('lengths'))}</div>` : ''}` : '<span class="faint">0</span>' },
+      { k: 'sKg', t: t('g_shop') + ' kg', num: 1, h: r => r.sKg ? `<button class="link" type="button" data-go="s-stock/${esc(r.name)}">${n2(r.sKg)}</button>${r.sLen ? `<div class="faint tiny">≈${n0(r.sLen)} ${esc(t('lengths'))}</div>` : ''}${M.shop.I[r.name] ? finChips(M.shop.I[r.name]) : ''}` : '<span class="faint">0</span>' },
       { k: 'kg', t: t('g_total') + ' kg', num: 1, h: r => `<b>${n2(r.kg)}</b>` }, { k: 'val', t: t('g_value'), num: 1, ph: 0, h: r => inr(r.val) }],
     foot: (c, rs) => ({ name: t('profiles_n', { n: rs.length }), aPcs: n0(sum(rs, r => r.aPcs)), aKg: n2(sum(rs, r => r.aKg)), sKg: n2(sum(rs, r => r.sKg)), kg: n2(sum(rs, r => r.kg)), val: inr(sum(rs, r => r.val)) })[c.k] });
   if (other.length) table($('#go'), { rows: other, id: r => r.name, sort: 'value', dir: -1,
