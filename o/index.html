@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-k40FIBQK8yN30+Oykyfe0WovWMp+vC/TEHTyDm6t8Pg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-rbgscXuabafltRdCV56SkgQh7Ws0H+GDY+WOp3tfZVI='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light">
@@ -200,7 +200,7 @@ function state(title, text, retry) {
 }
 async function open() {
   TOK = decodeURIComponent((location.hash || '').replace(/^#/, '')).trim().toLowerCase();
-  if (!/^[0-9a-f]{32}$/.test(TOK)) return state('This link is not complete.', ' Please open the full link you were sent. · पूरा लिंक खोलें।');
+  if (!/^([0-9a-f]{32}|[a-z2-9]{8})$/.test(TOK)) return state('This link is not complete.', ' Please open the full link you were sent. · पूरा लिंक खोलें।');
   if (!window.supabase || !CFG.url) return state('The order could not be opened.', ' Please try again in a little while.', true);
   try {
     SB = SB || window.supabase.createClient(CFG.url, CFG.key, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storageKey: 'acta.order' } });

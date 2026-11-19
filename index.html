@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-f3zSI3uQm+dVEeD4uWxzkChOL6seGot8HQUSKWb6/tE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-Zaz969VaDCnIJGg2ewIb/j5KYVKiLTKXPeCSMwYT5u4='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -1911,7 +1911,7 @@ function soDetail(o, inCard) {
 }
 /* party link (19-11-2026): nkbapex.in/o/#<share_token> — the party sees only this order and can confirm it
    or ask for a change (order_public / order_reply). Their answers are in order_replies. */
-const olUrl = o => o.share_token && ONLINE && /^https?:$/.test(location.protocol) ? location.origin + '/o/#' + o.share_token : '';
+const olUrl = o => (o.short_code || o.share_token) && ONLINE && /^https?:$/.test(location.protocol) ? location.origin + '/o/#' + (o.short_code || o.share_token) : '';
 const olLast = o => (o.replies || [])[(o.replies || []).length - 1];
 const olPill = o => o.party_confirmed_at ? `<span class="pill ok">${esc(t('ol_pill_ok'))}</span>` : olLast(o) && olLast(o).kind === 'change' && openSO(o) ? `<span class="pill warn">${esc(t('ol_pill_chg'))}</span>` : '';
 const dtTime = s => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleString(LANG === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }); };
