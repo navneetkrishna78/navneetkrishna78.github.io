@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-WFxh78CIGomBO0PrFGgii55jPy+pZ+a00Th3SDEuuYM='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-f3zSI3uQm+dVEeD4uWxzkChOL6seGot8HQUSKWb6/tE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -815,6 +815,11 @@ const I18N = {
     qt_to_order: 'Accepted: tell Claude, and the quotation becomes an order with its work order.', qt_saved: '{no} marked {st}.',
     qt_empty_h: 'No quotations yet', qt_empty_p: "Send Claude the customer's slip and the rates; the quotation appears here with its customer link.",
     qt_wa_text: 'Dear {party}, please see our quotation {no} here: {url} — Acta International Industries',
+    ol_link: 'Party link', ol_note: 'The party opens this without a login, sees only this order (sections, finish, pieces — no rates) and can confirm it or ask for a change.',
+    ol_copied: 'Link to {no} copied — paste it in WhatsApp or SMS.', ol_wa_text: 'Dear {party}, please check your order {no} and confirm it here (or tell us what to change): {url} — Acta International Industries',
+    ol_ok: 'Party confirmed on {d}', ol_change: 'Party asked for a change on {d}', ol_wait: 'Not yet confirmed by the party', ol_replies: "Party's answers",
+    ol_r_confirm: 'Confirmed', ol_r_change: 'Asked for a change', ol_apply: 'Tell Claude to apply the change — the order and its work order will be updated, then send the link again.',
+    ol_off: 'The party link works while the order is received or confirmed.', ol_pc: 'pcs', ol_pill_ok: 'Party ✓', ol_pill_chg: 'Change asked',
     qt_wa_text_shop: 'Dear {party}, please see our quotation {no} here: {url} — NKB Aluminium House',
     qt_sub_shop: 'Quotations for windows, doors and other fabrication. Each one has its own private link: send it on WhatsApp and the customer sees only that quotation, without a login.',
     qt_to_job: 'Accepted: tell Claude, and the quotation becomes a fabrication job.', qt_job: 'Job', qt_subject: 'Subject',
@@ -1017,6 +1022,11 @@ const I18N = {
     qt_to_order: 'मंज़ूर: Claude को बताएँ, कोटेशन से ऑर्डर और वर्क ऑर्डर बन जाएगा।', qt_saved: '{no}: {st}',
     qt_empty_h: 'अभी कोई कोटेशन नहीं', qt_empty_p: 'ग्राहक की पर्ची और रेट Claude को भेजें; कोटेशन ग्राहक के लिंक के साथ यहाँ आ जाएगा।',
     qt_wa_text: 'नमस्ते {party} जी, हमारा कोटेशन {no} यहाँ देखें: {url} — Acta International Industries',
+    ol_link: 'पार्टी का लिंक', ol_note: 'पार्टी बिना लॉग इन के सिर्फ़ यही ऑर्डर देखती है (सेक्शन, फ़िनिश, पीस — कोई रेट नहीं) और इसे कन्फ़र्म कर सकती है या बदलाव माँग सकती है।',
+    ol_copied: '{no} का लिंक कॉपी हो गया — WhatsApp या SMS में चिपकाएँ।', ol_wa_text: 'नमस्ते {party} जी, कृपया अपना ऑर्डर {no} देखें और यहाँ कन्फ़र्म करें (या बताएँ क्या बदलना है): {url} — Acta International Industries',
+    ol_ok: 'पार्टी ने {d} को कन्फ़र्म किया', ol_change: 'पार्टी ने {d} को बदलाव माँगा', ol_wait: 'पार्टी ने अभी कन्फ़र्म नहीं किया', ol_replies: 'पार्टी के जवाब',
+    ol_r_confirm: 'कन्फ़र्म किया', ol_r_change: 'बदलाव माँगा', ol_apply: 'बदलाव लागू करने के लिए Claude को बताएँ — ऑर्डर और वर्क ऑर्डर बदल जाएँगे, फिर लिंक दोबारा भेजें।',
+    ol_off: 'पार्टी का लिंक तब तक चलता है जब तक ऑर्डर आया हुआ या कन्फ़र्म है।', ol_pc: 'पीस', ol_pill_ok: 'पार्टी ✓', ol_pill_chg: 'बदलाव माँगा',
     qt_wa_text_shop: 'नमस्ते {party} जी, हमारा कोटेशन {no} यहाँ देखें: {url} — NKB Aluminium House',
     qt_sub_shop: 'खिड़की, दरवाज़े और दूसरे फ़ैब्रिकेशन के कोटेशन। हर कोटेशन का अपना निजी लिंक है: WhatsApp पर भेजें, ग्राहक बिना लॉग इन के सिर्फ़ वही कोटेशन देखेगा।',
     qt_to_job: 'मंज़ूर: Claude को बताएँ, कोटेशन से फ़ैब्रिकेशन का काम बन जाएगा।', qt_job: 'काम', qt_subject: 'विषय',
@@ -1094,7 +1104,7 @@ async function loadRaw() {
   const master = ME.role === 'master';
   const plan = [['alu_profiles', 1], ['attendance', 1], ['sales_targets', 1], ['salary_entries', 1],
     ['packing_lists', can('stock')], ['bundles', can('stock')], ['bundle_notes', can('stock')], ['stock_adjustments', can('stock')],
-    ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
+    ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['order_replies', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
     ['sales_register', can('rates')], ['cash_accounts', can('cash')], ['cash_entries', can('cash')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
     ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')], ['cost_rates', can('profit')], ['app_settings', true],
@@ -1200,7 +1210,8 @@ function buildModel(R) {
   const histBy = groupBy(A('status_history').map(h => ({ ...h, key: h.entity + ':' + h.entity_id })), 'key');
   const soLines = groupBy(A('sales_order_lines'), 'sales_order'), woLines = groupBy(A('work_order_lines'), 'work_order');
   const work = A('work_orders').map(w => ({ ...w, lines: (woLines[w.id] || []).slice().sort(lineSort), history: (histBy['work_order:' + w.id] || []).slice().sort((a, b) => String(b.changed_at).localeCompare(a.changed_at)) }));
-  const sales = A('sales_orders').map(s => ({ ...s, lines: (soLines[s.id] || []).slice().sort(lineSort), history: (histBy['sales_order:' + s.id] || []).slice().sort((a, b) => String(b.changed_at).localeCompare(a.changed_at)), work: work.filter(w => w.sales_order === s.id) }));
+  const soReplies = groupBy(A('order_replies'), 'sales_order');
+  const sales = A('sales_orders').map(s => ({ ...s, replies: (soReplies[s.id] || []).slice().sort((a, b) => String(a.created_at).localeCompare(String(b.created_at))), lines: (soLines[s.id] || []).slice().sort(lineSort), history: (histBy['sales_order:' + s.id] || []).slice().sort((a, b) => String(b.changed_at).localeCompare(a.changed_at)), work: work.filter(w => w.sales_order === s.id) }));
   work.forEach(w => { w.so = sales.find(s => s.id === w.sales_order) || null; });
 
   // consumables
@@ -1896,8 +1907,33 @@ function orderLines(o, withStock) {
 function soDetail(o, inCard) {
   const facts = [[t('phone'), o.phone ? `<a class="link" href="tel:${esc(o.phone)}">${esc(o.phone)}</a>` : ''], [t('taken_by'), esc(o.taken_by || '')], [t('due'), dt(o.due) + ' ' + (openSO(o) ? dueBadge(o.due) : '')], [t('material_from'), esc(t(o.material_by === 'party' ? 'mat_party' : 'mat_acta'))], ...soPayFacts(o),
     [t('linked'), o.work.map(w => `<button class="link" data-go="work/${esc(w.id)}">${esc(w.id)}</button> ${sgPill(w.stage)}`).join('<br>')]].filter(f => f[1] && String(f[1]).trim());
-  return `<div class="grid2 wide"><div>${inCard ? '' : soActions(o)}${orderLines(o, openSO(o))}</div><div><dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>${o.notes ? `<p class="note">${esc(o.notes)}</p>` : ''}<h3 style="margin-top:12px">${esc(t('history'))}</h3>${histList(o.history)}</div></div>`;
+  return `<div class="grid2 wide"><div>${inCard ? '' : soActions(o)}${orderLines(o, openSO(o))}${soParty(o)}</div><div><dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>${o.notes ? `<p class="note">${esc(o.notes)}</p>` : ''}<h3 style="margin-top:12px">${esc(t('history'))}</h3>${histList(o.history)}</div></div>`;
 }
+/* party link (19-11-2026): nkbapex.in/o/#<share_token> — the party sees only this order and can confirm it
+   or ask for a change (order_public / order_reply). Their answers are in order_replies. */
+const olUrl = o => o.share_token && ONLINE && /^https?:$/.test(location.protocol) ? location.origin + '/o/#' + o.share_token : '';
+const olLast = o => (o.replies || [])[(o.replies || []).length - 1];
+const olPill = o => o.party_confirmed_at ? `<span class="pill ok">${esc(t('ol_pill_ok'))}</span>` : olLast(o) && olLast(o).kind === 'change' && openSO(o) ? `<span class="pill warn">${esc(t('ol_pill_chg'))}</span>` : '';
+const dtTime = s => { const d = new Date(s); return isNaN(d) ? '' : d.toLocaleString(LANG === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZone: 'Asia/Kolkata' }); };
+function soParty(o) {
+  const url = olUrl(o), last = olLast(o), live = ['received', 'confirmed'].includes(o.status);
+  const state = o.party_confirmed_at ? `<p class="note" style="border-color:var(--ok,#2e7d32)">✓ ${esc(t('ol_ok', { d: dtTime(o.party_confirmed_at) }))}</p>`
+    : last && last.kind === 'change' ? `<p class="note">✎ ${esc(t('ol_change', { d: dtTime(last.created_at) }))}${live ? ' — ' + esc(t('ol_apply')) : ''}</p>`
+    : live ? `<p class="faint tiny" style="margin:0 0 8px">${esc(t('ol_wait'))}</p>` : '';
+  const share = !url ? '' : !live ? `<p class="faint tiny" style="margin:0 0 8px">${esc(t('ol_off'))}</p>`
+    : `<p class="faint tiny" style="margin:0 0 4px">${esc(t('ol_link'))}</p><input class="filter qt-url no-print" type="text" readonly value="${esc(url)}" aria-label="${esc(t('ol_link'))}" data-ol-url="${esc(o.id)}">
+      <div class="acts no-print"><button class="bigbtn" type="button" data-ol-copy="${esc(o.id)}">${esc(t('qt_copy'))}</button><a class="bigbtn ghost qt-a" href="${esc('https://wa.me/' + (String(o.phone || '').replace(/\D/g, '').replace(/^(\d{10})$/, '91$1')) + '?text=' + encodeURIComponent(t('ol_wa_text', { party: o.party, no: o.id, url })))}" target="_blank" rel="noopener noreferrer">${esc(t('qt_wa'))}</a><a class="bigbtn ghost qt-a" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(t('qt_open'))}</a></div>
+      <p class="faint tiny" style="margin:-6px 0 10px">${esc(t('ol_note'))}</p>`;
+  const reps = (o.replies || []).length ? `<h3 style="margin:12px 0 6px">${esc(t('ol_replies'))}</h3><ul class="plain" style="margin:0 0 8px;padding-left:18px">${o.replies.slice().reverse().map(r => `<li><b>${esc(t(r.kind === 'confirm' ? 'ol_r_confirm' : 'ol_r_change'))}</b>${r.name ? ' · ' + esc(r.name) : ''} <span class="faint tiny">${esc(dtTime(r.created_at))}</span>
+      ${(r.changes || []).map(c => `<div>${esc(c.profile)}: ${n0(c.pcs_was)} → <b>${n0(c.pcs_wanted)} ${esc(t('ol_pc'))}</b></div>`).join('')}${r.message ? `<div class="note" style="margin:4px 0 0">${esc(r.message)}</div>` : ''}</li>`).join('')}</ul>` : '';
+  return state || share || reps ? `<div style="margin-top:14px">${state}${share}${reps}</div>` : '';
+}
+document.addEventListener('click', async e => {
+  const c = e.target.closest('[data-ol-copy]'); if (!c) return;
+  const o = M.sales.find(x => x.id === c.dataset.olCopy), url = o && olUrl(o); if (!url) return;
+  try { await navigator.clipboard.writeText(url); c.textContent = t('copied'); toast(t('ol_copied', { no: o.id })); }
+  catch (_) { const inp = document.querySelector(`[data-ol-url="${CSS.escape(o.id)}"]`); if (inp) { inp.focus(); inp.select(); } toast(t('qt_copy_hand')); }
+});
 function woDetail(w, inCard) {
   const facts = [[t('process'), esc(procLabel(w.process))], [t('shade'), esc(w.shade || '')], [t('due'), dt(w.due) + ' ' + (openWO(w) ? dueBadge(w.due) : '')], [t('for_order'), w.sales_order && can('orders') ? `<button class="link" data-go="sales/${esc(w.sales_order)}">${esc(w.sales_order)}</button>` : ''], [t('party'), esc(w.party || '')]].filter(f => f[1] && String(f[1]).trim());
   return `<div class="grid2 wide"><div>${woSteps(w)}${woActions(w, inCard ? 'back' : 'both')}${orderLines({ lines: w.lines }, openWO(w))}</div><div><dl class="kv" style="margin:0 0 12px">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>${w.notes ? `<p class="note">${esc(w.notes)}</p>` : ''}<h3 style="margin-top:12px">${esc(t('history'))}</h3>${histList(w.history)}</div></div>`;
@@ -1940,14 +1976,14 @@ VIEWS.sales = (arg) => {
   const empty = `<div class="empty panel"><h3>${esc(t('no_sales_h'))}</h3><p>${esc(t('no_sales_p'))}</p></div>`;
   let ctl;
   if (mobile()) ctl = cards($('#list'), { rows: M.sales, id: r => r.id, open: arg || null, state: S.cd, filter, empty, order: (a, b) => String(a.due || '9').localeCompare(b.due || '9'),
-    card: o => `<div class="c-top"><div><div class="c-id">${esc(o.id)} ${dueBadge(openSO(o) ? o.due : '')}</div><div class="c-party">${esc(o.party)}</div><div class="c-meta">${esc(t('due'))}: ${dt(o.due)}${showVal && o.val && o.val.rev ? ' · ' + valTxt(o.val) : ''}</div></div>${stPill(o.status)}</div><div class="c-items">${esc(itemsTxt(o))}</div>${soActions(o)}`,
+    card: o => `<div class="c-top"><div><div class="c-id">${esc(o.id)} ${dueBadge(openSO(o) ? o.due : '')}</div><div class="c-party">${esc(o.party)}</div><div class="c-meta">${esc(t('due'))}: ${dt(o.due)}${showVal && o.val && o.val.rev ? ' · ' + valTxt(o.val) : ''}</div></div><div>${stPill(o.status)} ${olPill(o)}</div></div><div class="c-items">${esc(itemsTxt(o))}</div>${soActions(o)}`,
     detail: o => soDetail(o, true) });
   else { $('#list').className = 'panel'; ctl = table($('#list'), { rows: M.sales, id: r => r.id, sort: 'date', dir: -1, open: arg || null, state: S.tb, filter, empty,
     cols: [{ k: 'id', t: t('no'), h: r => `<b>${esc(r.id)}</b>` }, { k: 'date', t: t('date'), h: r => dt(r.date) }, { k: 'party', t: t('customer') },
       { k: 'items', t: t('items'), sv: r => r.lines.length, h: r => esc(r.lines.map(l => l.profile).slice(0, 2).join(', ') + (r.lines.length > 2 ? ` +${r.lines.length - 2}` : '')) },
       { k: 'pcs', t: t('pcs'), num: 1, sv: r => sum(r.lines, l => l.pcs), h: r => n0(sum(r.lines, l => l.pcs)) },
       { k: 'amount', t: t('amount'), num: 1, hide: !showVal, sv: r => r.val ? r.val.rev : 0, h: r => r.val && r.val.rev ? valTxt(r.val) : '' },
-      { k: 'due', t: t('due'), h: r => dt(r.due) + ' ' + (openSO(r) ? dueBadge(r.due) : '') }, { k: 'status', t: t('status'), h: r => stPill(r.status) }],
+      { k: 'due', t: t('due'), h: r => dt(r.due) + ' ' + (openSO(r) ? dueBadge(r.due) : '') }, { k: 'status', t: t('status'), h: r => stPill(r.status) + ' ' + olPill(r) }],
     detail: o => soDetail(o) }); }
   document.querySelectorAll('#view [data-st]').forEach(b => b.onclick = () => { S.stf = b.dataset.st; document.querySelectorAll('#view [data-st]').forEach(x => x.setAttribute('aria-pressed', x === b)); ctl.draw(); });
   $('#ff').oninput = e => { S.ft = e.target.value; ctl.draw(); };
