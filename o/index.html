@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-LRV1N2uEq8v3hRXJ36Uf4gK8C3qGHwSBojvXyK/dhi8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-k40FIBQK8yN30+Oykyfe0WovWMp+vC/TEHTyDm6t8Pg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light">
@@ -65,6 +65,8 @@ td{padding:9px 8px;border-bottom:1px solid var(--rule);vertical-align:middle}
 .n{text-align:right;white-space:nowrap}
 .c{text-align:center;width:30px;color:var(--faint)}
 tfoot td{font-weight:600;background:var(--row);border-bottom:1.5px solid var(--ink)}
+.kgnote{margin:-6px 0 0;padding:9px 12px;background:var(--gold-soft);border:1px solid #E8D88A;font-size:.92rem}
+.kgnote b{font-weight:600}
 .was{color:var(--faint);text-decoration:line-through;margin-right:6px;font-weight:500}
 .pcs{width:92px;font:600 1.05rem var(--text);text-align:right;padding:8px 10px;border:1.5px solid var(--steel);border-radius:6px;min-height:44px}
 .pcs.chg{border-color:#C98B00;background:var(--warn-soft)}
@@ -122,6 +124,8 @@ const CFG = window.ACTA_CFG || {};
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const n0 = v => Number(v || 0).toLocaleString('en-IN');
+const kg2 = v => Number(v || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const kg3 = v => Number(v || 0).toLocaleString('en-IN', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const longDate = s => { if (!s) return ''; const [y, m, d] = String(s).slice(0, 10).split('-'); return `${+d} ${MONTHS[+m - 1]} ${y}`; };
@@ -134,14 +138,16 @@ function render() {
   const o = DOC, last = o.replies[o.replies.length - 1];
   document.title = `Order ${o.id} · ${o.party}`;
   const tot = o.lines.reduce((t, l) => t + (+l.pcs || 0), 0);
+  const hasKg = o.lines.some(l => l.kg != null), totKg = o.lines.reduce((t, l) => t + (+l.kg || 0), 0), est = o.lines.some(l => l.kg != null && !l.kg_actual);
+  const per = l => l.kg != null && +l.pcs ? kg3(l.kg / l.pcs) : '';
   let banner;
   if (o.party_confirmed_at) banner = `<div class="banner ok"><b>✓ You confirmed this order on ${esc(when(o.party_confirmed_at))}.</b><span class="hi">आपने यह ऑर्डर कन्फ़र्म कर दिया है। धन्यवाद!</span></div>`;
   else if (last && last.kind === 'change') banner = `<div class="banner wait"><b>Change requested on ${esc(when(last.at))}.</b> We will update the order and send you the link again.<span class="hi">आपने बदलाव माँगा है। हम ऑर्डर बदलकर लिंक दोबारा भेजेंगे।</span></div>`;
   else if (o.open) banner = `<div class="banner info"><b>Please check the order and confirm it, or tell us what to change.</b><span class="hi">कृपया ऑर्डर देखें और कन्फ़र्म करें, या बताएँ क्या बदलना है।</span></div>`;
   else banner = `<div class="banner info"><b>This order has been ${o.status === 'delivered' ? 'delivered' : 'dispatched'}.</b> It can no longer be changed here — please call us.<span class="hi">यह ऑर्डर भेजा जा चुका है, अब यहाँ बदलाव नहीं हो सकता।</span></div>`;
   const editing = MODE === 'change';
-  const rows = o.lines.map(l => `<tr><td class="c">${esc(l.no)}</td><td>${esc(l.section)}<span class="fm">${esc(l.finish)}</span></td><td class="fin">${esc(l.finish)}</td>
-      <td class="n">${editing ? `<input class="pcs" id="p${esc(l.no)}" aria-label="Pieces, ${esc(l.section)}" type="number" inputmode="numeric" min="0" max="100000" step="1" value="${esc(l.pcs ?? '')}" data-line="${esc(l.no)}" data-was="${esc(l.pcs ?? '')}">` : `<b>${n0(l.pcs)}</b>`}</td></tr>`).join('');
+  const rows = o.lines.map(l => `<tr><td class="c">${esc(l.no)}</td><td>${esc(l.section)}<span class="fm">${esc(l.finish)}${hasKg && l.kg != null ? ` · ${per(l)} kg/pc` : ''}</span></td><td class="fin">${esc(l.finish)}</td>
+      ${hasKg ? `<td class="n fin">${per(l)}</td><td class="n">${l.kg != null ? kg2(l.kg) : ''}</td>` : ''}<td class="n">${editing ? `<input class="pcs" id="p${esc(l.no)}" aria-label="Pieces, ${esc(l.section)}" type="number" inputmode="numeric" min="0" max="100000" step="1" value="${esc(l.pcs ?? '')}" data-line="${esc(l.no)}" data-was="${esc(l.pcs ?? '')}">` : `<b>${n0(l.pcs)}</b>`}</td></tr>`).join('');
   const hist = o.replies.length ? `<section><p class="lbl">Your answers · आपके जवाब</p><ul class="hist">${o.replies.slice().reverse().map(r => `<li><span class="k">${r.kind === 'confirm' ? '✓ Confirmed' : '✎ Change requested'}</span>${r.name ? ' · ' + esc(r.name) : ''} <span class="t">· ${esc(when(r.at))}</span>
       ${(r.changes || []).map(c => `<div>${esc(c.section)}: <span class="was">${n0(c.pcs_was)}</span>→ <b>${n0(c.pcs_wanted)} pcs</b></div>`).join('')}${r.message ? `<div>“${esc(r.message)}”</div>` : ''}</li>`).join('')}</ul></section>` : '';
   let action = '', done = '';
@@ -160,9 +166,9 @@ function render() {
       <dl class="kv"><dt>Order no.</dt><dd>${esc(o.id)}</dd><dt>Order date</dt><dd>${esc(longDate(o.date))}</dd>${o.due ? `<dt>Delivery · डिलीवरी</dt><dd>${esc(dayDate(o.due))}</dd>` : ''}</dl>
     </section>
     ${banner}
-    <table><thead><tr><th class="c">#</th><th>Section · सेक्शन</th><th class="fin">Finish · फ़िनिश</th><th class="n">Pieces · पीस</th></tr></thead>
-      <tbody>${rows}</tbody><tfoot><tr><td></td><td>Total · कुल</td><td class="fin"></td><td class="n">${n0(tot)}</td></tr></tfoot></table>
-    <p class="hi" style="margin:-8px 0 0">Standard lengths. Weight and amount are worked out at dispatch. · वज़न और रकम डिस्पैच के समय।</p>
+    <table><thead><tr><th class="c">#</th><th>Section · सेक्शन</th><th class="fin">Finish · फ़िनिश</th>${hasKg ? `<th class="n fin">Avg kg / pc<span class="hi">औसत वज़न</span></th><th class="n">${est ? 'Approx. kg' : 'Kg'}<span class="hi">वज़न</span></th>` : ''}<th class="n">Pieces · पीस</th></tr></thead>
+      <tbody>${rows}</tbody><tfoot><tr><td></td><td>Total · कुल${hasKg && tot ? `<span class="fm">avg ${kg3(totKg / tot)} kg/pc</span>` : ''}</td><td class="fin"></td>${hasKg ? `<td class="n fin">${tot ? kg3(totKg / tot) : ''}</td><td class="n">${kg2(totKg)}</td>` : ''}<td class="n">${n0(tot)}</td></tr></tfoot></table>
+    ${hasKg ? `<p class="kgnote"><b>${est ? 'Approx. weight' : 'Weight'}: ${kg2(totKg)} kg</b> for ${n0(tot)} pieces (avg ${tot ? kg3(totKg / tot) : '–'} kg per piece).${est ? ' Weights are estimates from our stock; the actual weight is taken at dispatch.' : ''}<span class="hi">${est ? 'अनुमानित वज़न' : 'वज़न'} ${kg2(totKg)} kg${est ? ' — असली वज़न डिस्पैच के समय।' : ''}</span></p>` : `<p class="hi" style="margin:-8px 0 0">Standard lengths. Weight is taken at dispatch. · वज़न डिस्पैच के समय।</p>`}
     ${done}${action}${hist}`;
   $('#foot').innerHTML = `<span>Order ${esc(o.id)} · ${esc(longDate(o.date))}</span><span>Questions? Call us · सवाल हो तो कॉल करें</span>`;
   $('#bar').hidden = false;
