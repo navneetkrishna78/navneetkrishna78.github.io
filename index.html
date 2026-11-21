@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-Zaz969VaDCnIJGg2ewIb/j5KYVKiLTKXPeCSMwYT5u4='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-20mR3T8TdWnKjUiWm50zbwjcVWs275+hlz7/qUodZDE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -820,6 +820,8 @@ const I18N = {
     ol_ok: 'Party confirmed on {d}', ol_change: 'Party asked for a change on {d}', ol_wait: 'Not yet confirmed by the party', ol_replies: "Party's answers",
     ol_r_confirm: 'Confirmed', ol_r_change: 'Asked for a change', ol_apply: 'Tell Claude to apply the change — the order and its work order will be updated, then send the link again.',
     ol_off: 'The party link works while the order is received or confirmed.', ol_pc: 'pcs', ol_pill_ok: 'Party ✓', ol_pill_chg: 'Change asked',
+    pp_h: 'Party panel (view only)', pp_note: 'The party opens this without a login and sees only their own orders, dispatches (with amounts) and this ledger.', pp_make: 'Make party panel link',
+    pp_copied: 'Party panel link for {p} copied.', pp_wa_text: 'Namaste {p}, you can see your orders, dispatches and account with us here: {url} — Acta International Industries', pp_none: 'No party panel yet.',
     qt_wa_text_shop: 'Dear {party}, please see our quotation {no} here: {url} — NKB Aluminium House',
     qt_sub_shop: 'Quotations for windows, doors and other fabrication. Each one has its own private link: send it on WhatsApp and the customer sees only that quotation, without a login.',
     qt_to_job: 'Accepted: tell Claude, and the quotation becomes a fabrication job.', qt_job: 'Job', qt_subject: 'Subject',
@@ -1027,6 +1029,8 @@ const I18N = {
     ol_ok: 'पार्टी ने {d} को कन्फ़र्म किया', ol_change: 'पार्टी ने {d} को बदलाव माँगा', ol_wait: 'पार्टी ने अभी कन्फ़र्म नहीं किया', ol_replies: 'पार्टी के जवाब',
     ol_r_confirm: 'कन्फ़र्म किया', ol_r_change: 'बदलाव माँगा', ol_apply: 'बदलाव लागू करने के लिए Claude को बताएँ — ऑर्डर और वर्क ऑर्डर बदल जाएँगे, फिर लिंक दोबारा भेजें।',
     ol_off: 'पार्टी का लिंक तब तक चलता है जब तक ऑर्डर आया हुआ या कन्फ़र्म है।', ol_pc: 'पीस', ol_pill_ok: 'पार्टी ✓', ol_pill_chg: 'बदलाव माँगा',
+    pp_h: 'पार्टी पैनल (सिर्फ़ देखने के लिए)', pp_note: 'पार्टी बिना लॉग इन के सिर्फ़ अपने ऑर्डर, डिस्पैच (रकम सहित) और यही खाता देखती है।', pp_make: 'पार्टी पैनल लिंक बनाएँ',
+    pp_copied: '{p} का पार्टी पैनल लिंक कॉपी हो गया।', pp_wa_text: 'नमस्ते {p}, अपने ऑर्डर, डिस्पैच और हमारे साथ खाता यहाँ देखें: {url} — Acta International Industries', pp_none: 'अभी पार्टी पैनल नहीं बना।',
     qt_wa_text_shop: 'नमस्ते {party} जी, हमारा कोटेशन {no} यहाँ देखें: {url} — NKB Aluminium House',
     qt_sub_shop: 'खिड़की, दरवाज़े और दूसरे फ़ैब्रिकेशन के कोटेशन। हर कोटेशन का अपना निजी लिंक है: WhatsApp पर भेजें, ग्राहक बिना लॉग इन के सिर्फ़ वही कोटेशन देखेगा।',
     qt_to_job: 'मंज़ूर: Claude को बताएँ, कोटेशन से फ़ैब्रिकेशन का काम बन जाएगा।', qt_job: 'काम', qt_subject: 'विषय',
@@ -1104,7 +1108,7 @@ async function loadRaw() {
   const master = ME.role === 'master';
   const plan = [['alu_profiles', 1], ['attendance', 1], ['sales_targets', 1], ['salary_entries', 1],
     ['packing_lists', can('stock')], ['bundles', can('stock')], ['bundle_notes', can('stock')], ['stock_adjustments', can('stock')],
-    ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['order_replies', can('orders')], ['work_orders', can('work')], ['work_order_lines', can('work')],
+    ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['order_replies', can('orders')], ['party_portals', ONLINE && can('rates')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
     ['sales_register', can('rates')], ['cash_accounts', can('cash')], ['cash_entries', can('cash')], ['lots', can('purchases')], ['purchase_orders', can('purchases')], ['purchase_order_lines', can('purchases')],
     ['expenses', can('expenses') || can('purchases')], ['consumable_txns', can('consumable_costs')], ['cost_rates', can('profit')], ['app_settings', true],
@@ -2287,11 +2291,12 @@ VIEWS.ledger = () => {
       <label class="rg-l"><span>${esc(t('rg_from'))}</span><input class="filter" id="lgf" type="date" value="${esc(S.from)}"></label><label class="rg-l"><span>${esc(t('rg_to'))}</span><input class="filter" id="lgt" type="date" value="${esc(S.to)}"></label>
       <label class="rg-chk"><input type="checkbox" id="lgj" ${S.jobs ? 'checked' : ''}> <span>${esc(t('rg_jobs'))}</span></label></div>
     <div class="chips no-print" style="margin-bottom:14px">${chips.map(([k, l]) => `<button class="chip" type="button" data-lg-r="${k}" aria-pressed="${S.rng === k}">${esc(t(l))}</button>`).join('')}</div>
-    <div class="panel meta" id="lgm"></div><div class="panel" id="lgt2"></div>`);
+    <div class="panel meta" id="lgm"></div><div id="lgpp"></div><div class="panel" id="lgt2"></div>`);
   const empty = `<div class="empty"><h3>${esc(t('lg_empty_h'))}</h3></div>`;
   const fillSel = () => { const ns = names(); if (S.party && !ns.includes(S.party)) S.party = ''; $('#lgp').innerHTML = `<option value="">${esc(t('lg_all'))}</option>` + ns.map(n => `<option ${n === S.party ? 'selected' : ''}>${esc(n)}</option>`).join(''); };
   const paint = () => {
     $('#lgm').style.display = S.party ? '' : 'none';
+    $('#lgpp').innerHTML = S.party ? ppBox(S.party) : '';
     if (!S.party) {
       const ps = ledgerParties(S.jobs);
       table($('#lgt2'), { rows: ps, id: r => r.name, sort: 'due', dir: -1, state: S.tb2, empty,
@@ -2316,6 +2321,25 @@ VIEWS.ledger = () => {
   document.querySelector('#view [data-lg-print]').onclick = () => printHtml(ledgerReportHtml(S), t(S.party ? 'lg_title' : 'lg_title_sum'));
   fillSel(); paint();
 };
+/* party panel (21-11-2026): nkbapex.in/p/#code — one party's orders, dispatches and ledger, view only (party_public) */
+const ppOf = party => (RAW && RAW.party_portals || []).find(x => x.party === party && x.active);
+const ppUrl = x => x && ONLINE && /^https?:$/.test(location.protocol) ? location.origin + '/p/#' + x.code : '';
+function ppBox(party) {
+  if (!ONLINE || !can('rates')) return '';
+  const x = ppOf(party), url = ppUrl(x);
+  const phone = ((M.sales.find(o => o.party === party && o.phone) || {}).phone || '').replace(/\D/g, '').replace(/^(\d{10})$/, '91$1');
+  if (!url) return isMaster() ? `<div class="panel no-print" style="padding:12px 14px"><b>${esc(t('pp_h'))}</b> <span class="faint tiny">${esc(t('pp_none'))}</span> <button class="bigbtn" type="button" data-pp-make="${esc(party)}">${esc(t('pp_make'))}</button></div>` : '';
+  return `<div class="panel no-print" style="padding:12px 14px"><p style="margin:0 0 6px"><b>${esc(t('pp_h'))}</b></p><input class="filter qt-url" type="text" readonly value="${esc(url)}" aria-label="${esc(t('pp_h'))}" data-pp-url>
+    <div class="acts"><button class="bigbtn" type="button" data-pp-copy="${esc(party)}">${esc(t('qt_copy'))}</button><a class="bigbtn ghost qt-a" href="${esc('https://wa.me/' + phone + '?text=' + encodeURIComponent(t('pp_wa_text', { p: party, url })))}" target="_blank" rel="noopener noreferrer">${esc(t('qt_wa'))}</a><a class="bigbtn ghost qt-a" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(t('qt_open'))}</a></div>
+    <p class="faint tiny" style="margin:0">${esc(t('pp_note'))}</p></div>`;
+}
+document.addEventListener('click', async e => {
+  const mk = e.target.closest('[data-pp-make]'), cp = e.target.closest('[data-pp-copy]');
+  if (mk) { mk.disabled = true; try { await rpc('party_portal_make', { p_party: mk.dataset.ppMake }); await reload(true, { quiet: true }); } catch (err) { mk.disabled = false; toast(err.message || String(err)); } return; }
+  if (cp) { const url = ppUrl(ppOf(cp.dataset.ppCopy)); if (!url) return;
+    try { await navigator.clipboard.writeText(url); cp.textContent = t('copied'); toast(t('pp_copied', { p: cp.dataset.ppCopy })); }
+    catch (_) { const inp = document.querySelector('[data-pp-url]'); if (inp) { inp.focus(); inp.select(); } toast(t('qt_copy_hand')); } }
+});
 /* data checks: stock, packing lists, lots, sales and cash must all match */
 function dataChecks() {
   const out = [];
