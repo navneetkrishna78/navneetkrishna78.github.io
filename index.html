@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-20mR3T8TdWnKjUiWm50zbwjcVWs275+hlz7/qUodZDE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-oNJXwJPytqPc0fDDyC0hemXC2P1r8RXJWr4qJRJuxX0='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="same-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
@@ -1087,7 +1087,13 @@ async function q(table, cols) {
   if (error) throw error;
   return data || [];
 }
-async function rpc(fn, args) { const { data, error } = await SB.rpc(fn, args || {}); if (error) throw error; return data; }
+// Read-only functions; every other call is a change, which shows the gold progress bar at once (instant feedback on a tap).
+const READ_FNS = new Set(['order_rates', 'consumable_stock', 'salary_overview', 'shop_stock_moves', 'shop_acta_receipts', 'shop_acta_paid', 'my_sales', 'log_activity']);
+async function rpc(fn, args) {
+  const busy = !READ_FNS.has(fn); if (busy) showBusy();
+  try { const { data, error } = await SB.rpc(fn, args || {}); if (error) throw error; return data; }
+  finally { if (busy) hideBusy(); }
+}
 async function callFn(name, body) {
   const { data, error } = await SB.functions.invoke(name, { body });
   if (error) { let msg = error.message; try { const b = await error.context.json(); if (b && b.error) msg = b.error; } catch (_) {} throw new Error(msg); }
@@ -1098,15 +1104,10 @@ function logAct(kind, detail) { if (ONLINE && SB && ME) SB.rpc('log_activity', {
 // The rate column of order lines is not readable directly; rates come from order_rates() for logins allowed to see them.
 const SOL_COLS = 'id,sales_order,line_no,profile,finish,pcs,kg,kg_actual,rate_unit';
 class SignedOut extends Error {}
-async function loadRaw() {
-  if (SNAP) return SNAP;
-  // Who am I now? Access chosen by the master applies from the next refresh; a switched-off login is signed out.
-  const users = await q('app_users');
-  const fresh = users.find(r => r.id === ME.id);
-  if (!fresh || !fresh.active) throw new SignedOut(t('off_login'));
-  ME = fresh;
-  const master = ME.role === 'master';
-  const plan = [['alu_profiles', 1], ['attendance', 1], ['sales_targets', 1], ['salary_entries', 1],
+// Which tables this login reads (by its access). Built from the login as last known, so every
+// request can start at once; if the master changed the access since, loadRaw() simply runs again.
+function rawPlan() {
+  return [['alu_profiles', 1], ['attendance', 1], ['sales_targets', 1], ['salary_entries', 1],
     ['packing_lists', can('stock')], ['bundles', can('stock')], ['bundle_notes', can('stock')], ['stock_adjustments', can('stock')],
     ['sales_orders', can('orders')], ['sales_order_lines', can('orders')], ['order_replies', can('orders')], ['party_portals', ONLINE && can('rates')], ['work_orders', can('work')], ['work_order_lines', can('work')],
     ['status_history', can('orders') || can('work')], ['consumables', can('consumables') || can('consumable_costs')],
@@ -1115,21 +1116,42 @@ async function loadRaw() {
     ['shop_items', seesShop()], ['shop_parties', seesShop()], ['shop_bills', can('shop_bills')], ['shop_bill_lines', can('shop_bills')], ['shop_purchases', can('shop_costs')], ['shop_purchase_lines', can('shop_costs')],
     ['shop_payments', can('shop_parties')], ['shop_jobs', can('shop_jobs')], ['shop_job_materials', can('shop_jobs')], ['shop_adjustments', can('shop_stock')],
     ['quotations', can('rates') || can('shop_jobs')], ['quotation_lines', can('rates') || can('shop_jobs')]].filter(x => x[1]).map(x => x[0]);
-  const rows = await Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
+}
+const accessOf = u => JSON.stringify([u.role, u.firm || null, u.perms || null]);
+async function loadRaw() {
+  if (SNAP) return SNAP;
+  // Everything is asked for in one go (one round trip instead of three): the login check, the tables and the extra figures.
+  // Access chosen by the master applies from the next refresh; a switched-off login is signed out.
+  const master = ME.role === 'master', was = accessOf(ME);
+  const plan = rawPlan();
+  const usersP = q('app_users');
+  const rowsP = Promise.all(plan.map(n => q(n, n === 'sales_order_lines' ? SOL_COLS : null)));
+  const ex = {};
+  const extra = [];
+  if (can('orders') && can('rates')) extra.push(rpc('order_rates').then(r => { ex.order_rates = r || []; }));
+  if (can('consumables') && !can('consumable_costs')) extra.push(rpc('consumable_stock').then(r => { ex.consumable_stock = r || []; }));
+  extra.push(rpc('salary_overview').then(r => { ex.salary_overview = r || []; }));
+  if (can('shop_stock')) extra.push(rpc('shop_stock_moves').then(r => { ex.shop_moves = r || []; }));
+  if (can('shop_costs') || can('shop_parties')) extra.push(rpc('shop_acta_receipts').then(r => { ex.shop_receipts = r || []; }), rpc('shop_acta_paid').then(r => { ex.shop_acta_paid = r || []; }));
+  if (!master) extra.push(rpc('my_sales').then(r => { ex.my_sales = r || []; }));
+  if (master) extra.push(SB.from('activity_log').select('*').order('at', { ascending: false }).limit(2000).then(({ data, error }) => { if (error) throw error; ex.activity_log = data || []; }));
+  const extraP = Promise.all(extra);
+  rowsP.catch(() => {}); extraP.catch(() => {});  // if the login check fails first, these answers are not needed
+  const users = await usersP;
+  const fresh = users.find(r => r.id === ME.id);
+  if (!fresh || !fresh.active) throw new SignedOut(t('off_login'));
+  ME = fresh;
+  if (accessOf(fresh) !== was) return loadRaw();  // access changed: ask again with the new access
+  const rows = await rowsP;
+  await extraP;
   const R = Object.fromEntries(plan.map((n, i) => [n, rows[i]]));
   R.app_users = users;
-  const more = [];
-  if (can('orders') && can('rates')) more.push(rpc('order_rates').then(rs => {
-    const m = {}; (rs || []).forEach(x => m[x.sales_order + ':' + x.line_no] = x.rate);
+  if (ex.order_rates) {
+    const m = {}; ex.order_rates.forEach(x => m[x.sales_order + ':' + x.line_no] = x.rate);
     (R.sales_order_lines || []).forEach(l => { const v = m[l.sales_order + ':' + l.line_no]; if (v != null) l.rate = +v; });
-  }));
-  if (can('consumables') && !can('consumable_costs')) more.push(rpc('consumable_stock').then(r => { R.consumable_stock = r || []; }));
-  more.push(rpc('salary_overview').then(r => { R.salary_overview = r || []; }));
-  if (can('shop_stock')) more.push(rpc('shop_stock_moves').then(r => { R.shop_moves = r || []; }));
-  if (can('shop_costs') || can('shop_parties')) more.push(rpc('shop_acta_receipts').then(r => { R.shop_receipts = r || []; }), rpc('shop_acta_paid').then(r => { R.shop_acta_paid = r || []; }));
-  if (!master) more.push(rpc('my_sales').then(r => { R.my_sales = r || []; }));
-  if (master) more.push(SB.from('activity_log').select('*').order('at', { ascending: false }).limit(2000).then(({ data, error }) => { if (error) throw error; R.activity_log = data || []; }));
-  await Promise.all(more);
+  }
+  ['consumable_stock', 'salary_overview', 'my_sales', 'activity_log', 'shop_receipts', 'shop_acta_paid'].forEach(k => { if (ex[k]) R[k] = ex[k]; });
+  if (ex.shop_moves) R.shop_moves = ex.shop_moves;
   return R;
 }
 
@@ -3830,6 +3852,7 @@ let SIGNING_OUT = false;
 async function endSession(message) {
   if (SIGNING_OUT) return; SIGNING_OUT = true;
   try { await SB.auth.signOut(); } catch (_) {}
+  stopLive(); cacheDrop();
   ME = null; M = null; RAW = null; Object.keys(UI).forEach(k => delete UI[k]);
   $('#view').innerHTML = ''; history.replaceState(null, '', location.pathname + location.search);
   showLogin(message); SIGNING_OUT = false;
@@ -3842,6 +3865,18 @@ async function afterSignIn(user, how) {
   if (!ME || !ME.active) { try { await SB.auth.signOut(); } catch (_) {} showLogin(t('off_login')); return false; }
   if (!store.get('acta.lang') && ME.lang) LANG = ME.lang;
   if (SB.auth.onAuthStateChange && !SB._actaWatch) { SB._actaWatch = true; SB.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT' && ME && !SIGNING_OUT) endSession(t('session_end')); }); }
+  const kept = how === 'open' && cacheLoad(ME.id);
+  if (kept && kept.access === accessOf(ME)) {
+    try {
+      RAW = kept.R; M = buildModel(RAW); LOADED_AT = new Date(kept.at); SIG = sigOf(RAW);
+      drawHeader();
+      const lk = document.getElementById('lock'); if (lk) lk.remove();
+      document.body.classList.remove('locked');
+      logAct('open'); route(); startLive();
+      freshenKept();
+      return true;
+    } catch (_) { RAW = null; M = null; cacheDrop(); }
+  }
   if (!(await reload(false))) {
     const lk = document.getElementById('lock');
     if (ME && lk && !$('#lockf')) lk.innerHTML = `${BADGE}<p role="alert">${esc(LOAD_ERR)}</p><button class="btn" type="button" data-retry>${esc(t('retry'))}</button>`;
@@ -3849,18 +3884,25 @@ async function afterSignIn(user, how) {
   }
   const lk = document.getElementById('lock'); if (lk) lk.remove();
   document.body.classList.remove('locked');
-  logAct(how || 'open'); route();
+  logAct(how || 'open'); route(); startLive();
   return true;
 }
 /* ------------------------------ loading and refreshing ------------------------------ */
 let LOADING = false, SIG = '', busyN = 0, LOAD_ERR = '';
+/* The last data this login loaded is kept on the device, only when "Keep me signed in" is on (the same
+   device keeps the login itself then). Next time the app opens with it at once and refreshes behind it.
+   Signing out (or a switched-off login) wipes it. */
+const CACHE_KEY = 'acta.last';
+const cacheSave = R => { if (!ONLINE || !ME) return; if (store.get('acta.keep') === '0') { cacheDrop(); return; } try { localStorage.setItem(CACHE_KEY, JSON.stringify({ uid: ME.id, access: accessOf(ME), at: Date.now(), R })); } catch (_) { cacheDrop(); } };
+const cacheDrop = () => { try { localStorage.removeItem(CACHE_KEY); } catch (_) {} };
+const cacheLoad = uid => { try { const c = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); return c && c.uid === uid && Date.now() - c.at < 14 * 864e5 ? c : null; } catch (_) { return null; } };
 const sigOf = R => { const s = JSON.stringify(R, (k, v) => k === 'activity_log' ? undefined : v); let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return s.length + ':' + h; };
 const isAuthErr = e => /jwt|refresh token|not authenticated|invalid claim|PGRST30[0-9]/i.test(String((e && (e.message || e.code)) || e));
 function showBusy() { busyN++; if (!$('#busy')) { const b = document.createElement('div'); b.id = 'busy'; b.className = 'busy'; b.setAttribute('aria-hidden', 'true'); document.body.appendChild(b); } }
 function hideBusy() { busyN = Math.max(0, busyN - 1); if (!busyN) { const b = $('#busy'); if (b) b.remove(); } }
 async function reload(rerender, opts = {}) {
   LOADING = true; if (!opts.quiet) showBusy();
-  try { RAW = await loadRaw(); M = buildModel(RAW); LOADED_AT = new Date(); SIG = sigOf(RAW); }
+  try { RAW = await loadRaw(); M = buildModel(RAW); LOADED_AT = new Date(); SIG = sigOf(RAW); cacheSave(RAW); }
   catch (e) {
     if (e instanceof SignedOut) { await endSession(e.message); return false; }
     if (isAuthErr(e)) { await endSession(t('session_end')); return false; }
@@ -3883,6 +3925,34 @@ let lastTouch = Date.now();
 ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev => document.addEventListener(ev, () => { lastTouch = Date.now(); }, { passive: true, capture: true }));
 document.addEventListener('input', e => { const f = e.target.closest && e.target.closest('form'); if (f && f.id !== 'lockf') f.dataset.dirty = '1'; }, true);
 const editing = () => { const a = document.activeElement; return !!(a && a !== $('#q') && /INPUT|SELECT|TEXTAREA/.test(a.tagName)) || !!document.querySelector('tr.sal-edit, form[data-dirty]'); };
+/* Live updates: every change in the database bumps the table app_changes (a trigger; it holds only table
+   names and times, no business data). Each open app hears that over Supabase Realtime and refreshes quietly
+   a moment later — so a change on one phone shows on the others within seconds. The 3-minute refresh
+   stays as a fallback. */
+let LIVE = null, liveT = 0, livePending = false;
+function startLive() {
+  if (!ONLINE || !SB || LIVE || !SB.channel) return;
+  try {
+    LIVE = SB.channel('acta-live').on('postgres_changes', { event: '*', schema: 'public', table: 'app_changes' }, () => {
+      clearTimeout(liveT); liveT = setTimeout(liveRefresh, 1200);
+    }).subscribe();
+  } catch (_) { LIVE = null; }
+}
+function stopLive() { clearTimeout(liveT); if (LIVE) { try { SB.removeChannel(LIVE); } catch (_) {} LIVE = null; } }
+function liveRefresh() {
+  if (document.visibilityState !== 'visible') { livePending = true; return; }
+  if (LOADING) { clearTimeout(liveT); liveT = setTimeout(liveRefresh, 1500); return; }
+  livePending = false; quietRefresh();
+}
+// After opening from the device copy: fetch the current data and redraw at once, unless someone already
+// started typing or tapping (then the "New updates" button shows, as with any refresh).
+async function freshenKept() {
+  const before = SIG, opened = Date.now();
+  if (!(await reload(false, { quiet: true }))) { toast(t('net_err'), 'err'); return; }
+  if (SIG === before) return;
+  if (editing() || lastTouch > opened) { $('#newdata').hidden = false; return; }
+  rerenderNow();
+}
 async function quietRefresh() {
   if (!ONLINE || !ME || !M || LOADING || document.visibilityState !== 'visible') return;
   const before = SIG;
@@ -3891,7 +3961,7 @@ async function quietRefresh() {
   if (editing() || Date.now() - lastTouch < 20e3) { $('#newdata').hidden = false; return; }
   rerenderNow();
 }
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && LOADED_AT && Date.now() - LOADED_AT > 60e3) quietRefresh(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && LOADED_AT && (livePending || Date.now() - LOADED_AT > 60e3)) { livePending = false; quietRefresh(); } });
 setInterval(quietRefresh, 180e3);
 
 (async function boot() {
