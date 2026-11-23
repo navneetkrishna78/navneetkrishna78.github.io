@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-ewDo5aPYbg/dBM53Wv3PSkZ0FgFPbvCVPbOs0k+qcSg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-EztL8Pe1JRZS/Np9xVk0YWWj3GTfVkM8lxD5rNcNoAQ=' 'sha256-fVoqDeyXNo7XLKCOcYMnrOrWs/qCVPQ/DpZ+nPYVfzA='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src https://vkbqlqsdzbrniarmxozx.supabase.co wss://vkbqlqsdzbrniarmxozx.supabase.co; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow">
 <meta name="color-scheme" content="light">
@@ -157,12 +157,12 @@ function orders() {
   return DOC.orders.map(o => {
     const st = ST[o.status] || [o.status, '', ''], pcs = o.lines.reduce((t, l) => t + (+l.pcs || 0), 0), kg = o.lines.reduce((t, l) => t + (+l.kg || 0), 0);
     const est = o.lines.some(l => l.kg != null && !l.kg_actual), hasKg = o.lines.some(l => l.kg != null);
-    const conf = o.party_confirmed_at ? '<span class="pill ok">✓ You confirmed</span>' : o.open ? '<span class="pill wait">Waiting for your confirmation</span>' : '';
+    const conf = o.party_confirmed_at ? '<span class="pill ok">✓ You confirmed</span>' : '';
     return `<article class="card"><h3>Order ${esc(o.id)} <small>${esc(dt(o.date))}</small> <span class="pill ${st[2]}">${esc(st[0])} · ${esc(st[1])}</span> ${conf}</h3>
       <p class="meta2">${o.due ? `Delivery: <b>${esc(dt(o.due))}</b> · ` : ''}${n0(o.lines.length)} items · ${n0(pcs)} pcs${hasKg ? ` · ${est ? 'approx. ' : ''}${kg2(kg)} kg` : ''}</p>
       <table><thead><tr><th>Section · सेक्शन</th><th class="hide-s">Finish</th><th class="n">Pcs</th>${hasKg ? `<th class="n">${est ? 'Approx. kg' : 'Kg'}</th>` : ''}</tr></thead>
       <tbody>${o.lines.map(l => `<tr><td>${esc(l.section)}<span class="fm">${esc(l.finish)}</span></td><td class="hide-s">${esc(l.finish)}</td><td class="n">${n0(l.pcs)}</td>${hasKg ? `<td class="n">${l.kg != null ? kg2(l.kg) : ''}</td>` : ''}</tr>`).join('')}</tbody></table>
-      ${o.open && o.code ? `<a class="btnl no-print" href="../o/#${esc(o.code)}">${o.party_confirmed_at ? 'Open order' : '✓ Confirm or change this order'} · ऑर्डर खोलें</a>` : ''}</article>`;
+</article>`;
   }).join('');
 }
 function dispatches() {
